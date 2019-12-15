@@ -1,0 +1,160 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<title> H5 - Ruibin.Chow</title>
+
+
+<link rel="shortcut icon" href="../vender/image/me.png" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="Ruibin.Chow" />
+<meta name="description" content="RBCHOW - 无论你是狮子还是羚羊,你都必须奔跑,无论你是贫穷还是富有,你都必须奋斗！" />
+<meta name="COPYRIGHT" content="版权所有2015,http://www.zruibin.cc">
+
+
+<script type="text/javascript" src="../vender/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../vender/js/Ensure/Ensure.js"></script>
+<link rel="stylesheet" href="../vender/css/default.css" />
+
+<script type="text/javascript" src="../vender/js/lib/RBAudio.class.js"></script>
+<script type="text/javascript" src="../resources/music/canon/canon.js"></script>
+<link rel="stylesheet" href="../vender/css/Font-Awesome/css/font-awesome.min.css">
+
+<style type="text/css">
+
+button {
+    background: rgba(255, 255, 255, 0.8);
+    margin: 5px;
+    border: 1px solid rgba(255,255,255,0.8);
+    
+    width: 60px;
+    height: 30px;
+}
+
+#btns {
+    display:block; 
+}
+
+</style>
+
+</head>
+
+<body>
+
+<br><br><br>
+
+<audio id='player' controls='controls'></audio>
+
+<br><br><br>
+
+<div id='btns'>
+<button onclick='player.play()'>play</button><button onclick='player.pause()'>pause</button>
+<br>
+<button onclick='player.playPrev()'>pre</button><button onclick='player.playNext()'>next</button>
+
+<br><br>
+
+<div id='time'>11222</div>
+</div>
+
+<br>
+<i class="fa fa-star" style='font-size:40px; color:black;'></i> fa-camera-retro
+
+
+<script type="text/javascript">
+
+playList = []
+
+for (var i = 0; i < canon.length; i++) {
+    // console.log(canon[i]);
+    playList[i] = '../resources/music/canon/' + canon[i];
+};
+
+console.log('canon.length:', canon.length)
+console.log('playList.length:', playList.length)
+
+var player = new RBAudio('#player');
+player.setPlayList(playList);
+player.setCurrentTimeTagId('#time');
+player.show();
+// document.getElementById('player').setAttribute('src',playList[0])
+// setInterval('adjust(player.getVolumeValue())', 100); 
+// setInterval('player.getAudioBufferedLength()', 100); 
+// setTimeout('player.setAudioCurrentTime(20)', 100); 
+console.log('CurrentTime', player.getAudioCurrentTime());
+function adjust (value) {
+    // body...
+    player.setVolumeValue(value-0.05);
+    console.log('dddd', value);
+}
+
+console.log('list: ', player.getPlayList());
+
+</script>
+
+
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2015
+            <a href="http://www.zruibin.cc">Ruibin.Chow</a>
+            . ALL RIGHTS RESERVED.
+        &nbsp;
+        
+        </p>  
+</div>
+
+
+<script type="text/javascript">
+
+
+// jQuery.getScript("http://www.zruibin.cc/vender/js/default.js", function(data, status, jqxhr) {
+//     console.log('finish....', status, jqxhr);
+//     console.log("Script loaded and executed.");
+//     console.log(detectOS());
+//     if (!navigator.userAgent.match(/mobile/i)) { 
+//         console.log("no mobile.....");
+//     } else {
+//         console.log("yes mobile.....");
+//     }
+//     console.log();
+//     if (isMobile()) {
+//         $("body").css({ color: "#ff0011", background: "blue" });
+//     } else {
+//         $("body").css({ color: "#ff0011", background: "red" });
+//     }
+
+// });
+
+ensure( {js:"../vender/js/default.js"}, function(){ 
+    console.log("Script loaded and executed.");
+    console.log(detectOS());
+    if (!navigator.userAgent.match(/mobile/i)) { 
+        console.log("no mobile.....");
+    } else {
+        console.log("yes mobile.....");
+    }
+    console.log();
+    if (isMobile()) {
+        $("body").css({ color: "#ff0011", background: "#d5d7e2" });
+    } else {
+        $("body").css({ color: "#ff0011", background: "#dff5e2" });
+    }
+
+});
+
+// $.getScript("./music/canon.json", function(data, status, jqxhr) {
+//     console.log('finish....', data, status, jqxhr);
+
+// });
+
+
+</script>
+
+</body>
+
+
+
+</html>
+

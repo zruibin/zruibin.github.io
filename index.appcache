@@ -1,0 +1,27 @@
+CACHE MANIFEST
+# 第一行必须为上述字符
+
+# 指定版本号
+VERSION 0.1
+
+#本地缓存资源
+CACHE
+./vender/image/me.png
+./vender/js/default.js
+./vender/js/article.default.js
+./vender/js/particle.js
+./vender/css/default.css
+./vender/css/article.default.css
+http://v2.uyan.cc/code/uyan.js?uid=2064964
+http://v3.jiathis.com/code/jia.js?uid=2064964
+
+# 不缓存的资源
+# NETWORK
+# *
+
+# 前者表示在线状态使用的资源,后者代表离线状态使用的资源
+# FALLBACK
+
+
+
+

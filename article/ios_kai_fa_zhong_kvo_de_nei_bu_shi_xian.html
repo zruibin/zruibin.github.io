@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head> 
+<title>iOS开发中KVO的内部实现 - Ruibin.Chow</title>
+
+
+<link rel="shortcut icon" href="../vender/image/me.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="iOS开发中KVO的内部实现,iOS,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
+<meta name="description" content="iOS开发中KVO的内部实现" />
+<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+
+
+<script type="text/javascript" src="../vender/js/default.js"></script>
+<script type="text/javascript" src="../vender/js/article.default.js"></script>
+<link rel="stylesheet" href="../vender/css/default.css" />
+<link rel="stylesheet" href="../vender/css/article.default.css" />
+
+<script type="text/javascript">
+
+RBReady(changeFrame);
+
+</script>
+
+</head>
+
+<body>
+
+
+<div id="navbar" >
+    <div id="menu" class="container">
+    <ul>
+
+    <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
+    <li><a href="../about.html" class="item">About Me</a></li>
+    <li><a href="./index.html" class="item">Blog</a></li>
+    <li><a class="item">Tags</a>
+        <div class="subs">
+        
+<ul>
+
+<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
+<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
+<li><a href="./Tag_python.html">Python(1)</a></li>
+<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
+<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
+<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
+<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
+<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
+<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
+<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
+<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
+<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
+<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
+</ul>
+
+        </div> 
+    </li>
+    <li><a href="./Archives.html" class="item">Archives</a></li>
+
+    </ul>
+    </div>
+</div> 
+<p></p>
+
+
+
+
+
+<div class="container" id="content">
+
+<div id='header'>
+    <h2>iOS开发中KVO的内部实现</h2>
+    <footer>
+        Date:&nbsp;<span id='create_time'>
+            2014-10-31 12:13
+        </span>
+        &nbsp;&nbsp;
+        Tags:&nbsp; 
+<span id='article_tags'>
+         
+<a href='../article/Tag_ios.html' class='article_tag'>iOS</a>
+
+</span>
+
+    </footer>
+    <hr>
+</div>
+
+<p><a href="http://blog.csdn.net/wzzvictory/article/details/9674431" target="_blank" rel="nofollow">http://blog.csdn.net/wzzvictory/article/details/9674431</a></p>
+<p>KVO是实现Cocoa Bindings的基础，它提供了一种方法，当某个属性改变时，相应的objects会被通知到。在其他语言中，这种观察者模式通常需要单独实现，而在Objective-C中，通常无须增加额外代码即可使用。</p>
+<h4>概览</h4>
+<p>这是怎么实现的呢？其实这都是通过Objective-C强大的运行时(runtime)实现的。当你第一次观察某个object 时，runtime会创建一个新的继承原先class的subclass。在这个新的class中，它重写了所有被观察的key，然后将object的isa指针指向新创建的class（这个指针告诉Objective-C运行时某个object到底是哪种类型的object）。所以object神奇地变成了新的子类的实例。</p>
+<p>这些被重写的方法实现了如何通知观察者们。当改变一个key时，会触发setKey方法，但这个方法被重写了，并且在内部添加了发送通知机制。（当然也可以不走setXXX方法，比如直接修改iVar，但不推荐这么做）。</p>
+<p>有意思的是：苹果不希望这个机制暴露在外部。除了setters，这个动态生成的子类同时也重写了-class方法，依旧返回原先的class！如果不仔细看的话，被KVO过的object看起来和原先的object没什么两样。</p>
+<h4>深入探究</h4>
+<p>下面来看看这些是如何实现的。我写了个程序来演示隐藏在KVO背后的机制。</p>
+<div class="highlight"><pre><code><span class="c1">// gcc -o kvoexplorer -framework Foundation kvoexplorer.m      </span>
+<span class="cp">#import &lt;Foundation/Foundation.h&gt; </span>
+<span class="cp">#import &lt;objc/runtime.h&gt;   </span>
+<span class="err">@</span><span class="n">interface</span> <span class="nl">TestClass</span> <span class="p">:</span> <span class="n">NSObject</span> <span class="p">{</span>     
+    <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>     
+    <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>     
+    <span class="kt">int</span> <span class="n">z</span><span class="p">;</span> 
+<span class="p">}</span> 
+
+<span class="err">@</span><span class="n">property</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> 
+<span class="err">@</span><span class="n">property</span> <span class="kt">int</span> <span class="n">y</span><span class="p">;</span> 
+<span class="err">@</span><span class="n">property</span> <span class="kt">int</span> <span class="n">z</span><span class="p">;</span> 
+
+<span class="err">@</span><span class="n">end</span>  
+
+<span class="err">@</span><span class="n">implementation</span> <span class="n">TestClass</span> 
+
+<span class="err">@</span><span class="n">synthesize</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">;</span> 
+
+<span class="err">@</span><span class="n">end</span>  
+
+<span class="k">static</span> <span class="n">NSArray</span> <span class="o">*</span><span class="n">ClassMethodNames</span><span class="p">(</span><span class="n">Class</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>     
+    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>          
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">methodCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>   
+
+    <span class="n">Method</span> <span class="o">*</span><span class="n">methodList</span> <span class="o">=</span> <span class="n">class_copyMethodList</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">methodCount</span><span class="p">);</span>     
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>    
+
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">methodCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>         
+        <span class="p">[</span><span class="n">array</span> <span class="nl">addObject</span><span class="p">:</span> <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">method_getName</span><span class="p">(</span><span class="n">methodList</span><span class="p">[</span><span class="n">i</span><span class="p">]))];</span> 
+
+    <span class="n">free</span><span class="p">(</span><span class="n">methodList</span><span class="p">);</span>          
+
+    <span class="k">return</span> <span class="n">array</span><span class="p">;</span> 
+<span class="p">}</span>  
+
+<span class="k">static</span> <span class="kt">void</span> <span class="n">PrintDescription</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="n">id</span> <span class="n">obj</span><span class="p">)</span> <span class="p">{</span>     
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;%@: %@</span><span class="se">\n\t</span><span class="s">NSObject class %s</span><span class="se">\n\t</span><span class="s">libobjc class %s</span><span class="se">\n\t</span><span class="s">implements methods &lt;%@&gt;&quot;</span><span class="p">,</span> 
+                    <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">class_getName</span><span class="p">([</span><span class="n">obj</span> <span class="n">class</span><span class="p">]),</span>
+                    <span class="n">class_getName</span><span class="p">(</span><span class="n">obj</span><span class="o">-&gt;</span><span class="n">isa</span><span class="p">),</span>
+                    <span class="p">[</span><span class="n">ClassMethodNames</span><span class="p">(</span><span class="n">obj</span><span class="o">-&gt;</span><span class="n">isa</span><span class="p">)</span> <span class="nl">componentsJoinedByString</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;, &quot;</span><span class="p">]];</span>         <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">str</span> <span class="n">UTF8String</span><span class="p">]);</span> 
+<span class="p">}</span>  
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>     
+    <span class="p">[</span><span class="n">NSAutoreleasePool</span> <span class="n">new</span><span class="p">];</span>      
+
+    <span class="n">TestClass</span> <span class="o">*</span><span class="n">x</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TestClass</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>     
+    <span class="n">TestClass</span> <span class="o">*</span><span class="n">y</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TestClass</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>     
+    <span class="n">TestClass</span> <span class="o">*</span><span class="n">xy</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TestClass</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>     
+    <span class="n">TestClass</span> <span class="o">*</span><span class="n">control</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TestClass</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span> 
+
+    <span class="p">[</span><span class="n">x</span> <span class="nl">addObserver</span><span class="p">:</span><span class="n">x</span> <span class="nl">forKeyPath</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;x&quot;</span> <span class="nl">options</span><span class="p">:</span><span class="mi">0</span> <span class="nl">context</span><span class="p">:</span><span class="nb">NULL</span><span class="p">];</span>     
+    <span class="p">[</span><span class="n">xy</span> <span class="nl">addObserver</span><span class="p">:</span><span class="n">xy</span> <span class="nl">forKeyPath</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;x&quot;</span> <span class="nl">options</span><span class="p">:</span><span class="mi">0</span> <span class="nl">context</span><span class="p">:</span><span class="nb">NULL</span><span class="p">];</span>     
+    <span class="p">[</span><span class="n">y</span> <span class="nl">addObserver</span><span class="p">:</span><span class="n">y</span> <span class="nl">forKeyPath</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;y&quot;</span> <span class="nl">options</span><span class="p">:</span><span class="mi">0</span> <span class="nl">context</span><span class="p">:</span><span class="nb">NULL</span><span class="p">];</span>     
+    <span class="p">[</span><span class="n">xy</span> <span class="nl">addObserver</span><span class="p">:</span><span class="n">xy</span> <span class="nl">forKeyPath</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;y&quot;</span> <span class="nl">options</span><span class="p">:</span><span class="mi">0</span> <span class="nl">context</span><span class="p">:</span><span class="nb">NULL</span><span class="p">];</span>              
+    <span class="n">PrintDescription</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;control&quot;</span><span class="p">,</span> <span class="n">control</span><span class="p">);</span>     
+    <span class="n">PrintDescription</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>     
+    <span class="n">PrintDescription</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>     
+    <span class="n">PrintDescription</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;xy&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="p">);</span>          
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Using NSObject methods, normal setX: is %p, overridden setX: is %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>                           <span class="p">[</span><span class="n">control</span> <span class="nl">methodForSelector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">setX</span><span class="p">:)],</span>           
+                <span class="p">[</span><span class="n">x</span> <span class="nl">methodForSelector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">setX</span><span class="p">:)]);</span>     
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Using libobjc functions, normal setX: is %p, overridden setX: is %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>                           <span class="n">method_getImplementation</span><span class="p">(</span><span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="n">object_getClass</span><span class="p">(</span><span class="n">control</span><span class="p">),</span>                                                    <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">setX</span><span class="p">:))),</span>                           <span class="n">method_getImplementation</span><span class="p">(</span><span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="n">object_getClass</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>                                                    <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">setX</span><span class="p">:))));</span>          
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> 
+<span class="p">}</span>
+</code></pre></div>
+<p>我们从头到尾细细看来。</p>
+<p>首先定义了一个TestClass的类，它有3个属性。</p>
+<p>然后定义了一些方便调试的方法。ClassMethodNames使用Objective-C运行时方法来遍历一个class，得到方法列表。注意，这些方法不包括父类的方法。PrintDescription打印object的所有信息，包括class信息（包括-class和通过运行时得到的class），以及这个class实现的方法。</p>
+<p>然后创建了4个TestClass实例，每一个都使用了不同的观察方式。x实例有一个观察者观察xkey，y, xy也类似。为了做比较，zkey没有观察者。最后control实例没有任何观察者。</p>
+<p>然后打印出4个objects的description。</p>
+<p>之后继续打印被重写的setter内存地址，以及未被重写的setter的内存地址做比较。这里做了两次，是因为-methodForSelector:没能得到重写的方法。KVO试图掩盖它实际上创建了一个新的subclass这个事实！但是使用运行时的方法就原形毕露了。</p>
+<p>运行代码</p>
+<p>看看这段代码的输出</p>
+<div class="highlight"><pre><code><span class="nl">control</span><span class="p">:</span> <span class="o">&lt;</span><span class="nl">TestClass</span><span class="p">:</span> <span class="mh">0x104b20</span><span class="o">&gt;</span>     
+<span class="n">NSObject</span> <span class="n">class</span> <span class="n">TestClass</span>     
+<span class="n">libobjc</span> <span class="n">class</span> <span class="n">TestClass</span>     
+<span class="n">implements</span> <span class="n">methods</span> <span class="o">&lt;</span><span class="nl">setX</span><span class="p">:,</span> <span class="n">x</span><span class="p">,</span> <span class="nl">setY</span><span class="p">:,</span> <span class="n">y</span><span class="p">,</span> <span class="nl">setZ</span><span class="p">:,</span> <span class="n">z</span><span class="o">&gt;</span> <span class="nl">x</span><span class="p">:</span> <span class="o">&lt;</span><span class="nl">TestClass</span><span class="p">:</span> <span class="mh">0x103280</span><span class="o">&gt;</span>     
+<span class="n">NSObject</span> <span class="n">class</span> <span class="n">TestClass</span>     
+<span class="n">libobjc</span> <span class="n">class</span> <span class="n">NSKVONotifying_TestClass</span>     
+<span class="n">implements</span> <span class="n">methods</span> <span class="o">&lt;</span><span class="nl">setY</span><span class="p">:,</span> <span class="nl">setX</span><span class="p">:,</span> <span class="n">class</span><span class="p">,</span> <span class="n">dealloc</span><span class="p">,</span> <span class="n">_isKVOA</span><span class="o">&gt;</span> <span class="nl">y</span><span class="p">:</span> <span class="o">&lt;</span><span class="nl">TestClass</span><span class="p">:</span> <span class="mh">0x104b00</span><span class="o">&gt;</span>     <span class="n">NSObject</span> <span class="n">class</span> <span class="n">TestClass</span>     
+<span class="n">libobjc</span> <span class="n">class</span> <span class="n">NSKVONotifying_TestClass</span>     
+<span class="n">implements</span> <span class="n">methods</span> <span class="o">&lt;</span><span class="nl">setY</span><span class="p">:,</span> <span class="nl">setX</span><span class="p">:,</span> <span class="n">class</span><span class="p">,</span> <span class="n">dealloc</span><span class="p">,</span> <span class="n">_isKVOA</span><span class="o">&gt;</span> <span class="nl">xy</span><span class="p">:</span> <span class="o">&lt;</span><span class="nl">TestClass</span><span class="p">:</span> <span class="mh">0x104b10</span><span class="o">&gt;</span>     <span class="n">NSObject</span> <span class="n">class</span> <span class="n">TestClass</span>     
+<span class="n">libobjc</span> <span class="n">class</span> <span class="n">NSKVONotifying_TestClass</span>     
+<span class="n">implements</span> <span class="n">methods</span> <span class="o">&lt;</span><span class="nl">setY</span><span class="p">:,</span> <span class="nl">setX</span><span class="p">:,</span> <span class="n">class</span><span class="p">,</span> <span class="n">dealloc</span><span class="p">,</span> <span class="n">_isKVOA</span><span class="o">&gt;</span> <span class="n">Using</span> <span class="n">NSObject</span> <span class="n">methods</span><span class="p">,</span> <span class="n">normal</span> <span class="nl">setX</span><span class="p">:</span> <span class="n">is</span> <span class="mh">0x195e</span><span class="p">,</span> <span class="n">overridden</span> <span class="nl">setX</span><span class="p">:</span> <span class="n">is</span> <span class="mh">0x195e</span> <span class="n">Using</span> <span class="n">libobjc</span> <span class="n">functions</span><span class="p">,</span> <span class="n">normal</span> <span class="nl">setX</span><span class="p">:</span> <span class="n">is</span> <span class="mh">0x195e</span><span class="p">,</span> <span class="n">overridden</span> <span class="nl">setX</span><span class="p">:</span> <span class="n">is</span> <span class="mh">0x96a1a550</span>
+</code></pre></div>
+<p>首先，它输出了controlobject，没有任何问题，它的class是TestClass，并且实现了6个set/get方法。</p>
+<p>然后是3个被观察的objects。注意-class仍然显示的是TestClass，使用object_getClass显示了这个object的真面目：它是NSKVONotifying_TestClass的一个实例。这个NSKVONotifying_TestClass就是动态生成的subclass！</p>
+<p>注意，它是如何实现这两个被观察的setters的。你会发现，它很聪明，没有重写-setZ:，虽然它也是个 setter，因为它没有被观察。同时注意到，3个实例对应的是同一个class，也就是说两个setters都被重写了，尽管其中的两个实例只观察了一 个属性。这会带来一点效率上的问题，因为即使没有被观察的property也会走被重写的setter，但苹果显然觉得这比分开生成动态的 subclass更好，我也觉得这是个正确的选择。</p>
+<p>你会看到3个其他的方法。有之前提到过的被重写的-class方法，假装自己还是原来的class。还有-dealloc方法处理一些收尾工作。还有一个_isKVOA方法，看起来像是一个私有方法。</p>
+<p>接下来，我们输出-setX:的实现。使用-methodForSelector:返回的是相同的值。因为-setX:已经在子类被重写了，这也就意味着methodForSelector:在内部实现中使用了-class，于是得到了错误的结果。</p>
+<p>最后我们通过运行时得到了不同的输出结果。</p>
+<p>作为一个优秀的探索者，我们进入debugger来看看这第二个方法的实现到底是怎样的：</p>
+<p>(gdb) print (IMP)0x96a1a550 $1 = (IMP) 0x96a1a550 <_NSSetIntValueAndNotify>
+看起来是一个内部方法，对Foundation使用nm -a得到一个完整的私有方法列表：</p>
+<div class="highlight"><pre><code><span class="mo">0013</span><span class="n">df80</span> <span class="n">t</span> <span class="n">__NSSetBoolValueAndNotify</span> <span class="mo">000</span><span class="n">a0480</span> <span class="n">t</span> <span class="n">__NSSetCharValueAndNotify</span>
+<span class="mf">0013e120</span> <span class="n">t</span> <span class="n">__NSSetDoubleValueAndNotify</span> <span class="mf">0013e1</span><span class="n">f0</span> <span class="n">t</span> <span class="n">__NSSetFloatValueAndNotify</span> 
+<span class="mf">000e3550</span> <span class="n">t</span> <span class="n">__NSSetIntValueAndNotify</span> <span class="mf">0013e390</span> <span class="n">t</span> <span class="n">__NSSetLongLongValueAndNotify</span> 
+<span class="mf">0013e2</span><span class="n">c0</span> <span class="n">t</span> <span class="n">__NSSetLongValueAndNotify</span> <span class="mo">000</span><span class="mi">89</span><span class="n">df0</span> <span class="n">t</span> <span class="n">__NSSetObjectValueAndNotify</span> 
+<span class="mf">0013e6</span><span class="n">f0</span> <span class="n">t</span> <span class="n">__NSSetPointValueAndNotify</span> <span class="mf">0013e7</span><span class="n">d0</span> <span class="n">t</span> <span class="n">__NSSetRangeValueAndNotify</span> 
+<span class="mf">0013e8</span><span class="n">b0</span> <span class="n">t</span> <span class="n">__NSSetRectValueAndNotify</span> <span class="mf">0013e550</span> <span class="n">t</span> <span class="n">__NSSetShortValueAndNotify</span> 
+<span class="mo">000</span><span class="mi">8</span><span class="n">ab20</span> <span class="n">t</span> <span class="n">__NSSetSizeValueAndNotify</span> <span class="mf">0013e050</span> <span class="n">t</span> 
+<span class="n">__NSSetUnsignedCharValueAndNotify</span> <span class="mf">0009f</span><span class="n">cd0</span> <span class="n">t</span> <span class="n">__NSSetUnsignedIntValueAndNotify</span> 
+<span class="mf">0013e470</span> <span class="n">t</span> <span class="n">__NSSetUnsignedLongLongValueAndNotify</span> <span class="mf">0009f</span><span class="n">c00</span> <span class="n">t</span> 
+<span class="n">__NSSetUnsignedLongValueAndNotify</span> <span class="mf">0013e620</span> <span class="n">t</span> <span class="n">__NSSetUnsignedShortValueAndNotify</span>
+</code></pre></div>
+<p>这个列表也能发现一些有趣的东西。比如苹果为每一种primitive type都写了对应的实现。Objective-C的object会用到的其实只有__NSSetObjectValueAndNotify，但需要一整套来对应剩下的，而且看起来也没有实现完全，比如long dobule或_Bool都没有。甚至没有为通用指针类型(generic pointer type)提供方法。所以，不在这个方法列表里的属性其实是不支持KVO的。</p>
+<p>KVO是一个很强大的工具，有时候过于强大了，尤其是有了自动触发通知机制。现在你知道它内部是怎么实现的了，这些知识或许能帮助你更好地使用它，或在它出错时更方便调试。</p>
+<p>如果你打算使用KVO，或许可以看一下我的另一篇文章Key-Value Observing Done Right</p>
+
+
+<br>
+<br>
+<p></p>
+
+
+<!-- Share BEGIN -->
+<div id="share"></div>
+<script type="text/javascript" src="../vender/share/share.js"></script>
+<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
+<link rel="stylesheet" href="../vender/share/share.css">
+<!-- Share END -->
+
+
+<br><p></p>
+
+
+<!-- 评论 start -->
+<div class="commentBox" id="globeCommentBox">
+    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
+    <div>
+        <input type="text" name="nickname" placeholder="nickname">
+    </div>
+    <div>
+        <input type="text" name="email" placeholder="email">
+    </div>
+    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
+</div>
+<br>
+<div id="comment"></div>
+
+<link rel="stylesheet" href="../vender/comment/comment.css" />
+<script type="text/javascript" src="../vender/comment/toast.js"></script>
+<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
+<script type="text/javascript">
+    var articleUUID = "49e5b3e93c30658af62aee18e6304dec";
+    var pageIndex = 1;
+</script>
+<script type="text/javascript" src="../vender/comment/comment.js"></script>
+<!-- 评论 end -->
+
+
+</div>
+
+
+<div id='link' style='display:none;'>
+<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
+<h3>· Social</h3>
+<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
+<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
+<h3>· Links</h3>
+<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
+<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
+<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
+<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
+</div>
+<br>
+
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2020
+            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
+        &nbsp;   
+        </p>  
+</div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  if(window.location.host.indexOf("localhost") == -1){
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  }
+})();
+</script>
+
+
+</body>
+
+<!-- 语法高亮 -->
+<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
+<script src="../vender/js/highlight/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+// console.log(hljs.listLanguages());
+</script>

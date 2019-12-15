@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<title>404</title>
+<meta charset="UTF-8">  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="Ruibin.Chow" />
+<meta name="description" content="RBCHOW - 无论你是狮子还是羚羊,你都必须奔跑,无论你是贫穷还是富有,你都必须奋斗！" />
+<meta name="COPYRIGHT" content="版权所有2015,http://www.zruibin.asia">
+
+<link rel="stylesheet" href="../strapdownjs/V0.2/themes/bootstrap.min.css" />
+<script type="text/javascript" src="./sql.js"></script>
+<script type="text/javascript" src="./base64.js"></script>
+
+</head>
+
+<body>
+
+</body>
+
+<script type="text/javascript">
+
+function showArticle (index) {
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '../../../build/data.db', true);
+  xhr.responseType = 'arraybuffer';
+
+  xhr.onload = function(e) {
+
+    var sql = 'SELECT  _id, article_name, path, content ' +
+                    ' FROM article LEFT JOIN article_date  ' + 
+                    ' WHERE _id == article_date.article_id ' +
+                    ' ORDER BY article_date.create_time DESC';
+
+    var uInt8Array = new Uint8Array(this.response);
+    var db = new SQL.Database(uInt8Array);
+    var contents = db.exec(sql);
+    
+    // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
+    // console.log(contents);
+    // console.log(contents[0].columns);
+    // contents[0].values.forEach(function(list){  
+    //   console.log(list); 
+    // });
+
+    var content = '';
+    array = contents[0].values;
+
+    length = array.length;
+    content += '<br><center><select onchange="showArticle(this.value)"> ';
+    for (var i = 0; i < length; ++i) {
+      if (i == index) {
+        content += '<option value=' + i +' selected = "selected">' + array[i][1] + '</option>'
+      } else {
+        content += '<option value=' + i +' >' + array[i][1] + '</option>';
+      }
+    };
+    content += '</select></center>';
+
+    data = array[index];
+    content += '<hr><xmp theme="bootstrap">' + utf8to16(base64decode(data[3])) + '</xmp>';
+    content += '<script src="..\/strapdownjs\/V0.2\/strapdown.js"><\/script>';
+    document.body.innerHTML="";
+    document.write(content);
+    // document.getElementById("content").innerHTML= content;  
+  };
+  xhr.send();
+}
+
+ showArticle(0);
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+

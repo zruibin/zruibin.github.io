@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head> 
+<title>Objective-C类成员变量深度剖析 - Ruibin.Chow</title>
+
+
+<link rel="shortcut icon" href="../vender/image/me.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="Objective-C类成员变量深度剖析,iOS,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
+<meta name="description" content="Objective-C类成员变量深度剖析" />
+<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+
+
+<script type="text/javascript" src="../vender/js/default.js"></script>
+<script type="text/javascript" src="../vender/js/article.default.js"></script>
+<link rel="stylesheet" href="../vender/css/default.css" />
+<link rel="stylesheet" href="../vender/css/article.default.css" />
+
+<script type="text/javascript">
+
+RBReady(changeFrame);
+
+</script>
+
+</head>
+
+<body>
+
+
+<div id="navbar" >
+    <div id="menu" class="container">
+    <ul>
+
+    <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
+    <li><a href="../about.html" class="item">About Me</a></li>
+    <li><a href="./index.html" class="item">Blog</a></li>
+    <li><a class="item">Tags</a>
+        <div class="subs">
+        
+<ul>
+
+<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
+<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
+<li><a href="./Tag_python.html">Python(1)</a></li>
+<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
+<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
+<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
+<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
+<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
+<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
+<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
+<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
+<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
+<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
+</ul>
+
+        </div> 
+    </li>
+    <li><a href="./Archives.html" class="item">Archives</a></li>
+
+    </ul>
+    </div>
+</div> 
+<p></p>
+
+
+
+
+
+<div class="container" id="content">
+
+<div id='header'>
+    <h2>Objective-C类成员变量深度剖析</h2>
+    <footer>
+        Date:&nbsp;<span id='create_time'>
+            2015-10-21 17:02
+        </span>
+        &nbsp;&nbsp;
+        Tags:&nbsp; 
+<span id='article_tags'>
+         
+<a href='../article/Tag_ios.html' class='article_tag'>iOS</a>
+
+</span>
+
+    </footer>
+    <hr>
+</div>
+
+<p>原文出处：<a href='http://quotation.github.io/objc/2015/05/21/objc-runtime-ivar-access.html' target='blank'>Objective-C类成员变量深度剖析</a></p>
+<h4>目录</h4>
+<!-- MarkdownTOC -->
+
+<ul>
+<li>Non Fragile ivars</li>
+<li>为什么Non Fragile ivars很关键</li>
+<li>如何寻址类成员变量</li>
+<li>真正的“如何寻址类成员变量”</li>
+<li>Non Fragile ivars布局调整</li>
+<li>为什么Objective-C类不能动态添加成员变量</li>
+<li>总结</li>
+</ul>
+<!-- /MarkdownTOC -->
+
+
+<p>看下面的代码，考虑Objective-C里最常见的操作之一——类成员变量访问。</p>
+<div class="highlight"><pre><code><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">doSomething</span><span class="p">:(</span><span class="n">SomeClass</span> <span class="o">*</span><span class="p">)</span><span class="n">obj</span>
+<span class="p">{</span>
+    <span class="n">obj</span><span class="o">-&gt;</span><span class="n">ivar1</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>         <span class="c1">// 访问obj对象的public成员变量</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">ivar2</span><span class="p">;</span>     <span class="c1">// 访问当前类实例的成员变量</span>
+    <span class="n">ivar2</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>           <span class="c1">// 访问当前类的成员变量</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>可能大多数人都没有意识到的是：</p>
+<ul>
+<li>Objective-C的 <code>-&gt;</code> 操作符不是C语言指针操作！</li>
+<li>Objective-C对象不能简单对应于一个C struct，访问成员变量不等于访问C struct成员！</li>
+</ul>
+<p>我一直到昨天中午之前也不知道这些。当明白真相后，发现还没有文章真正讲清楚过Objective-C的类成员变量（ivar，instance variables，类实例变量），于是有必要做个深度剖析。</p>
+<h2>Non Fragile ivars</h2>
+<p>我们常说Objective-C是“C语言的超集”，直觉上认为C语言的语法和特性在Objective-C里都有，Objective-C只是在C的基础上增加了面向对象、动态特性、block等等。我也一直不假思索地以为，Objective-C的成员变量跟C++相同。在C++中，成员变量的访问会被编译器转成一条指令，用“对象地址”加“成员变量偏移值”即可访问到成员变量的值。</p>
+<p>昨天一个朋友问我runtime的问题，我看着“non-fragile instance variables”的概念，突然意识到，这不能用C++的对象内存模型来解决。</p>
+<blockquote><p>The most notable new feature is that instance variables in the modern runtime are “non-fragile”:</p>
+<p>In the legacy runtime, if you change the layout of instance variables in a class, you must recompile classes that inherit from it.
+In the modern runtime, if you change the layout of instance variables in a class, you do not have to recompile classes that inherit from it.</p>
+</blockquote>
+<p>这是苹果官方文档<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtVersionsPlatforms.html#//apple_ref/doc/uid/TP40008048-CH106-SW1">Objective-C Runtime Programming Guide</a>上的一段话，意思是在“modern runtime”里，如果你修改了基类的成员变量布局（比如增加成员变量），子类不需要重新编译。这是一个巨大的改动，在文档中当做“modern runtime”最重要的修改点被提出来。</p>
+<p>Cocoa Samurai的文章<a href="http://www.sealiesoftware.com/blog/archive/2009/01/27/objc_explain_Non-fragile_ivars.html">Understanding the Objective-C Runtime</a>用几张图清晰地解释了Non Fragile ivars。以下借助他的图举例说明。</p>
+<p>1) 用旧版OSX SDK编译的MyObject类成员变量布局是这样的，MyObject的成员变量依次排列在基类NSObject的成员后面。</p>
+<p><img src="http://quotation.github.io/images/20150521/nf1.png" alt="旧版本SDK的成员变量布局"></p>
+<p>2) 当苹果发布新版本OSX SDK后，NSObject增加了两个成员变量。如果没有Non Fragile ivars特性，我们的代码将无法正常运行，因为MyObject类成员变量布局在编译时已经确定，有两个成员变量和基类的内存区域重叠了。此时，我们只能重新编译MyObject代码，程序才能在新版本系统上运行。如果更悲催一点，MyObject类是来自第三方提供的静态库，我们就只能眼巴巴等着库作者更新版本了。</p>
+<p><img src="http://quotation.github.io/images/20150521/nf2.png" alt="新版本SDK的成员变量布局"></p>
+<p>3) Non Fragile ivars特性出场了。在程序启动后，runtime加载MyObject类的时候，通过计算基类的大小，runtime动态调整了MyObject类成员变量布局，把MyObject成员变量的位置向后移动8个字节。于是我们的程序无需编译，就能在新版本系统上运行。</p>
+<p><img src="http://quotation.github.io/images/20150521/nf3.png" alt="Runtime调整后的布局"></p>
+<h2>为什么Non Fragile ivars很关键</h2>
+<p>这个特性的重大意义在于，Objective-C的库从此具有了<strong>“二进制兼容性”</strong>。举例来说，你在项目里用了第三方提供的静态库SDK，包含一些<code>.h</code>和一个<code>.a</code>文件。当iOS SDK的版本从6升到了7，又从7升到了8时，你都不需要更新这个SDK。虽然iOS SDK版本升级时，苹果在UIView等基类中加入了更多的成员变量，但是以前发布的静态库SDK不需要重新编译还能正常使用。</p>
+<p>幸好我们已经不在那个黑暗时代了，iOS从一开始就是用的modern runtime。可以想象以前的Mac开发者是如何忍受这个问题的：每次MacOS发布新版本，都要重新编译自己的程序，跟着发布新版本。</p>
+<p>Non Fragile ivars的基本原理就是这样。听起来并没多么先进，很多编程语言都能做到，比如Java、C#，都有二进制兼容性。可是Objective-C毕竟不是“那么”动态的语言，Objective-C代码编译后是真正的native二进制，不是byte code。Objective-C程序也不是运行在VM上，底下只有个很小的runtime。这两点，Java、C#做不到。</p>
+<p>那Non Fragile ivars是如何实现的呢？最关键的点是，<strong>当成员变量布局调整后，静态编译的native程序怎么能找到变量的新偏移位置呢</strong>？</p>
+<h2>如何寻址类成员变量</h2>
+<p>我们借助两个工具来探索答案：Objective-C runtime源码和LLVM。</p>
+<p>首先去<a href="http://opensource.apple.com/">http://opensource.apple.com/</a>下载runtime源码，在“OSX”分类里，当前最新版本是objc4-646.tar.gz。解压后打开Xcode工程，查找<code>struct objc_object</code>定义。</p>
+<p>我们已经知道，每个Objective-C对象对应于<code>struct objc_object</code>，后者的<code>isa</code>指向类定义，即<code>struct objc_class</code>。</p>
+<div class="highlight"><pre><code><span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span>
+<span class="nl">private</span><span class="p">:</span>
+    <span class="kt">isa_t</span> <span class="n">isa</span><span class="p">;</span>
+    <span class="c1">//...</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nl">objc_class</span> <span class="p">:</span> <span class="n">objc_object</span> <span class="p">{</span>
+    <span class="c1">// Class ISA;</span>
+    <span class="n">Class</span> <span class="n">superclass</span><span class="p">;</span>
+    <span class="kt">cache_t</span> <span class="n">cache</span><span class="p">;</span>             <span class="c1">// formerly cache pointer and vtable</span>
+    <span class="kt">class_data_bits_t</span> <span class="n">bits</span><span class="p">;</span>    <span class="c1">// class_rw_t * plus custom rr/alloc flags</span>
+
+    <span class="kt">class_rw_t</span> <span class="o">*</span><span class="nf">data</span><span class="p">()</span> <span class="p">{</span> 
+        <span class="k">return</span> <span class="n">bits</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="c1">//...</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>沿着<code>objc_class</code>的<code>data()-&gt;ro-&gt;ivars</code>找下去，<code>struct ivar_list_t</code>是类所有成员变量的定义列表。</p>
+<div class="highlight"><pre><code><span class="k">struct</span> <span class="kt">ivar_list_t</span> <span class="p">{</span>
+    <span class="kt">uint32_t</span> <span class="n">entsize</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">count</span><span class="p">;</span>
+    <span class="kt">ivar_t</span> <span class="n">first</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>通过<code>first</code>字段，可以取得类里任意一个类成员变量的定义。</p>
+<div class="highlight"><pre><code><span class="k">struct</span> <span class="kt">ivar_t</span> <span class="p">{</span>
+    <span class="kt">int32_t</span> <span class="o">*</span><span class="n">offset</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">type</span><span class="p">;</span>
+    <span class="c1">//...</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>我们看到了敏感词<code>offset</code>，这里一定是记录着这个成员变量在对象中的偏移位置喽。也就是说，runtime在发现基类大小变化时，通过修改<code>offset</code>，来更新子类成员变量的偏移值。那Objective-C中获取对象的第N个成员变量偏移位置就需要这样一长串代码：</p>
+<div class="highlight"><pre><code><span class="o">*</span><span class="p">((</span><span class="o">&amp;</span><span class="n">obj</span><span class="o">-&gt;</span><span class="n">isa</span><span class="p">.</span><span class="n">cls</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">ro</span><span class="o">-&gt;</span><span class="n">ivars</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)[</span><span class="n">N</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">offset</span><span class="p">)</span>
+</code></pre></div>
+<p>这么多次寻址，看起来很可怕吧。每个成员变量都这样访问的话，性能一定无法接受。看看编译器到底是如何实现的吧，我们祭出LLVM。</p>
+<h2>真正的“如何寻址类成员变量”</h2>
+<p>LLVM在编译时，首先生成一种中间语言（IR，intermediate representation）；后续的一些优化、分析步骤都在IR上进行；最后再把IR转化成native可执行文件。由于IR比汇编可读性要好，我们利用IR来分析编译后的Objective-C程序是怎么执行的。</p>
+<p>创建测试代码<code>test.m</code>。</p>
+<div class="highlight"><pre><code><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+
+<span class="c1">// 特意选个大一点的基类，方便看</span>
+<span class="err">@</span><span class="n">interface</span> <span class="nl">MyClass</span> <span class="p">:</span> <span class="n">NSError</span> <span class="p">{</span>
+<span class="err">@</span><span class="n">public</span>
+    <span class="kt">int</span> <span class="n">myInt</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="err">@</span><span class="n">end</span>
+
+<span class="err">@</span><span class="n">implementation</span> <span class="n">MyClass</span>
+<span class="err">@</span><span class="n">end</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">MyClass</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyClass</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+    <span class="n">obj</span><span class="o">-&gt;</span><span class="n">myInt</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>在命令行执行</p>
+<div class="highlight"><pre><code><span class="n">clang</span> <span class="o">-</span><span class="n">cc1</span> <span class="o">-</span><span class="n">S</span> <span class="o">-</span><span class="n">emit</span><span class="o">-</span><span class="n">llvm</span> <span class="o">-</span><span class="n">fblocks</span> <span class="n">test</span><span class="p">.</span><span class="n">m</span>
+</code></pre></div>
+<p>编译结果<code>test.ll</code>就是LLVM IR代码。推荐用Sublime Text安装LLVM插件，有语法高亮。可以看到IR格式比较繁琐，比汇编简单，比C复杂。这里就不写出IL的分析过程了，直接说结论。</p>
+<p>编译后的<code>obj-&gt;myInt = 42</code>调用对应于如下的简单C语言代码。</p>
+<div class="highlight"><pre><code><span class="kt">int32_t</span> <span class="n">g_ivar_MyClass_myInt</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>  <span class="c1">// 全局变量</span>
+
+<span class="o">*</span><span class="p">(</span><span class="kt">int32_t</span> <span class="o">*</span><span class="p">)((</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span><span class="n">obj</span> <span class="o">+</span> <span class="n">g_ivar_MyClass_myInt</span><span class="p">)</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+</code></pre></div>
+<p>两条CPU指令搞定。第一条取<code>g_ivar_MyClass_myInt</code>的值，第二条寻址并赋值。根本不需要一长串的指针调用。LLVM为<strong>每个类</strong>的<strong>每个成员变量</strong>都分配了一个全局变量，用于存储该成员变量的偏移值。</p>
+<p>这也就是为什么<code>ivar_t.offset</code>用<strong>int指针</strong>来存储偏移值，而不是直接放一个int的原因。在这个设计中，真正存放偏移值的地址是固定不变的，在编译时就确定了下来。因此才能用区区2条指令搞定动态布局的成员变量。</p>
+<p>这就是Objective-C类成员变量的寻址方式。编译器通过这种方式，达到了灵活性和执行效率的完美平衡！</p>
+<h2>Non Fragile ivars布局调整</h2>
+<p>有了这种灵活而高效的寻址方式，那runtime是在什么时候调整成员变量偏移值的呢？从IR中可以看到，在编译时，LLVM计算出基类NSError对象的大小为40字节，然后记录在MyClass的类定义中，如下是对应的C代码。在编译后的可执行程序中，写死了“40”这个魔术数字，记录了在此次编译时MyClass基类的大小。</p>
+<div class="highlight"><pre><code><span class="kt">class_ro_t</span> <span class="n">class_ro_MyClass</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">instanceStart</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">instanceSize</span> <span class="o">=</span> <span class="mi">48</span><span class="p">,</span>
+    <span class="c1">//...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>现在假如苹果发布了OSX 11 SDK，NSError类大小增加到48字节。当我们的程序启动后，runtime加载MyClass类定义的时候，发现基类的真实大小和MyClass的<code>instanceStart</code>不相符，得知基类的大小发生了改变。于是runtime遍历MyClass的所有成员变量定义，将<code>offset</code>指向的值增加8。具体的实现代码在<code>runtime/objc-runtime-new.mm</code>的<code>moveIvars()</code>函数中。</p>
+<p>并且，MyClass类定义的<code>instanceSize</code>也要增加8。这样runtime在创建MyClass对象的时候，能分配出正确大小的内存块。</p>
+<h2>为什么Objective-C类不能动态添加成员变量</h2>
+<p>这个问题的答案与Non Fragile ivars无关，但既然此文是关于类成员变量的，因此一并讨论。很多人在学到Category时都会有疑问，既然允许用Category给类增加方法和属性，那为什么不允许增加成员变量？</p>
+<p>在<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ObjCRuntimeRef/index.html">Objective-C提供的runtime函数</a>中，确实有一个<code>class_addIvar()</code>函数用于给类添加成员变量，但是文档中特别说明：</p>
+<blockquote><p>This function may only be called after objc_allocateClassPair and before objc_registerClassPair. Adding an instance variable to an existing class is not supported.</p>
+</blockquote>
+<p>意思是说，这个函数只能在“构建一个类的过程中”调用。一旦完成类定义，就不能再添加成员变量了。经过编译的类在程序启动后就被runtime加载，没有机会调用addIvar。程序在运行时动态构建的类需要在调用<code>objc_registerClassPair</code>之后才可以被使用，同样没有机会再添加成员变量。</p>
+<p>我们设想一下如果Objective-C允许动态增加成员变量，会发生什么事情。假设如下代码可以执行。</p>
+<p><img src="http://quotation.github.io/images/20150521/nf1.png" alt="成员变量布局"></p>
+<div class="highlight"><pre><code><span class="n">MyObject</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObject</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+
+<span class="c1">// 基类增加一个4字节的成员变量someVar</span>
+<span class="n">class_addIvar</span><span class="p">([</span><span class="n">NSObject</span> <span class="n">class</span><span class="p">],</span> <span class="s">&quot;someVar&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">...);</span>
+<span class="c1">// 基类增加方法someMethod，用到了someVar</span>
+<span class="n">class_addMethod</span><span class="p">([</span><span class="n">NSObject</span> <span class="n">class</span><span class="p">],</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">someMethod</span><span class="p">),</span> <span class="p">...);</span>
+
+<span class="c1">// 调用someMethod，修改了someVar</span>
+<span class="p">[</span><span class="n">obj</span> <span class="n">someMethod</span><span class="p">];</span>
+
+<span class="c1">// 访问子类成员变量，会发生什么？</span>
+<span class="p">[</span><span class="n">obj</span><span class="o">-&gt;</span><span class="n">students</span> <span class="n">length</span><span class="p">];</span>
+</code></pre></div>
+<p>显然，这样做会带来严重问题，为基类动态增加成员变量会导致所有已创建出的子类实例都无法使用。那为什么runtime允许动态添加方法和属性，而不会引发问题呢？</p>
+<p>因为方法和属性并不“属于”类实例，而成员变量“属于”类实例。我们所说的“类实例”概念，指的是一块内存区域，包含了isa指针和所有的成员变量。所以假如允许动态修改类成员变量布局，已经创建出的类实例就不符合类定义了，变成了无效对象。但方法定义是在<code>objc_class</code>中管理的，不管如何增删类方法，都不影响类实例的内存布局，已经创建出的类实例仍然可正常使用。</p>
+<h2>总结</h2>
+<p>Objective-C的“Non Fragile ivars”特性，以极低的运行时开销换取了程序的二进制兼容性。并且可执行文件仍然是目标平台上的native程序，不需要运行在VM上。实在是设计权衡取舍的典范。</p>
+
+
+<br>
+<br>
+<p></p>
+
+
+<!-- Share BEGIN -->
+<div id="share"></div>
+<script type="text/javascript" src="../vender/share/share.js"></script>
+<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
+<link rel="stylesheet" href="../vender/share/share.css">
+<!-- Share END -->
+
+
+<br><p></p>
+
+
+<!-- 评论 start -->
+<div class="commentBox" id="globeCommentBox">
+    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
+    <div>
+        <input type="text" name="nickname" placeholder="nickname">
+    </div>
+    <div>
+        <input type="text" name="email" placeholder="email">
+    </div>
+    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
+</div>
+<br>
+<div id="comment"></div>
+
+<link rel="stylesheet" href="../vender/comment/comment.css" />
+<script type="text/javascript" src="../vender/comment/toast.js"></script>
+<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
+<script type="text/javascript">
+    var articleUUID = "e328cc8bf45162a38727f6cbab6dd69e";
+    var pageIndex = 1;
+</script>
+<script type="text/javascript" src="../vender/comment/comment.js"></script>
+<!-- 评论 end -->
+
+
+</div>
+
+
+<div id='link' style='display:none;'>
+<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
+<h3>· Social</h3>
+<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
+<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
+<h3>· Links</h3>
+<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
+<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
+<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
+<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
+</div>
+<br>
+
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2020
+            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
+        &nbsp;   
+        </p>  
+</div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  if(window.location.host.indexOf("localhost") == -1){
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  }
+})();
+</script>
+
+
+</body>
+
+<!-- 语法高亮 -->
+<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
+<script src="../vender/js/highlight/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+// console.log(hljs.listLanguages());
+</script>

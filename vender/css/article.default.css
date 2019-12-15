@@ -1,0 +1,360 @@
+/**
+  * article.default.css
+  * zruibin.cc
+  *
+  * Created by Ruibin.Chow on 15/10/17.
+  * Copyright (c) 2015年 Ruibin.Chow. All rights reserved.
+  */
+
+/*@font-face {
+    font-family: "FZShouJinShu S10S";
+    src: url("../../vender/font/FZShouJinShu-S10S.ttf");
+}
+
+@font-face {
+    font-family: "Segoe UI Light";
+    src: url("../../vender/font/Segoe-UI-Light.ttf");
+}*/
+
+body{ 
+    color: #333333;
+    /*background: url(../../vender/image/bg2.png) repeat;*/
+    display: block;
+    margin: 0px;
+} 
+
+a { color: #666666;}
+
+a:link{
+    text-decoration:none;
+}
+a:visited{
+    text-decoration:none;
+}
+a:hover{
+    text-decoration:underline;
+}
+a:active{
+    text-decoration:none;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+ table {
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-style: solid;
+}
+ 
+td, th {
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+}
+
+/*代码样式*/
+.highlight { 
+    /*color: #333; */
+    /*font-weight: bold; */
+    overflow:hidden;
+    display: block;
+    padding: 0px 4px;
+    margin: 0 0 10px;
+    line-height: 25px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre;
+    white-space: pre-wrap;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.15);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+ }
+
+ pre { margin: 0px 0px;}
+
+ .highlight *{
+    font-size: 14px;
+ }
+
+/*MARK:让图片自适应屏幕的宽度*/
+ .container img {
+    max-width: 100% !important; 
+    height: auto!important; 
+    width:expression(this.width > 800 ? "800px" : this.width)!important;
+ }
+
+.container, #pagelist {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    min-width:50px;
+    max-width:800px;
+    font-size: 16px;
+}
+
+article h2 a, .summary a {
+  color: #333333;
+}
+
+.summary p {
+  color: #333333;
+  font-size: 14px;
+  padding-right: 50px;
+}
+
+.more {
+    position: relative;
+    overflow: visible;
+    display: inline-block;
+    padding: 0.4em 0.4em 0.4em 0.4em;
+    border: 1px solid #d4d4d4;
+    margin: 0;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 1px 1px 0 #fff;
+    /*font:11px/normal sans-serif;*/
+    font-size: 11px;
+    color: #333;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+    -moz-background-clip: padding; /* for Firefox 3.6 */
+    background-clip: padding-box;
+    border-radius: 0.3em;
+    /* IE hacks */
+    zoom: 1;
+    *display: inline;
+}
+
+.more:hover, .more:focus, .more:active{
+    text-decoration: none;
+    background-color: #ececec;
+}
+
+/* overrides extra padding on button elements in Firefox */
+.more::-moz-focus-inner, #pagelist a::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+
+#header {
+    /*margin-right: auto;*/
+    /*margin-left: auto;*/
+    /*padding-left: 15px;*/
+    /*padding-right: 15px;*/
+    min-width:50px;
+    max-width:800px;
+}
+
+#create_time {
+    text-align: left;
+    /*color: red;*/
+}
+
+.article_tag {
+    text-decoration: none;
+    /*border-bottom: 1px dotted;*/
+}
+
+.article_tag:hover{
+    text-decoration: none;
+    border-bottom: 1px solid;
+}
+
+#list_content, #content {
+    margin-top: 80px;
+}
+
+#content a {
+    color: #4094c7;
+}
+
+#article_tags a, #disqus_thread a { color: #666666;}
+
+/*导航菜单*/
+
+#navbar {
+    background-color: #f8f8f8;
+    height: 50px;
+    margin: 0px 0px;
+    border: 1px solid #eee;
+    position: fixed;
+    right: 0;
+    left: 0;
+    font-size: 16px;
+    z-index: 1030;
+    min-height: 50px;
+    top: 0px;
+}
+
+.item {
+    padding: 15px 9.5px;
+    display:inline-block;
+    font-size: 15.5px;
+    color: #333333;
+    /*float: right;*/
+}
+
+#menu ul {
+    padding:0; 
+    margin:0;
+    list-style-type: none;
+}
+
+#menu ul li {
+    /*float:left; */
+    display: inline-table;
+    margin: 0px;
+    *display:inline;
+    *zoom:1;
+}
+
+#menu ul li a, #menu ul li a:visited {
+    display:block; 
+    text-align:center; 
+    text-decoration:none; 
+    /*border:1px solid #fff;*/
+    /*border-width:1px 1px 0 0;*/
+}
+
+
+#menu ul li:hover .item { 
+    background:#e7e7e7; 
+}
+
+
+.subs {
+    background:#e7e7e7;
+    display:none;
+    margin: 0px 0px;
+    padding: 0px 0px;
+    /*top:100%;*/
+    /*position:fixed;*/
+    /*left:-10px;*/
+}
+
+ul li:hover .subs {
+    display:block;
+    position:absolute; 
+}
+
+.subs li {
+    background:#e7e7e7;/*rgba(231, 231, 231, 0.9);*/
+    filter:Alpha(opacity=90);
+    text-align: center;
+    margin-top: 0px;
+    padding:0px 0px; 
+    border-style:none;
+    border-width:0;
+    cursor:pointer;
+    display:block;
+    margin: 0px 0px;
+}
+
+.subs li a {
+    font-size:14px;
+    color: #333333;
+    filter:Alpha(opacity=90);
+    cursor:pointer;
+    display:inline-block;
+    width: 75px;
+    height: 20px;
+    padding: 10px 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.subs li a:hover{
+    background-color: #f8f8f8;
+}
+
+
+/*底部数量*/
+
+#pagelist {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#pagelist>ul {
+    display: inline-block;
+    padding-left: 0;
+    border-radius: 4px;
+    /*box-sizing: border-box;*/
+}
+
+#pagelist>ul>li {
+    display: inline;
+    float: left;
+} 
+
+#pagelist>ul>li>a{
+    position: relative;
+    float: left;
+    padding: 6.5px 12px;
+    line-height: 1.3;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-left: -1px;
+}
+
+#pagelist>ul>li>a:hover {
+    background-color: #d4d4d4;
+}
+
+#pagelist>ul>li>a{
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+#pagelist>ul>li:first-child>a {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+
+blockquote {
+    background:#F5F5F5;
+    border-left:4px solid #999999;
+    margin:20px 20px 20px 0px;
+    padding:10px 10px;
+    font-size:15px;
+    word-break: break-word;
+    font-weight: 100;
+}
+
+blockquote p {
+    display:inline;
+}
+
+#content li, #content h3, #content h4, #content h5, blockquote, p {
+    line-height:26px;
+}
+
+
+
+
+

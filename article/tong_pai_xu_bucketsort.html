@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head> 
+<title>桶排序(Bucket Sort) - Ruibin.Chow</title>
+
+
+<link rel="shortcut icon" href="../vender/image/me.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="桶排序(Bucket Sort),C/C++,数据结构,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
+<meta name="description" content="桶排序、海量数据排序" />
+<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+
+
+<script type="text/javascript" src="../vender/js/default.js"></script>
+<script type="text/javascript" src="../vender/js/article.default.js"></script>
+<link rel="stylesheet" href="../vender/css/default.css" />
+<link rel="stylesheet" href="../vender/css/article.default.css" />
+
+<script type="text/javascript">
+
+RBReady(changeFrame);
+
+</script>
+
+</head>
+
+<body>
+
+
+<div id="navbar" >
+    <div id="menu" class="container">
+    <ul>
+
+    <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
+    <li><a href="../about.html" class="item">About Me</a></li>
+    <li><a href="./index.html" class="item">Blog</a></li>
+    <li><a class="item">Tags</a>
+        <div class="subs">
+        
+<ul>
+
+<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
+<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
+<li><a href="./Tag_python.html">Python(1)</a></li>
+<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
+<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
+<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
+<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
+<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
+<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
+<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
+<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
+<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
+<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
+</ul>
+
+        </div> 
+    </li>
+    <li><a href="./Archives.html" class="item">Archives</a></li>
+
+    </ul>
+    </div>
+</div> 
+<p></p>
+
+
+
+
+
+<div class="container" id="content">
+
+<div id='header'>
+    <h2>桶排序(Bucket Sort)</h2>
+    <footer>
+        Date:&nbsp;<span id='create_time'>
+            2016-06-02 13:01
+        </span>
+        &nbsp;&nbsp;
+        Tags:&nbsp; 
+<span id='article_tags'>
+         
+<a href='../article/Tag_cc++.html' class='article_tag'>C/C++</a>
+
+<a href='../article/Tag_shu_ju_jie_gou.html' class='article_tag'>数据结构</a>
+
+</span>
+
+    </footer>
+    <hr>
+</div>
+
+<blockquote><p>引用:<a href="http://blog.csdn.net/ACE1985/article/category/688344">CSDN算法之美</a></p>
+</blockquote>
+<h3>海量数据</h3>
+<p>一年的全国高考考生人数为500 万，分数使用标准分，最低100 ，最高900 ，没有小数，要求对这500 万元素的<a href="http://baike.baidu.com/view/209670.htm">数组</a>进行排序。
+分析：对500W<a href="http://baike.baidu.com/view/2586460.htm">数据排序</a>，如果基于比较的先进排序，平均比较次数为O(5000000*log5000000)≈1.112亿。但是我们发现，这些数据都有特殊的条件： 100=&lt;score&lt;=900。那么我们就可以考虑桶排序这样一个“投机取巧”的办法、让其在毫秒级别就完成500万排序。</p>
+<p>方法：创建801(900-100)个桶。将每个考生的分数丢进f(score)=score-100的桶中。这个过程从头到尾遍历一遍数据只需要500W次。然后根据桶号大小依次将桶中数值输出，即可以得到一个有序的序列。而且可以很容易的得到100分有<strong><em>人，501分有</em></strong>人。</p>
+<p>实际上，桶排序对数据的条件有特殊要求，如果上面的分数不是从100-900，而是从0-2亿，那么分配2亿个桶显然是不可能的。所以桶排序有其局限性，适合元素值集合并不大的情况。</p>
+<h3>典型</h3>
+<p>在一个文件中有10G个整数，乱序排列，要求找出中位数。内存限制为2G。只写出思路即可（内存限制为2G意思是可以使用2G空间来运行程序，而不考虑本机上其他软件内存占用情况。） 关于中位数：数据排序后，位置在最中间的数值。即将数据分成两部分，一部分大于该数值，一部分小于该数值。中位数的位置：当样本数为奇数时，中位数=(N+1)/2 ; 当样本数为偶数时，中位数为N/2与1+N/2的均值（那么10G个数的中位数，就第5G大的数与第5G+1大的数的均值了）。</p>
+<p>分析：既然要找中位数，很简单就是排序的想法。那么基于<a href="http://baike.baidu.com/view/60408.htm">字节</a>的桶排序是一个可行的方法。</p>
+<p>思想：将整型的每1byte作为一个关键字，也就是说一个整形可以拆成4个keys，而且最高位的keys越大，整数越大。如果高位keys相同，则比较次高位的keys。整个比较过程类似于字符串的<a href="http://baike.baidu.com/view/4670107.htm">字典序</a>。</p>
+<h4>第一步:把10G整数每2G读入一次内存，然后一次遍历这536,870,912即（1024<em>1024</em>1024）*2 /4个数据。每个数据用位运算"&gt;&gt;"取出最高8位(31-24)。这8bits(0-255)最多表示256个桶，那么可以根据8bit的值来确定丢入第几个桶。最后把每个桶写入一个磁盘文件中，同时在内存中统计每个桶内数据的数量NUM[256]。</h4>
+<h5>代价：</h5>
+<p>(1) 10G数据依次读入内存的IO代价(这个是无法避免的，CPU不能直接在<a href="http://baike.baidu.com/view/157418.htm">磁盘</a>上运算)。
+(2)在内存中遍历536,870,912个数据，这是一个O(n)的线性<a href="http://baike.baidu.com/view/104946.htm">时间复杂度</a>。
+(3)把256个桶写回到256个磁盘文件空间中，这个代价是额外的，也就是多付出一倍的10G数据转移的时间。</p>
+<h4>第二步：根据内存中256个桶内的数量NUM[256]，计算中位数在第几个桶中。很显然，2,684,354,560个数中位数是第1,342,177,280个。假设前127个桶的数据量相加，发现少于1,342,177,280，把第128个桶数据量加上，大于1,342,177,280。说明，中位数必在<a href="http://baike.baidu.com/view/157418.htm">磁盘</a>的第128个桶中。而且在这个桶的第1,342,177,280-N(0-127)个数位上。N(0-127)表示前127个桶的数据量之和。然后把第128个文件中的整数读入内存。(若数据大致是均匀分布的，每个文件的大小估计在10G/256=40M左右，当然也不一定，但是超过2G的可能性很小)。注意，变态的情况下，这个需要读入的第128号文件仍然大于2G，那么整个读入仍然可以按照第一步分批来进行读取。</h4>
+<h5>代价：</h5>
+<p>(1)循环计算255个桶中的数据量累加，需要O(M)的代价，其中m&lt;255。
+(2)读入一个大概80M左右文件大小的IO代价。</p>
+<h4>第三步：继续以内存中的某个桶内整数的次高8bit（他们的最高8bit是一样的）进行桶排序(23-16)。过程和第一步相同，也是256个桶。</h4>
+<h4>第四步：一直下去，直到最低字节(7-0bit)的桶排序结束。我相信这个时候完全可以在内存中使用一次快排就可以了。</h4>
+<p>整个过程的<a href="http://baike.baidu.com/view/104946.htm">时间复杂度</a>在O(n)的线性级别上(没有任何<a href="http://baike.baidu.com/view/7144415.htm">循环嵌套</a>)。但主要时间消耗在第一步的第二次内存-磁盘数据交换上，即10G数据分255个文件写回磁盘上。一般而言，如果第二步过后，内存可以容纳下存在中位数的某一个文件的话，直接快排就可以了（修改者注：我想，继续桶排序但不写回磁盘，效率会更高？）。
+ </p>
+
+
+<br>
+<br>
+<p></p>
+
+
+<!-- Share BEGIN -->
+<div id="share"></div>
+<script type="text/javascript" src="../vender/share/share.js"></script>
+<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
+<link rel="stylesheet" href="../vender/share/share.css">
+<!-- Share END -->
+
+
+<br><p></p>
+
+
+<!-- 评论 start -->
+<div class="commentBox" id="globeCommentBox">
+    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
+    <div>
+        <input type="text" name="nickname" placeholder="nickname">
+    </div>
+    <div>
+        <input type="text" name="email" placeholder="email">
+    </div>
+    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
+</div>
+<br>
+<div id="comment"></div>
+
+<link rel="stylesheet" href="../vender/comment/comment.css" />
+<script type="text/javascript" src="../vender/comment/toast.js"></script>
+<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
+<script type="text/javascript">
+    var articleUUID = "91e59f8da28badf74528f29de8d3ac0e";
+    var pageIndex = 1;
+</script>
+<script type="text/javascript" src="../vender/comment/comment.js"></script>
+<!-- 评论 end -->
+
+
+</div>
+
+
+<div id='link' style='display:none;'>
+<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
+<h3>· Social</h3>
+<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
+<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
+<h3>· Links</h3>
+<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
+<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
+<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
+<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
+</div>
+<br>
+
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2020
+            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
+        &nbsp;   
+        </p>  
+</div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  if(window.location.host.indexOf("localhost") == -1){
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  }
+})();
+</script>
+
+
+</body>
+
+<!-- 语法高亮 -->
+<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
+<script src="../vender/js/highlight/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+// console.log(hljs.listLanguages());
+</script>

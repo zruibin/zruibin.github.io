@@ -1,0 +1,120 @@
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>我们的爱</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+        @font-face {
+            font-family: digit;
+            src: url('digital-7_mono.ttf') format("truetype");
+        }
+    </style>
+    <link href="style/default.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="style/jquery.js"></script>
+    <script type="text/javascript" src="style/garden.js"></script>
+    <script type="text/javascript" src="style/functions.js"></script>
+    <script type="text/javascript" src='./app.js'></script>
+</head>
+
+<body>
+    <style type="text/css">
+
+#music {
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    position: fixed;
+}
+#music img {
+    max-width:100%;height:auto;
+}
+</style>
+    <div id='music'><a href="#"><img src="../../vender/image/music_off.png"></a></div>
+
+    <div id="mainDiv">
+        <div id="content">
+            <div id="code">
+                <span class="comments">/**</span><br />
+                <span class="space"/><span class="comments">* 我是一个写代码的屌丝,</span><br />
+                <span class="space"/><span class="comments">* 所以我写一些代码来显示我对你的爱.</span><br />
+                <span class="space"/><span class="comments">*/</span><br />
+                Boy i = <span class="keyword">new</span> Boy(<span class="string">"Ruibin.Chow"</span>);<br />
+                Girl u = <span class="keyword">new</span> Girl(<span class="string">"婷婷"</span>);<br />
+                <span class="comments">// 2017年10月20日，我告诉你，我喜欢你. </span><br />
+                i.like(u);<br />
+                <span class="comments">// 但是......，你说这是什么意思，你不是我第一眼喜欢的男生，做朋友，顺其自然.</span><br />
+                u.sayOtherthing();<br />
+                <span class="comments">// 从那以后，我一直烦着你，每天每天。</span><br />
+                <span class="keyword">var</span> reason=i.bother(u);<br />
+                <span class="comments">//在这世界上，找到一个他喜欢你的同时你又刚好喜欢他的人，哪有那么好的事，很多感情是慢慢培养起来的，你给别人一个机会，有时会发现那个你一开始就不喜欢的人其实正是你喜欢的样子，而有些你很喜欢的人，其实并不适合你</span><br />
+                $("body").append(reason);<br />
+                <span class="comments">// 遇见一个合适的人有多难？</span><br />
+                <span class="comments">// 很难很难，我能做就是对你好，关心你。</span><br />
+                i.takeCareOf(u);<br />
+                <span class="comments">// 所以我一直在等待，我有信心，你会的。</span><br />
+                <span class="keyword">boolean</span> isAccept = <span class="keyword">false</span>;<br />
+                <span class="keyword">while</span> (isAccept) {<br />
+                <span class="placeholder"/>i.waitFor(u);<br />
+                <span class="placeholder"/><span class="comments">// 我认为这是一个重要的决定</span><br />
+                <span class="placeholder"/><span class="comments">// 一直等你答应。</span><br />
+                <span class="placeholder"/>isAccept = u.thinkOver();<br />
+                }<br />
+                <span class="comments">// 经过一个爱的声音接受，我们将从此过幸福地生活在一起。</span><br />
+                u.accept(i);<br />
+                i.liveHappilyWith(u);<br />
+            
+            </div>
+            <div id="loveHeart">
+                <canvas id="garden"></canvas>
+                <div id="words">
+                    <div id="messages">
+                        <center></center>
+                        婷婷，我喜欢你！520！
+                        <div id="elapseClock" style="display:none"></div>
+                        <!-- <a href='#' id="accept">如果接受我，点击我！</a> -->
+                    </div>
+                    <div id="loveu">
+                        想你，直到永远。<br/>
+                        <div class="signature">- Ruibin.Chow</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <script type="text/javascript">
+        var offsetX = $("#loveHeart").width() / 2;
+        var offsetY = $("#loveHeart").height() / 2 - 55;
+        
+        if (!document.createElement('canvas').getContext) {
+            var msg = document.createElement("div");
+            msg.id = "errorMsg";
+            msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+"; 
+            document.body.appendChild(msg);
+            $("#code").css("display", "none")
+            $("#copyright").css("position", "absolute");
+            $("#copyright").css("bottom", "10px");
+            document.execCommand("stop");
+        } else {
+            setTimeout(function () {
+                adjustWordsPosition();
+                startHeartAnimation();
+            }, 10000);
+            
+            $("#accept").click(function(){
+                $(this).hide();
+                $("#elapseClock").show();
+                var together = new Date();
+                timeElapse(together);
+                setInterval(function () {
+                    timeElapse(together);
+                }, 500);
+            })
+            adjustCodePosition();
+            $("#code").typewriter();
+        }
+    </script>
+</body>
+</html>

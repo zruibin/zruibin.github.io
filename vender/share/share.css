@@ -1,0 +1,61 @@
+/*
+ * share.css
+ *
+ * Created by ruibin.chow on 2017/10/03.
+ * Copyright (c) 2017年 ruibin.chow All rights reserved.
+ */
+
+ #share {
+    height: 35px;
+    width: 100%;
+    /* background-color: yellow; */
+}
+
+#share p, #share a {
+    float: left;
+}
+
+#share p {
+    margin: 0 0;
+    padding: 8px 0px;
+}
+
+#share a {
+    padding: 5px 5px;
+    margin: 0px 5px;
+}
+
+#share a:hover {
+    background-color: #ececec;
+}
+
+#share img {
+    width: 25px;
+    height: 25px;
+}
+
+#shareMask {
+    width: 100%;
+    height: 100%;
+     /*background-color: black; */
+    position:fixed;
+    bottom:0; 
+    overflow:hidden;
+/*    filter:alpha(opacity=70);  
+    -moz-opacity:0.7;  
+    -khtml-opacity: 0.7;  
+    opacity: 0.7;*/
+    display:none;
+    text-align: center;
+    /*z-index: 9999;*/
+}
+
+#shareMask div img{
+    width: 150px;
+    height: 150px;
+    margin-top: 200px;
+    margin-right: auto;
+    margin-left: auto;
+    border: 4px solid gray;
+}
+

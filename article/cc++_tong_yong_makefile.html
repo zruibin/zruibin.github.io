@@ -1,0 +1,599 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head> 
+<title>C、C++通用Makefile - Ruibin.Chow</title>
+
+
+<link rel="shortcut icon" href="../vender/image/me.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="C、C++通用Makefile,C/C++,Makefile,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
+<meta name="description" content="C/C++通用Makefile" />
+<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+
+
+<script type="text/javascript" src="../vender/js/default.js"></script>
+<script type="text/javascript" src="../vender/js/article.default.js"></script>
+<link rel="stylesheet" href="../vender/css/default.css" />
+<link rel="stylesheet" href="../vender/css/article.default.css" />
+
+<script type="text/javascript">
+
+RBReady(changeFrame);
+
+</script>
+
+</head>
+
+<body>
+
+
+<div id="navbar" >
+    <div id="menu" class="container">
+    <ul>
+
+    <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
+    <li><a href="../about.html" class="item">About Me</a></li>
+    <li><a href="./index.html" class="item">Blog</a></li>
+    <li><a class="item">Tags</a>
+        <div class="subs">
+        
+<ul>
+
+<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
+<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
+<li><a href="./Tag_python.html">Python(1)</a></li>
+<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
+<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
+<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
+<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
+<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
+<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
+<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
+<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
+<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
+<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
+</ul>
+
+        </div> 
+    </li>
+    <li><a href="./Archives.html" class="item">Archives</a></li>
+
+    </ul>
+    </div>
+</div> 
+<p></p>
+
+
+
+
+
+<div class="container" id="content">
+
+<div id='header'>
+    <h2>C、C++通用Makefile</h2>
+    <footer>
+        Date:&nbsp;<span id='create_time'>
+            2014-05-19 13:47
+        </span>
+        &nbsp;&nbsp;
+        Tags:&nbsp; 
+<span id='article_tags'>
+         
+<a href='../article/Tag_cc++.html' class='article_tag'>C/C++</a>
+
+<a href='../article/Tag_makefile.html' class='article_tag'>Makefile</a>
+
+</span>
+
+    </footer>
+    <hr>
+</div>
+
+<p><br/></p>
+<p><hr>
+<br/></p>
+<p>本文推荐了一个用于对 C/C++ 程序进行编译和连接以产生可执行程序的通用 Makefile。</p>
+<p>在使用 Makefile 之前，只需对它进行一些简单的设置即可；而且一经设置，即使以后对源程序文件有所增减一般也不再需要改动 Makefile。因此，即便是一个没有学习过 Makefile 书写规则的人，也可以为自己的 C/C++ 程序快速建立一个可工作的 Makefile。</p>
+<p>这个 Makefile 可以在 GNU Make 和 GCC 编译器下正常工作。但是不能保证对于其它版本的 Make 和编译器也能正常工作。</p>
+<p>此 Makefile 的使用方法如下：</p>
+<h4>程序目录的组织</h4>
+<ul>
+<li>尽量将自己的源程序集中在一个目录中，并且把 Makefile 和源程序放在一起，这样用起来比较方便。当然，也可以将源程序分类存放在不同的目录中。 </li>
+<li>在程序目录中创建一个名为 Makefile 的文本文件，将后面列出的 Makefile 的内容复制到这个文件中。（注意：在复制的过程中，Makfile 中各命令前面的 Tab 字符有可能被转换成若干个空格。这种情况下需要把 Makefile 命令前面的这些空格替换为一个 Tab。） </li>
+<li>将当前工作目录切换到 Makefile 所在的目录。目前，这个 Makefile 只支持在当前目录中的调用，不支持当前目录和 Makefile 所在的路径不是同一目录的情况。</li>
+</ul>
+<h4>指定可执行文件</h4>
+<ul>
+<li>程序编译和连接成功后产生的可执行文件在 Makefile 中的 PROGRAM 变量中设定。这一项不能为空。为自己程序的可执行文件起一个有意义的名子吧。</li>
+</ul>
+<h4>指定源程序</h4>
+<ul>
+<li>要编译的源程序由其所在的路径和文件的扩展名两项来确定。由于头文件是通过包含来使用的，所以在这里说的源程序不应包含头文件。 </li>
+<li>程序所在的路径在 SRCDIRS 中设定。如果源程序分布在不同的目录中，那么需要在 SRCDIRS 中一一指定，并且路径名之间用空格分隔。 </li>
+<li>在 SRCEXTS 中指定程序中使用的文件类型。C/C++ 程序的扩展名一般有比较固定的几种形式：.c、.C、.cc、.cpp、.CPP、.c++、.cp、或者.cxx（参见 man gcc）。扩展名决定了程序是 C 还是 C++ 程序：.c 是 C 程序，其它扩展名表示 C++ 程序。一般固定使用其中的一种扩展名即可。但是也有可能需要使用多种扩展名，这可以在 SOURCE_EXT 中一一指定，各个扩展名之间用空格分隔。 </li>
+</ul>
+<p>虽然并不常用，但是 C 程序也可以被作为 C++ 程序编译。这可以通过在 Makefile 中设置 CC = $(CXX) 和 CFLAGS = $(CXXFLAGS) 两项即可实现。</p>
+<p>这个 Makefile 支持 C、C++ 以及 C/C++ 混合三种编译方式：</p>
+<ul>
+<li>如果只指定 .c 扩展名，那么这是一个 C 程序，用 $(CC) 表示的编译命令进行编译和连接。</li>
+<li>如果指定的是除 .c 之外的其它扩展名（如 .cc、.cpp、.cxx 等），那么这是一个 C++ 程序，用 $(CXX) 进行编译和连接。</li>
+<li>如果既指定了 .c，又指定了其它 C++ 扩展名，那么这是 C/C++ 混合程序，将用 $(CC) 编译其中的 C 程序，用 $(CXX) 编译其中的 C++ 程序，最后再用 $(CXX) 连接程序。 
+　　这些工作都是 make 根据在 Makefile 中提供的程序文件类型（扩展名）自动判断进行的，不需要用户干预。</li>
+</ul>
+<h4>指定编译选项</h4>
+<ul>
+<li>编译选项由三部分组成：预处理选项、编译选项以及连接选项，分别由 CPPFLAGS、CFLAGS与CXXFLAGS、LDFLAGS 指定。 </li>
+<li>CPPFLAGS 选项可参考 C 预处理命令 cpp 的说明，但是注意不能包含 -M 以及和 -M 有关的选项。如果是 C/C++ 混合编程，也可以在这里设置 C/C++ 的一些共同的编译选项。 </li>
+<li>CFLAGS 和 CXXFLAGS 两个变量通常用来指定编译选项。前者仅仅用于指定 C 程序的编译选项，后者仅仅用于指定 C++ 程序的编译选项。其实也可以在两个变量中指定一些预处理选项（即一些本来应该放在 CPPFLAGS 中的选项），和 CPPFLAGS 并没有明确的界限。 </li>
+<li>连接选项在 LDFLAGS 中指定。如果只使用 C/C++ 标准库，一般没有必要设置。如果使用了非标准库，应该在这里指定连接需要的选项，如库所在的路径、库名以及其它联接选项。 </li>
+<li>现在的库一般都提供了一个相应的 .pc 文件来记录使用库所需要的预编译选项、编译选项和连接选项等信息，通过 pkg-config 可以动态提取这些选项。与由用户显式指定各个选项相比，使用 pkg-config 来访问库提供的选项更方便、更具通用性。在后面可以看到一个 GTK+ 程序的例子，其编译和连接选项的指定就是用 pkg-config 实现的。</li>
+</ul>
+<h4>编译和连接</h4>
+<p>　　上面的各项设置好之后保存 Makefile 文件。执行 make 命令，程序就开始编译了。 <br/>
+　　命令 make 会根据 Makefile 中设置好的路径和文件类型搜索源程序文件，然后根据文件的类型调用相应的编译命令、使用相应的编译选项对程序进行编译。 <br/>
+　　编译成功之后程序的连接会自动进行。如果没有错误的话最终会产生程序的可执行文件。 <br/>
+　　注意：在对程序编译之后，会产生和源程序文件一一对应的 .d 文件。这是表示依赖关系的文件，通过它们 make 决定在源程序文件变动之后要进行哪些更新。为每一个源程序文件建立相应的 .d 文件这也是 GNU Make 推荐的方式。<br/></p>
+<h4>Makefile 目标（Targets）</h4>
+<p>下面是关于这个 Makefile 提供的目标以及它所完成的功能：</p>
+<p>make 
+编译和连接程序。相当于 make all。</p>
+<p>make objs 
+仅仅编译程序产生 .o 目标文件，不进行连接（一般很少单独使用）。</p>
+<p>make clean 
+删除编译产生的目标文件和依赖文件。</p>
+<p>make cleanall 
+删除目标文件、依赖文件以及可执行文件。</p>
+<p>make rebuild 
+重新编译和连接程序。相当于 make clean &amp;&amp; make all。</p>
+<p>关于这个 Makefile 的实现原理不准备详细解释了。如果有兴趣的话，可参考文末列出的“参考资料”。</p>
+<p><br/></p>
+<h4>Makefile 的内容如下：</h4>
+<div class="highlight"><pre><code><span class="cp">#############################################################  </span>
+<span class="cp"># Generic Makefile for C/C++ Program  </span>
+<span class="cp">#  </span>
+<span class="cp"># License: GPL (General Public License)  </span>
+<span class="cp"># Author:  whyglinux &lt;whyglinux AT gmail DOT com&gt;  </span>
+<span class="cp"># Date:    2006/03/04 (version 0.1)  </span>
+<span class="cp">#          2007/03/24 (version 0.2)  </span>
+<span class="cp">#          2007/04/09 (version 0.3)  </span>
+<span class="cp">#          2007/06/26 (version 0.4)  </span>
+<span class="cp">#          2008/04/05 (version 0.5)  </span>
+<span class="cp">#  </span>
+<span class="cp"># Description:  </span>
+<span class="cp"># ------------  </span>
+<span class="cp"># This is an easily customizable makefile template. The purpose is to  </span>
+<span class="cp"># provide an instant building environment for C/C++ programs.  </span>
+<span class="cp">#  </span>
+<span class="cp"># It searches all the C/C++ source files in the specified directories,  </span>
+<span class="cp"># makes dependencies, compiles and links to form an executable.  </span>
+<span class="cp">#  </span>
+<span class="cp"># Besides its default ability to build C/C++ programs which use only  </span>
+<span class="cp"># standard C/C++ libraries, you can customize the Makefile to build  </span>
+<span class="cp"># those using other libraries. Once done, without any changes you can  </span>
+<span class="cp"># then build programs using the same or less libraries, even if source  </span>
+<span class="cp"># files are renamed, added or removed. Therefore, it is particularly  </span>
+<span class="cp"># convenient to use it to build codes for experimental or study use.  </span>
+<span class="cp">#  </span>
+<span class="cp"># GNU make is expected to use the Makefile. Other versions of makes  </span>
+<span class="cp"># may or may not work.  </span>
+<span class="cp">#  </span>
+<span class="cp"># Usage:  </span>
+<span class="cp"># ------  </span>
+<span class="cp"># 1. Copy the Makefile to your program directory.  </span>
+<span class="cp"># 2. Customize in the &quot;Customizable Section&quot; only if necessary:  </span>
+<span class="cp">#    * to use non-standard C/C++ libraries, set pre-processor or compiler  </span>
+<span class="cp">#      options to &lt;MY_CFLAGS&gt; and linker ones to &lt;MY_LIBS&gt;  </span>
+<span class="cp">#      (See Makefile.gtk+-2.0 for an example)  </span>
+<span class="cp">#    * to search sources in more directories, set to &lt;SRCDIRS&gt;  </span>
+<span class="cp">#    * to specify your favorite program name, set to &lt;PROGRAM&gt;  </span>
+<span class="cp"># 3. Type make to start building your program.  </span>
+<span class="cp">#  </span>
+<span class="cp"># Make Target:  </span>
+<span class="cp"># ------------  </span>
+<span class="cp"># The Makefile provides the following targets to make:  </span>
+<span class="cp">#   $ make           compile and link  </span>
+<span class="cp">#   $ make NODEP=yes compile and link without generating dependencies  </span>
+<span class="cp">#   $ make objs      compile only (no linking)  </span>
+<span class="cp">#   $ make tags      create tags for Emacs editor  </span>
+<span class="cp">#   $ make ctags     create ctags for VI editor  </span>
+<span class="cp">#   $ make clean     clean objects and the executable file  </span>
+<span class="cp">#   $ make distclean clean objects, the executable and dependencies  </span>
+<span class="cp">#   $ make help      get the usage of the makefile  </span>
+<span class="cp">#  </span>
+<span class="cp">#===========================================================================  </span>
+
+<span class="cp">## Customizable Section: adapt those variables to suit your program.  </span>
+<span class="cp">##==========================================================================  </span>
+
+<span class="cp"># The pre-processor and compiler options.  </span>
+<span class="n">MY_CFLAGS</span> <span class="o">=</span>  
+
+<span class="cp"># The linker options.  </span>
+<span class="n">MY_LIBS</span>   <span class="o">=</span>  
+
+<span class="cp"># The pre-processor options used by the cpp (man cpp for more).  </span>
+<span class="n">CPPFLAGS</span>  <span class="o">=</span> <span class="o">-</span><span class="n">Wall</span>  
+
+<span class="cp"># The options used in linking as well as in any direct use of ld.  </span>
+<span class="n">LDFLAGS</span>   <span class="o">=</span>  
+
+<span class="cp"># The directories in which source files reside.  </span>
+<span class="cp"># If not specified, only the current directory will be serached.  </span>
+<span class="n">SRCDIRS</span>   <span class="o">=</span>  
+
+<span class="cp"># The executable file name.  </span>
+<span class="cp"># If not specified, current directory name or `a.out&#39; will be used.  </span>
+<span class="n">PROGRAM</span>   <span class="o">=</span>  
+
+<span class="cp">## Implicit Section: change the following only when necessary.  </span>
+<span class="cp">##==========================================================================  </span>
+
+<span class="cp"># The source file types (headers excluded).  </span>
+<span class="cp"># .c indicates C source files, and others C++ ones.  </span>
+<span class="n">SRCEXTS</span> <span class="o">=</span> <span class="p">.</span><span class="n">c</span> <span class="p">.</span><span class="n">C</span> <span class="p">.</span><span class="n">cc</span> <span class="p">.</span><span class="n">cpp</span> <span class="p">.</span><span class="n">CPP</span> <span class="p">.</span><span class="n">c</span><span class="o">++</span> <span class="p">.</span><span class="n">cxx</span> <span class="p">.</span><span class="n">cp</span>  
+
+<span class="cp"># The header file types.  </span>
+<span class="n">HDREXTS</span> <span class="o">=</span> <span class="p">.</span><span class="n">h</span> <span class="p">.</span><span class="n">H</span> <span class="p">.</span><span class="n">hh</span> <span class="p">.</span><span class="n">hpp</span> <span class="p">.</span><span class="n">HPP</span> <span class="p">.</span><span class="n">h</span><span class="o">++</span> <span class="p">.</span><span class="n">hxx</span> <span class="p">.</span><span class="n">hp</span>  
+
+<span class="cp"># The pre-processor and compiler options.  </span>
+<span class="cp"># Users can override those variables from the command line.  </span>
+<span class="n">CFLAGS</span>  <span class="o">=</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">O2</span>  
+<span class="n">CXXFLAGS</span><span class="o">=</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">O2</span>  
+
+<span class="cp"># The C program compiler.  </span>
+<span class="cp">#CC     = gcc  </span>
+
+<span class="cp"># The C++ program compiler.  </span>
+<span class="cp">#CXX    = g++  </span>
+
+<span class="cp"># Un-comment the following line to compile C programs as C++ ones.  </span>
+<span class="cp">#CC     = $(CXX)  </span>
+
+<span class="cp"># The command used to delete file.  </span>
+<span class="cp">#RM     = rm -f  </span>
+
+<span class="n">ETAGS</span> <span class="o">=</span> <span class="n">etags</span>  
+<span class="n">ETAGSFLAGS</span> <span class="o">=</span>  
+
+<span class="n">CTAGS</span> <span class="o">=</span> <span class="n">ctags</span>  
+<span class="n">CTAGSFLAGS</span> <span class="o">=</span>  
+
+<span class="cp">## Stable Section: usually no need to be changed. But you can add more.  </span>
+<span class="cp">##==========================================================================  </span>
+<span class="n">SHELL</span>   <span class="o">=</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">sh</span>  
+<span class="n">EMPTY</span>   <span class="o">=</span>  
+<span class="n">SPACE</span>   <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span>  
+<span class="n">ifeq</span> <span class="p">(</span><span class="err">$</span><span class="p">(</span><span class="n">PROGRAM</span><span class="p">),)</span>  
+  <span class="n">CUR_PATH_NAMES</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">subst</span> <span class="o">/</span><span class="p">,</span><span class="err">$</span><span class="p">(</span><span class="n">SPACE</span><span class="p">),</span><span class="err">$</span><span class="p">(</span><span class="n">subst</span> <span class="err">$</span><span class="p">(</span><span class="n">SPACE</span><span class="p">),</span><span class="n">_</span><span class="p">,</span><span class="err">$</span><span class="p">(</span><span class="n">CURDIR</span><span class="p">)))</span>  
+  <span class="n">PROGRAM</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">word</span> <span class="err">$</span><span class="p">(</span><span class="n">words</span> <span class="err">$</span><span class="p">(</span><span class="n">CUR_PATH_NAMES</span><span class="p">)),</span><span class="err">$</span><span class="p">(</span><span class="n">CUR_PATH_NAMES</span><span class="p">))</span>  
+  <span class="n">ifeq</span> <span class="p">(</span><span class="err">$</span><span class="p">(</span><span class="n">PROGRAM</span><span class="p">),)</span>  
+    <span class="n">PROGRAM</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">out</span>  
+  <span class="n">endif</span>  
+<span class="n">endif</span>  
+<span class="n">ifeq</span> <span class="p">(</span><span class="err">$</span><span class="p">(</span><span class="n">SRCDIRS</span><span class="p">),)</span>  
+  <span class="n">SRCDIRS</span> <span class="o">=</span> <span class="p">.</span>  
+<span class="n">endif</span>  
+<span class="n">SOURCES</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">foreach</span> <span class="n">d</span><span class="p">,</span><span class="err">$</span><span class="p">(</span><span class="n">SRCDIRS</span><span class="p">),</span><span class="err">$</span><span class="p">(</span><span class="n">wildcard</span> <span class="err">$</span><span class="p">(</span><span class="n">addprefix</span> <span class="err">$</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">/*</span><span class="p">,</span><span class="err">$</span><span class="p">(</span><span class="n">SRCEXTS</span><span class="p">))))</span>  
+<span class="n">HEADERS</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">foreach</span> <span class="n">d</span><span class="p">,</span><span class="err">$</span><span class="p">(</span><span class="n">SRCDIRS</span><span class="p">),</span><span class="err">$</span><span class="p">(</span><span class="n">wildcard</span> <span class="err">$</span><span class="p">(</span><span class="n">addprefix</span> <span class="err">$</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">/*</span><span class="p">,</span><span class="err">$</span><span class="p">(</span><span class="n">HDREXTS</span><span class="p">))))</span>  
+<span class="n">SRC_CXX</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">filter</span><span class="o">-</span><span class="n">out</span> <span class="o">%</span><span class="p">.</span><span class="n">c</span><span class="p">,</span><span class="err">$</span><span class="p">(</span><span class="n">SOURCES</span><span class="p">))</span>  
+<span class="n">OBJS</span>    <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">addsuffix</span> <span class="p">.</span><span class="n">o</span><span class="p">,</span> <span class="err">$</span><span class="p">(</span><span class="n">basename</span> <span class="err">$</span><span class="p">(</span><span class="n">SOURCES</span><span class="p">)))</span>  
+<span class="n">DEPS</span>    <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="nl">OBJS</span><span class="p">:.</span><span class="n">o</span><span class="o">=</span><span class="p">.</span><span class="n">d</span><span class="p">)</span>  
+
+<span class="cp">## Define some useful variables.  </span>
+<span class="n">DEP_OPT</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">shell</span> <span class="k">if</span> <span class="err">`$</span><span class="p">(</span><span class="n">CC</span><span class="p">)</span> <span class="o">--</span><span class="n">version</span> <span class="o">|</span> <span class="n">grep</span> <span class="s">&quot;GCC&quot;</span> <span class="o">&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span><span class="err">`</span><span class="p">;</span> <span class="n">then</span> <span class="err">\</span>  
+                  <span class="n">echo</span> <span class="s">&quot;-MM -MP&quot;</span><span class="p">;</span> <span class="k">else</span> <span class="n">echo</span> <span class="s">&quot;-M&quot;</span><span class="p">;</span> <span class="n">fi</span> <span class="p">)</span>  
+<span class="n">DEPEND</span>      <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">CC</span><span class="p">)</span>  <span class="err">$</span><span class="p">(</span><span class="n">DEP_OPT</span><span class="p">)</span>  <span class="err">$</span><span class="p">(</span><span class="n">MY_CFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">CFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">CPPFLAGS</span><span class="p">)</span>  
+<span class="n">DEPEND</span><span class="p">.</span><span class="n">d</span>    <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">subst</span> <span class="o">-</span><span class="n">g</span> <span class="p">,,</span><span class="err">$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">))</span>  
+<span class="n">COMPILE</span><span class="p">.</span><span class="n">c</span>   <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">CC</span><span class="p">)</span>  <span class="err">$</span><span class="p">(</span><span class="n">MY_CFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">CFLAGS</span><span class="p">)</span>   <span class="err">$</span><span class="p">(</span><span class="n">CPPFLAGS</span><span class="p">)</span> <span class="o">-</span><span class="n">c</span>  
+<span class="n">COMPILE</span><span class="p">.</span><span class="n">cxx</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">CXX</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">MY_CFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">CXXFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">CPPFLAGS</span><span class="p">)</span> <span class="o">-</span><span class="n">c</span>  
+<span class="n">LINK</span><span class="p">.</span><span class="n">c</span>      <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">CC</span><span class="p">)</span>  <span class="err">$</span><span class="p">(</span><span class="n">MY_CFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">CFLAGS</span><span class="p">)</span>   <span class="err">$</span><span class="p">(</span><span class="n">CPPFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">LDFLAGS</span><span class="p">)</span>  
+<span class="n">LINK</span><span class="p">.</span><span class="n">cxx</span>    <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">CXX</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">MY_CFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">CXXFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">CPPFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">LDFLAGS</span><span class="p">)</span>  
+
+<span class="p">.</span><span class="nl">PHONY</span><span class="p">:</span> <span class="n">all</span> <span class="n">objs</span> <span class="n">tags</span> <span class="n">ctags</span> <span class="n">clean</span> <span class="n">distclean</span> <span class="n">help</span> <span class="n">show</span>  
+
+<span class="cp"># Delete the default suffixes  </span>
+<span class="p">.</span><span class="nl">SUFFIXES</span><span class="p">:</span>  
+
+<span class="nl">all</span><span class="p">:</span> <span class="err">$</span><span class="p">(</span><span class="n">PROGRAM</span><span class="p">)</span>  
+
+<span class="cp"># Rules for creating dependency files (.d).  </span>
+<span class="cp">#------------------------------------------  </span>
+
+<span class="o">%</span><span class="p">.</span><span class="nl">d</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">c</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="o">-</span><span class="n">n</span> <span class="err">$</span><span class="p">(</span><span class="n">dir</span> <span class="err">$</span><span class="o">&lt;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="err">$@</span>  
+    <span class="err">@$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">.</span><span class="n">d</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">&gt;&gt;</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">d</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">C</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="o">-</span><span class="n">n</span> <span class="err">$</span><span class="p">(</span><span class="n">dir</span> <span class="err">$</span><span class="o">&lt;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="err">$@</span>  
+    <span class="err">@$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">.</span><span class="n">d</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">&gt;&gt;</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">d</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">cc</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="o">-</span><span class="n">n</span> <span class="err">$</span><span class="p">(</span><span class="n">dir</span> <span class="err">$</span><span class="o">&lt;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="err">$@</span>  
+    <span class="err">@$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">.</span><span class="n">d</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">&gt;&gt;</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">d</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">cpp</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="o">-</span><span class="n">n</span> <span class="err">$</span><span class="p">(</span><span class="n">dir</span> <span class="err">$</span><span class="o">&lt;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="err">$@</span>  
+    <span class="err">@$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">.</span><span class="n">d</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">&gt;&gt;</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">d</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">CPP</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="o">-</span><span class="n">n</span> <span class="err">$</span><span class="p">(</span><span class="n">dir</span> <span class="err">$</span><span class="o">&lt;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="err">$@</span>  
+    <span class="err">@$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">.</span><span class="n">d</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">&gt;&gt;</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">d</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">c</span><span class="o">++</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="o">-</span><span class="n">n</span> <span class="err">$</span><span class="p">(</span><span class="n">dir</span> <span class="err">$</span><span class="o">&lt;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="err">$@</span>  
+    <span class="err">@$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">.</span><span class="n">d</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">&gt;&gt;</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">d</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">cp</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="o">-</span><span class="n">n</span> <span class="err">$</span><span class="p">(</span><span class="n">dir</span> <span class="err">$</span><span class="o">&lt;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="err">$@</span>  
+    <span class="err">@$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">.</span><span class="n">d</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">&gt;&gt;</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">d</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">cxx</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="o">-</span><span class="n">n</span> <span class="err">$</span><span class="p">(</span><span class="n">dir</span> <span class="err">$</span><span class="o">&lt;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="err">$@</span>  
+    <span class="err">@$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">.</span><span class="n">d</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">&gt;&gt;</span> <span class="err">$@</span>  
+
+<span class="cp"># Rules for generating object files (.o).  </span>
+<span class="cp">#----------------------------------------  </span>
+<span class="nl">objs</span><span class="p">:</span><span class="err">$</span><span class="p">(</span><span class="n">OBJS</span><span class="p">)</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">o</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">c</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">c</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">o</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">C</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">o</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">cc</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">o</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">cpp</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">o</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">CPP</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">o</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">c</span><span class="o">++</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">o</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">cp</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+
+<span class="o">%</span><span class="p">.</span><span class="nl">o</span><span class="p">:</span><span class="o">%</span><span class="p">.</span><span class="n">cxx</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span> <span class="err">$</span><span class="o">&lt;</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+
+<span class="cp"># Rules for generating the tags.  </span>
+<span class="cp">#-------------------------------------  </span>
+<span class="nl">tags</span><span class="p">:</span> <span class="err">$</span><span class="p">(</span><span class="n">HEADERS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">SOURCES</span><span class="p">)</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">ETAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">ETAGSFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">HEADERS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">SOURCES</span><span class="p">)</span>  
+
+<span class="nl">ctags</span><span class="p">:</span> <span class="err">$</span><span class="p">(</span><span class="n">HEADERS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">SOURCES</span><span class="p">)</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">CTAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">CTAGSFLAGS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">HEADERS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">SOURCES</span><span class="p">)</span>  
+
+<span class="cp"># Rules for generating the executable.  </span>
+<span class="cp">#-------------------------------------  </span>
+<span class="err">$</span><span class="p">(</span><span class="n">PROGRAM</span><span class="p">)</span><span class="o">:</span><span class="err">$</span><span class="p">(</span><span class="n">OBJS</span><span class="p">)</span>  
+<span class="n">ifeq</span> <span class="p">(</span><span class="err">$</span><span class="p">(</span><span class="n">SRC_CXX</span><span class="p">),)</span>              <span class="err">#</span> <span class="n">C</span> <span class="n">program</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">LINK</span><span class="p">.</span><span class="n">c</span><span class="p">)</span>   <span class="err">$</span><span class="p">(</span><span class="n">OBJS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">MY_LIBS</span><span class="p">)</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="n">Type</span> <span class="p">.</span><span class="o">/</span><span class="err">$@</span> <span class="n">to</span> <span class="n">execute</span> <span class="n">the</span> <span class="n">program</span><span class="p">.</span>  
+<span class="k">else</span>                            <span class="err">#</span> <span class="n">C</span><span class="o">++</span> <span class="n">program</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">LINK</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">OBJS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">MY_LIBS</span><span class="p">)</span> <span class="o">-</span><span class="n">o</span> <span class="err">$@</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="n">Type</span> <span class="p">.</span><span class="o">/</span><span class="err">$@</span> <span class="n">to</span> <span class="n">execute</span> <span class="n">the</span> <span class="n">program</span><span class="p">.</span>  
+<span class="n">endif</span>  
+
+<span class="n">ifndef</span> <span class="n">NODEP</span>  
+<span class="n">ifneq</span> <span class="p">(</span><span class="err">$</span><span class="p">(</span><span class="n">DEPS</span><span class="p">),)</span>  
+  <span class="n">sinclude</span> <span class="err">$</span><span class="p">(</span><span class="n">DEPS</span><span class="p">)</span>  
+<span class="n">endif</span>  
+<span class="n">endif</span>  
+
+<span class="nl">clean</span><span class="p">:</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">RM</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">OBJS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">PROGRAM</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">PROGRAM</span><span class="p">).</span><span class="n">exe</span>  
+
+<span class="nl">distclean</span><span class="p">:</span> <span class="n">clean</span>  
+    <span class="err">$</span><span class="p">(</span><span class="n">RM</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="n">DEPS</span><span class="p">)</span> <span class="n">TAGS</span>  
+
+<span class="cp"># Show help.  </span>
+<span class="nl">help</span><span class="p">:</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="n">Generic</span> <span class="n">Makefile</span> <span class="k">for</span> <span class="n">C</span><span class="o">/</span><span class="n">C</span><span class="o">++</span> <span class="n">Programs</span> <span class="p">(</span><span class="n">gcmakefile</span><span class="p">)</span> <span class="n">version</span> <span class="mf">0.5</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="n">Copyright</span> <span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="mi">2007</span><span class="p">,</span> <span class="mi">2008</span> <span class="n">whyglinux</span> <span class="o">&lt;</span><span class="n">whyglinux</span><span class="err">@</span><span class="n">hotmail</span><span class="p">.</span><span class="n">com</span><span class="o">&gt;</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">Usage</span><span class="p">:</span> <span class="n">make</span> <span class="p">[</span><span class="n">TARGET</span><span class="p">]</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">TARGETS</span><span class="p">:</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span>  <span class="n">all</span>       <span class="p">(</span><span class="o">=</span><span class="n">make</span><span class="p">)</span> <span class="n">compile</span> <span class="n">and</span> <span class="n">link</span><span class="p">.</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span>  <span class="n">NODEP</span><span class="o">=</span><span class="n">yes</span> <span class="n">make</span> <span class="n">without</span> <span class="n">generating</span> <span class="n">dependencies</span><span class="p">.</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span>  <span class="n">objs</span>      <span class="n">compile</span> <span class="n">only</span> <span class="p">(</span><span class="n">no</span> <span class="n">linking</span><span class="p">).</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span>  <span class="n">tags</span>      <span class="n">create</span> <span class="n">tags</span> <span class="k">for</span> <span class="n">Emacs</span> <span class="n">editor</span><span class="p">.</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span>  <span class="n">ctags</span>     <span class="n">create</span> <span class="n">ctags</span> <span class="k">for</span> <span class="n">VI</span> <span class="n">editor</span><span class="p">.</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span>  <span class="n">clean</span>     <span class="n">clean</span> <span class="n">objects</span> <span class="n">and</span> <span class="n">the</span> <span class="n">executable</span> <span class="n">file</span><span class="p">.</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span>  <span class="n">distclean</span> <span class="n">clean</span> <span class="n">objects</span><span class="p">,</span> <span class="n">the</span> <span class="n">executable</span> <span class="n">and</span> <span class="n">dependencies</span><span class="p">.</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span>  <span class="n">show</span>      <span class="n">show</span> <span class="n">variables</span> <span class="p">(</span><span class="k">for</span> <span class="n">debug</span> <span class="n">use</span> <span class="n">only</span><span class="p">).</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span>  <span class="n">help</span>      <span class="n">print</span> <span class="n">this</span> <span class="n">message</span><span class="p">.</span><span class="err">&#39;</span>  
+    <span class="err">@</span><span class="n">echo</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="n">Report</span> <span class="n">bugs</span> <span class="n">to</span> <span class="o">&lt;</span><span class="n">whyglinux</span> <span class="n">AT</span> <span class="n">gmail</span> <span class="n">DOT</span> <span class="n">com</span><span class="o">&gt;</span><span class="p">.</span><span class="err">&#39;</span>  
+
+<span class="cp"># Show variables (for debug use only.)  </span>
+<span class="nl">show</span><span class="p">:</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">PROGRAM</span>     <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">PROGRAM</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">SRCDIRS</span>     <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">SRCDIRS</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">HEADERS</span>     <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">HEADERS</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">SOURCES</span>     <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">SOURCES</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">SRC_CXX</span>     <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">SRC_CXX</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">OBJS</span>        <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">OBJS</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">DEPS</span>        <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">DEPS</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="nl">DEPEND</span>      <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">DEPEND</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="n">COMPILE</span><span class="p">.</span><span class="nl">c</span>   <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">c</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="n">COMPILE</span><span class="p">.</span><span class="nl">cxx</span> <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="n">link</span><span class="p">.</span><span class="nl">c</span>      <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">LINK</span><span class="p">.</span><span class="n">c</span><span class="p">)</span>  
+    <span class="err">@</span><span class="n">echo</span> <span class="err">&#39;</span><span class="n">link</span><span class="p">.</span><span class="nl">cxx</span>    <span class="p">:</span><span class="err">&#39;</span> <span class="err">$</span><span class="p">(</span><span class="n">LINK</span><span class="p">.</span><span class="n">cxx</span><span class="p">)</span>  
+
+<span class="cp">## End of the Makefile ##  Suggestions are welcome  ## All rights reserved ##  </span>
+<span class="cp">##############################################################</span>
+</code></pre></div>
+<p>下面提供两个例子来具体说明上面 Makefile 的用法。</p>
+<h4>例一　Hello World 程序</h4>
+<p>这个程序的功能是输出 Hello, world! 这样一行文字。由 hello.h、hello.c、main.cxx 三个文件组成。前两个文件是 C 程序，后一个是 C++ 程序，因此这是一个 C 和 C++ 混编程序。</p>
+<div class="highlight"><pre><code><span class="cm">/* File name: hello.h </span>
+<span class="cm"> * C header file </span>
+<span class="cm"> */</span>  
+
+<span class="cp">#ifndef HELLO_H  </span>
+<span class="cp">#define HELLO_H  </span>
+
+<span class="cp">#ifdef __cplusplus  </span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>  
+<span class="cp">#endif  </span>
+
+  <span class="kt">void</span> <span class="n">print_hello</span><span class="p">();</span>  
+<span class="cp">#ifdef __cplusplus  </span>
+<span class="p">}</span>  
+
+<span class="cp">#endif  </span>
+<span class="cp">#endif  </span>
+
+
+<span class="cm">/* File name: hello.c </span>
+<span class="cm"> * C source file. </span>
+<span class="cm"> */</span>  
+
+<span class="cp">#include &quot;hello.h&quot;  </span>
+<span class="cp">#include &lt;stdio.h&gt;  </span>
+
+<span class="kt">void</span> <span class="n">print_hello</span><span class="p">()</span>  
+<span class="p">{</span>  
+  <span class="n">puts</span><span class="p">(</span> <span class="s">&quot;Hello, world!&quot;</span> <span class="p">);</span>  
+<span class="p">}</span>  
+
+
+<span class="cm">/* File name: main.cxx </span>
+<span class="cm"> * C++ source file. </span>
+<span class="cm"> */</span>  
+
+<span class="cp">#include &quot;hello.h&quot;  </span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>  
+<span class="p">{</span>  
+  <span class="n">print_hello</span><span class="p">();</span>  
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>  
+<span class="p">}</span>
+</code></pre></div>
+<p>建立一个新的目录，然后把这三个文件拷贝到目录中，也把 Makefile 文件拷贝到目录中。之后，对 Makefile 的相关项目进行如下设置：</p>
+<div class="highlight"><pre><code><span class="nl">PROGRAM</span>   <span class="p">:</span><span class="o">=</span> <span class="n">hello</span>      <span class="err">#</span> <span class="err">设置运行程序名</span>
+
+<span class="nl">SRCDIRS</span>   <span class="p">:</span><span class="o">=</span> <span class="p">.</span>          <span class="err">#</span> <span class="err">源程序位于当前目录下</span>
+
+<span class="nl">SRCEXTS</span>   <span class="p">:</span><span class="o">=</span> <span class="p">.</span><span class="n">c</span> <span class="p">.</span><span class="n">cxx</span>    <span class="err">#</span> <span class="err">源程序文件有</span> <span class="p">.</span><span class="n">c</span> <span class="err">和</span> <span class="p">.</span><span class="n">cxx</span> <span class="err">两种类型</span>
+
+<span class="nl">CFLAGS</span>    <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="n">g</span>         <span class="err">#</span> <span class="err">为</span> <span class="n">C</span> <span class="err">目标程序包含</span> <span class="n">GDB</span> <span class="err">可用的调试信息</span>
+
+<span class="nl">CXXFLAGS</span>  <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="n">g</span>         <span class="err">#</span> <span class="err">为</span> <span class="n">C</span><span class="o">++</span> <span class="err">目标程序包含</span> <span class="n">GDB</span> <span class="err">可用的调试信息</span>
+</code></pre></div>
+<p>　　由于这个简单的程序只使用了 C 标准库的函数（puts），所以对于 CFLAGS 和 CXXFLAGS 没有过多的要求，LDFLAGS 和 CPPFLAGS 选项也无需设置。</p>
+<p>　　经过上面的设置之后，执行 make 命令就可以编译程序了。如果没有错误出现的话，./hello  就可以运行程序了。</p>
+<p>　　如果修改了源程序的话，可以看到只有和修改有关的源文件被编译。也可以再为程序添加新的源文件，只要它们的扩展名是已经在 Makefile 中设置过的，那么就没有必要修改　Makefile。</p>
+<h4>例二　GTK+ 版 Hello World 程序</h4>
+<p>　　这个 GTK+ 2.0 版的 Hello World 程序可以从下面的网址上得到：<a href="http://www.gtk.org/tutorial/c58.html#SEC-HELLOWORLD。当然，要编译">http://www.gtk.org/tutorial/c58.html#SEC-HELLOWORLD。当然，要编译</a> GTK+ 程序，还需要你的系统上已经安装好了 GTK+。 
+　　跟第一个例子一样，单独创建一个新的目录，把上面网页中提供的程序保存为 main.c 文件。对 Makefile 做如下设置： 
+　　</p>
+<div class="highlight"><pre><code><span class="nl">PROGRAM</span>   <span class="p">:</span><span class="o">=</span> <span class="n">hello</span>      <span class="err">#</span> <span class="err">设置运行程序名</span>
+
+<span class="nl">SRCDIRS</span>   <span class="p">:</span><span class="o">=</span> <span class="p">.</span>          <span class="err">#</span> <span class="err">源程序位于当前目录下</span>
+
+<span class="nl">SRCEXTS</span>   <span class="p">:</span><span class="o">=</span> <span class="p">.</span><span class="n">c</span>         <span class="err">#</span> <span class="err">源程序文件只有</span> <span class="p">.</span><span class="n">c</span> <span class="err">一种类</span>
+
+<span class="nl">CFLAGS</span>    <span class="p">:</span><span class="o">=</span> <span class="err">`</span><span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="o">--</span><span class="n">cflags</span> <span class="n">gtk</span><span class="o">+-</span><span class="mf">2.0</span><span class="err">`</span>  <span class="err">#</span> <span class="n">CFLAGS</span>
+
+<span class="nl">LDFLAGS</span>   <span class="p">:</span><span class="o">=</span> <span class="err">`</span><span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="o">--</span><span class="n">libs</span> <span class="n">gtk</span><span class="o">+-</span><span class="mf">2.0</span><span class="err">`</span>    <span class="err">#</span> <span class="n">LDFLAGS</span>
+</code></pre></div>
+<p>这是一个 C 程序，所以 CXXFLAGS 没有必要设置——即使被设置了也不会被使用。 
+编译和连接 GTK+ 库所需要的 CFLAGS 和 LDFLAGS 由 pkg-config 程序自动产生。 
+现在就可以运行 make 命令编译、./hello 执行这个 GTK+ 程序了</p>
+
+
+<br>
+<br>
+<p></p>
+
+
+<!-- Share BEGIN -->
+<div id="share"></div>
+<script type="text/javascript" src="../vender/share/share.js"></script>
+<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
+<link rel="stylesheet" href="../vender/share/share.css">
+<!-- Share END -->
+
+
+<br><p></p>
+
+
+<!-- 评论 start -->
+<div class="commentBox" id="globeCommentBox">
+    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
+    <div>
+        <input type="text" name="nickname" placeholder="nickname">
+    </div>
+    <div>
+        <input type="text" name="email" placeholder="email">
+    </div>
+    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
+</div>
+<br>
+<div id="comment"></div>
+
+<link rel="stylesheet" href="../vender/comment/comment.css" />
+<script type="text/javascript" src="../vender/comment/toast.js"></script>
+<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
+<script type="text/javascript">
+    var articleUUID = "09e50310b90ed7e9a8ce44455a3fefd2";
+    var pageIndex = 1;
+</script>
+<script type="text/javascript" src="../vender/comment/comment.js"></script>
+<!-- 评论 end -->
+
+
+</div>
+
+
+<div id='link' style='display:none;'>
+<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
+<h3>· Social</h3>
+<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
+<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
+<h3>· Links</h3>
+<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
+<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
+<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
+<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
+</div>
+<br>
+
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2020
+            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
+        &nbsp;   
+        </p>  
+</div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  if(window.location.host.indexOf("localhost") == -1){
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  }
+})();
+</script>
+
+
+</body>
+
+<!-- 语法高亮 -->
+<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
+<script src="../vender/js/highlight/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+// console.log(hljs.listLanguages());
+</script>

@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head> 
+<title>Objective-C的动态特性 - Ruibin.Chow</title>
+
+
+<link rel="shortcut icon" href="../vender/image/me.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="Objective-C的动态特性,iOS,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
+<meta name="description" content="Objective-C的动态特性" />
+<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+
+
+<script type="text/javascript" src="../vender/js/default.js"></script>
+<script type="text/javascript" src="../vender/js/article.default.js"></script>
+<link rel="stylesheet" href="../vender/css/default.css" />
+<link rel="stylesheet" href="../vender/css/article.default.css" />
+
+<script type="text/javascript">
+
+RBReady(changeFrame);
+
+</script>
+
+</head>
+
+<body>
+
+
+<div id="navbar" >
+    <div id="menu" class="container">
+    <ul>
+
+    <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
+    <li><a href="../about.html" class="item">About Me</a></li>
+    <li><a href="./index.html" class="item">Blog</a></li>
+    <li><a class="item">Tags</a>
+        <div class="subs">
+        
+<ul>
+
+<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
+<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
+<li><a href="./Tag_python.html">Python(1)</a></li>
+<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
+<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
+<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
+<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
+<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
+<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
+<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
+<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
+<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
+<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
+</ul>
+
+        </div> 
+    </li>
+    <li><a href="./Archives.html" class="item">Archives</a></li>
+
+    </ul>
+    </div>
+</div> 
+<p></p>
+
+
+
+
+
+<div class="container" id="content">
+
+<div id='header'>
+    <h2>Objective-C的动态特性</h2>
+    <footer>
+        Date:&nbsp;<span id='create_time'>
+            2015-11-01 20:42
+        </span>
+        &nbsp;&nbsp;
+        Tags:&nbsp; 
+<span id='article_tags'>
+         
+<a href='../article/Tag_ios.html' class='article_tag'>iOS</a>
+
+</span>
+
+    </footer>
+    <hr>
+</div>
+
+<p>原文出处：<a href='http://limboy.me/ios/2013/08/03/dynamic-tips-and-tricks-with-objective-c.html' target='blank'>Objective-C的动态特性</a></p>
+<p>这是一篇译文，原文<a href="http://pilky.me/view/21">在此</a>，上一篇文章就是受这篇文章启发，这次干脆都翻译过来。</p>
+<p>过去的几年中涌现了大量的Objective-C开发者。有些是从动态语言转过来的，比如Ruby或Python，有些是从强类型语言转过来的，如Java或C#，当然也有直接以Objective-C作为入门语言的。也就是说有很大一部分开发者都没有使用Objective-C太长时间。当你接触一门新语言时，更多地会关注基础知识，如语法和特性等。但通常有一些更高级的，更鲜为人知又有强大功能的特性等待你去开拓。</p>
+<p>这篇文章主要是来领略下Objective-C的运行时(runtime)，同时解释是什么让Objective-C如此动态，然后感受下这些动态化的技术细节。希望这回让你对Objective-C和Cocoa是如何运行的有更好的了解。</p>
+<h2>The Runtime</h2>
+<p>Objective-C是一门简单的语言，95%是C。只是在语言层面上加了些关键字和语法。真正让Objective-C如此强大的是它的运行时。它很小但却很强大。它的核心是消息分发。</p>
+<h3>Messages</h3>
+<p>如果你是从动态语言如Ruby或Python转过来的，可能知道什么是消息，可以直接跳过进入下一节。那些从其他语言转过来的，继续看。</p>
+<p>执行一个方法，有些语言，编译器会执行一些额外的优化和错误检查，因为调用关系很直接也很明显。但对于消息分发来说，就不那么明显了。在发消息前不必知道某个对象是否能够处理消息。你把消息发给它，它可能会处理，也可能转给其他的Object来处理。一个消息不必对应一个方法，一个对象可能实现一个方法来处理多条消息。</p>
+<p>在Objective-C中，消息是通过objc_msgSend()这个runtime方法及相近的方法来实现的。这个方法需要一个target，selector，还有一些参数。理论上来说，编译器只是把消息分发变成objc_msgSend来执行。比如下面这两行代码是等价的。</p>
+<div class="highlight"><pre><code><span class="p">[</span><span class="n">array</span> <span class="nl">insertObject</span><span class="p">:</span><span class="n">foo</span> <span class="nl">atIndex</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
+<span class="n">objc_msgSend</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">insertObject</span><span class="p">:</span><span class="nl">atIndex</span><span class="p">:),</span> <span class="n">foo</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</code></pre></div>
+<h3>Objects, Classes, MetaClasses</h3>
+<p>大多数面向对象的语言里有 classes 和 objects 的概念。Objects通过Classes生成。但是在Objective-C中，classes本身也是objects(译者注：这点跟python很像)，也可以处理消息，这也是为什么会有类方法和实例方法。具体来说，Objective-C中的Object是一个结构体(struct)，第一个成员是isa，指向自己的class。这是在objc/objc.h中定义的。</p>
+<div class="highlight"><pre><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span>
+    <span class="n">Class</span> <span class="n">isa</span><span class="p">;</span>
+<span class="p">}</span> <span class="o">*</span><span class="n">id</span><span class="p">;</span>
+</code></pre></div>
+<p>object的class保存了方法列表，还有指向父类的指针。但classes也是objects，也会有isa变量，那么它又指向哪儿呢？这里就引出了第三个类型: metaclasses。一个 metaclass被指向class，class被指向object。它保存了所有实现的方法列表，以及父类的metaclass。如果想更清楚地了解objects,classes以及metaclasses是如何一起工作地，可以阅读<a href="http://www.sealiesoftware.com/blog/archive/2009/04/14/objc_explain_Classes_and_metaclasses.html">这篇文章</a>。</p>
+<h3>Methods, Selectors and IMPs</h3>
+<p>我们知道了运行时会发消息给对象。我们也知道一个对象的class保存了方法列表。那么这些消息是如何映射到方法的，这些方法又是如何被执行的呢？</p>
+<p>第一个问题的答案很简单。class的方法列表其实是一个字典，key为selectors，IMPs为value。一个IMP是指向方法在内存中的实现。很重要的一点是，selector和IMP之间的关系是在运行时才决定的，而不是编译时。这样我们就能玩出些花样。</p>
+<p>IMP通常是指向方法的指针，第一个参数是self，类型为id，第二个参数是cmd，类型为SEL，余下的是方法的参数。这也是self和<code>cmd</code>被定义的地方。下面演示了Method和IMP</p>
+<div class="highlight"><pre><code><span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nl">doSomethingWithInt</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="n">aInt</span><span class="p">{}</span>
+
+<span class="n">id</span> <span class="n">doSomethingWithInt</span><span class="p">(</span><span class="n">id</span> <span class="n">self</span><span class="p">,</span> <span class="n">SEL</span> <span class="n">_cmd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">aInt</span><span class="p">){}</span>
+</code></pre></div>
+<h3>其他运行时的方法</h3>
+<p>现在我们知道了objects,classes,selectors,IMPs以及消息分发，那么运行时到底能做什么呢？主要有两个作用：</p>
+<p>1.创建、修改、自省classes和objects</p>
+<p>2.消息分发</p>
+<p>之前已经提过消息分发，不过这只是一小部分功能。所有的运行时方法都有特定的前缀。下面是一些有意思的方法：</p>
+<h3>class</h3>
+<p>class开头的方法是用来修改和自省classes。方法如<strong>class_addIvar</strong>, <strong>class_addMethod</strong>, <strong>class_addProperty</strong>和<strong>class_addProtocol</strong>允许重建classes。<strong>class_copyIvarList</strong>, <strong>class_copyMethodList</strong>, <strong>class_copyProtocolList</strong>和<strong>class_copyPropertyList</strong>能拿到一个class的所有内容。而<strong>class_getClassMethod</strong>, <strong>class_getClassVariable</strong>, <strong>class_getInstanceMethod</strong>, <strong>class_getInstanceVariable</strong>, <strong>class_getMethodImplementation</strong>和<strong>class_getProperty</strong>返回单个内容。</p>
+<p>也有一些通用的自省方法，如<strong>class_conformsToProtocol</strong>, <strong>class_respondsToSelector</strong>, <strong>class_getSuperclass</strong>。最后，你可以使用<strong>class_createInstance</strong>来创建一个object。</p>
+<h3>ivar</h3>
+<p>这些方法能让你得到名字，内存地址和Objective-C type encoding。</p>
+<h3>method</h3>
+<p>这些方法主要用来自省，比如<strong>method_getName</strong>, <strong>method_getImplementation</strong>, <strong>method_getReturnType</strong>等等。也有一些修改的方法，包括<strong>method_setImplementation</strong>和<strong>method_exchangeImplementations</strong>，这些我们后面会讲到。</p>
+<h3>objc</h3>
+<p>一旦拿到了object，你就可以对它做一些自省和修改。你可以get/set ivar, 使用<strong>object_copy</strong>和<strong>object_dispose</strong>来copy和free object的内存。最NB的不仅是拿到一个class，而是可以使用<strong>object_setClass</strong>来改变一个object的class。待会就能看到使用场景。</p>
+<h3>property</h3>
+<p>属性保存了很大一部分信息。除了拿到名字，你还可以使用<strong>property_getAttributes</strong>来发现property的更多信息，如返回值、是否为atomic、getter/setter名字、是否为dynamic、背后使用的ivar名字、是否为弱引用。</p>
+<h3>protocol</h3>
+<p>Protocols有点像classes，但是精简版的，运行时的方法是一样的。你可以获取method, property, protocol列表, 检查是否实现了其他的protocol。</p>
+<h3>sel</h3>
+<p>最后我们有一些方法可以处理 selectors，比如获取名字，注册一个selector等等。</p>
+<p>现在我们对Objective-C的运行时有了大概的了解，来看看它们能做哪些有趣的事情。</p>
+<h2>Classes And Selectors From Strings</h2>
+<p>比较基础的一个动态特性是通过String来生成Classes和Selectors。Cocoa提供了NSClassFromString和NSSelectorFromString方法，使用起来很简单：</p>
+<div class="highlight"><pre><code><span class="n">Class</span> <span class="n">stringclass</span> <span class="o">=</span> <span class="n">NSClassFromString</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;NSString&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>于是我们就得到了一个string class。接下来：</p>
+<div class="highlight"><pre><code><span class="n">NSString</span> <span class="o">*</span><span class="n">myString</span> <span class="o">=</span> <span class="p">[</span><span class="n">stringclass</span> <span class="nl">stringWithString</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;Hello World&quot;</span><span class="p">];</span>
+</code></pre></div>
+<p>为什么要这么做呢？直接使用Class不是更方便？通常情况下是，但有些场景下这个方法会很有用。首先，可以得知是否存在某个class，NSClassFromString 会返回nil，如果运行时不存在该class的话。比如可以检查NSClassFromString(@"NSRegularExpression")是否为nil来判断是否为iOS4.0+。</p>
+<p>另一个使用场景是根据不同的输入返回不同的class或method。比如你在解析一些数据，每个数据项都有要解析的字符串以及自身的类型（String，Number，Array）。你可以在一个方法里搞定这些，也可以使用多个方法。其中一个方法是获取type，然后使用if来调用匹配的方法。另一种是根据type来生成一个selector，然后调用之。以下是两种实现方式：</p>
+<div class="highlight"><pre><code><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">parseObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="n">object</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">id</span> <span class="n">data</span> <span class="n">in</span> <span class="n">object</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">([[</span><span class="n">data</span> <span class="n">type</span><span class="p">]</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;String&quot;</span><span class="p">])</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">self</span> <span class="nl">parseString</span><span class="p">:[</span><span class="n">data</span> <span class="n">value</span><span class="p">]];</span> 
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([[</span><span class="n">data</span> <span class="n">type</span><span class="p">]</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;Number&quot;</span><span class="p">])</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">self</span> <span class="nl">parseNumber</span><span class="p">:[</span><span class="n">data</span> <span class="n">value</span><span class="p">]];</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([[</span><span class="n">data</span> <span class="n">type</span><span class="p">]</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;Array&quot;</span><span class="p">])</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">self</span> <span class="nl">parseArray</span><span class="p">:[</span><span class="n">data</span> <span class="n">value</span><span class="p">]];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">parseObjectDynamic</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="n">object</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">id</span> <span class="n">data</span> <span class="n">in</span> <span class="n">object</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nl">performSelector</span><span class="p">:</span><span class="n">NSSelectorFromString</span><span class="p">([</span><span class="n">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;parse%@:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">data</span> <span class="n">type</span><span class="p">]])</span> <span class="nl">withObject</span><span class="p">:[</span><span class="n">data</span> <span class="n">value</span><span class="p">]];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">parseString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">aString</span> <span class="p">{}</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">parseNumber</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">aNumber</span> <span class="p">{}</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">parseArray</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">aArray</span> <span class="p">{}</span>
+</code></pre></div>
+<p>可一看到，你可以把7行带if的代码变成1行。将来如果有新的类型，只需增加实现方法即可，而不用再去添加新的 else if。</p>
+<h3>Method Swizzling</h3>
+<p>之前我们讲过，方法由两个部分组成。Selector相当于一个方法的id；IMP是方法的实现。这样分开的一个便利之处是selector和IMP之间的对应关系可以被改变。比如一个 IMP 可以有多个 selectors 指向它。</p>
+<p>而 Method Swizzling 可以交换两个方法的实现。或许你会问“什么情况下会需要这个呢？”。我们先来看下Objective-C中，两种扩展class的途径。首先是 subclassing。你可以重写某个方法，调用父类的实现，这也意味着你必须使用这个subclass的实例，但如果继承了某个Cocoa class，而Cocoa又返回了原先的class(比如 NSArray)。这种情况下，你会想添加一个方法到NSArray，也就是使用Category。99%的情况下这是OK的，但如果你重写了某个方法，就没有机会再调用原先的实现了。</p>
+<p>Method Swizzling 可以搞定这个问题。你可以重写某个方法而不用继承，同时还可以调用原先的实现。通常的做法是在category中添加一个方法(当然也可以是一个全新的class)。可以通过<strong>method_exchangeImplementations</strong>这个运行时方法来交换实现。来看一个demo，这个demo演示了如何重写<strong>addObject:</strong>方法来纪录每一个新添加的对象。</p>
+<div class="highlight"><pre><code><span class="cp">#import  &lt;objc/runtime.h&gt;</span>
+
+<span class="err">@</span><span class="n">interface</span> <span class="n">NSMutableArray</span> <span class="p">(</span><span class="n">LoggingAddObject</span><span class="p">)</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">logAddObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="n">aObject</span><span class="p">;</span>
+<span class="err">@</span><span class="n">end</span>
+
+<span class="err">@</span><span class="n">implementation</span> <span class="n">NSMutableArray</span> <span class="p">(</span><span class="n">LoggingAddObject</span><span class="p">)</span>
+
+<span class="o">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">load</span> <span class="p">{</span>
+    <span class="n">Method</span> <span class="n">addobject</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">addObject</span><span class="p">:));</span>
+    <span class="n">Method</span> <span class="n">logAddobject</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">logAddObject</span><span class="p">:));</span>
+    <span class="n">method_exchangeImplementations</span><span class="p">(</span><span class="n">addObject</span><span class="p">,</span> <span class="n">logAddObject</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">logAddObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="n">aobject</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nl">logAddObject</span><span class="p">:</span><span class="n">aObject</span><span class="p">];</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;Added object %@ to array %@&quot;</span><span class="p">,</span> <span class="n">aObject</span><span class="p">,</span> <span class="n">self</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="err">@</span><span class="n">end</span>
+</code></pre></div>
+<p>我们把方法交换放到了load中，这个方法只会被调用一次，而且是运行时载入。如果指向临时用一下，可以放到别的地方。注意到一个很明显的递归调用logAddObject:。这也是Method Swizzling容易把我们搞混的地方，因为我们已经交换了方法的实现，所以其实调用的是addObject:</p>
+<p><img src="http://pilky.me/static/blogmedia/objcdynamictips_methodswizzling.png" alt=""></p>
+<h3>动态继承、交换</h3>
+<p>我们可以在运行时创建新的class，这个特性用得不多，但其实它还是很强大的。你能通过它创建新的子类，并添加新的方法。</p>
+<p>但这样的一个子类有什么用呢？别忘了Objective-C的一个关键点：object内部有一个叫做isa的变量指向它的class。这个变量可以被改变，而不需要重新创建。然后就可以添加新的ivar和方法了。可以通过以下命令来修改一个object的class</p>
+<div class="highlight"><pre><code><span class="n">object_setClass</span><span class="p">(</span><span class="n">myObject</span><span class="p">,</span> <span class="p">[</span><span class="n">MySubclass</span> <span class="n">class</span><span class="p">]);</span>
+</code></pre></div>
+<p>这可以用在Key Value Observing。当你开始observing an object时，Cocoa会创建这个object的class的subclass，然后将这个object的isa指向新创建的subclass。点击这里查看更详细的解释。</p>
+<h3>动态方法处理</h3>
+<p>目前为止，我们讨论了方法交换，以及已有方法的处理。那么当你发送了一个object无法处理的消息时会发生什么呢？很明显，"it breaks"。大多数情况下确实如此，但Cocoa和runtime也提供了一些应对方法。</p>
+<p>首先是动态方法处理。通常来说，处理一个方法，运行时寻找匹配的selector然后执行之。有时，你只想在运行时才创建某个方法，比如有些信息只有在运行时才能得到。要实现这个效果，你需要重写+resolveInstanceMethod: 和/或 +resolveClassMethod:。如果确实增加了一个方法，记得返回YES。</p>
+<div class="highlight"><pre><code><span class="o">+</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nl">resolveInstanceMethod</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="n">aSelector</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">aSelector</span> <span class="o">==</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">myDynamicMethod</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">class_addMethod</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">aSelector</span><span class="p">,</span> <span class="p">(</span><span class="n">IMP</span><span class="p">)</span><span class="n">myDynamicIMP</span><span class="p">,</span> <span class="s">&quot;v@:&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">super</span> <span class="nl">resolveInstanceMethod</span><span class="p">:</span><span class="n">aSelector</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>那Cocoa在什么场景下会使用这些方法呢？Core Data用得很多。NSManagedObjects有许多在运行时添加的属性用来处理get/set属性和关系。那如果Model在运行时被改变了呢？</p>
+<h3>消息转发</h3>
+<p>如果 resolve method 返回NO，运行时就进入下一步骤：消息转发。有两种常见用例。1) 将消息转发到另一个可以处理该消息的object。2) 将多个消息转发到同一个方法。</p>
+<p>消息转发分两步。首先，运行时调用<strong>-forwardingTargetForSelector:</strong>，如果只是想把消息发送到另一个object，那么就使用这个方法，因为更高效。如果想要修改消息，那么就要使用<strong>-forwardInvocation:</strong>，运行时将消息打包成NSInvocation，然后返回给你处理。处理完之后，调用<strong>invokeWithTarget:</strong>。</p>
+<p>Cocoa有几处地方用到了消息转发，主要的两个地方是代理(Proxies)和响应链(Responder Chain)。NSProxy是一个轻量级的class，它的作用就是转发消息到另一个object。如果想要惰性加载object的某个属性会很有用。NSUndoManager也有用到，不过是截取消息，之后再执行，而不是转发到其他的地方。</p>
+<p>响应链是关于Cocoa如何处理与发送事件与行为到对应的对象。比如说，使用Cmd+C执行了copy命令，会发送-copy:到响应链。首先是First Responder，通常是当前的UI。如果没有处理该消息，则转发到下一个-nextResponder。这么一直下去直到找到能够处理该消息的object，或者没有找到，报错。</p>
+<h3>使用Block作为Method IMP</h3>
+<p>iOS 4.3带来了很多新的runtime方法。除了对properties和protocols的加强，还带来一组新的以 imp 开头的方法。通常一个 IMP 是一个指向方法实现的指针，头两个参数为 object(self)和selector(cmd)。iOS 4.0和Mac OS X 10.6 带来了block，<code>impimplementationWithBlock()</code> 能让我们使用block作为 IMP，下面这个代码片段展示了如何使用block来添加新的方法。</p>
+<div class="highlight"><pre><code><span class="n">IMP</span> <span class="n">myIMP</span> <span class="o">=</span> <span class="n">imp_implementationWithBlock</span><span class="p">(</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">_self</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;Hello %@&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="n">class_addMethod</span><span class="p">([</span><span class="n">MYclass</span> <span class="n">class</span><span class="p">],</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">sayHello</span><span class="p">:),</span> <span class="n">myIMP</span><span class="p">,</span> <span class="s">&quot;v@:@&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>如果想知道这是如何实现的，可以查看这篇文章</p>
+<p>可以看到，Objective-C 表面看起来挺简单，但还是很灵活的，可以带来很多可能性。动态语言的优势在于在不扩展语言本身的情况下做很多很灵巧的事情。比如Key Value Observing，提供了优雅的API可以与已有的代码无缝结合，而不需要新增语言级别的特性。</p>
+<p>希望这篇文章能让你更深入地了解Objective-C，在开发app时也能开阔思路，考虑更多的可能性。</p>
+
+
+<br>
+<br>
+<p></p>
+
+
+<!-- Share BEGIN -->
+<div id="share"></div>
+<script type="text/javascript" src="../vender/share/share.js"></script>
+<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
+<link rel="stylesheet" href="../vender/share/share.css">
+<!-- Share END -->
+
+
+<br><p></p>
+
+
+<!-- 评论 start -->
+<div class="commentBox" id="globeCommentBox">
+    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
+    <div>
+        <input type="text" name="nickname" placeholder="nickname">
+    </div>
+    <div>
+        <input type="text" name="email" placeholder="email">
+    </div>
+    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
+</div>
+<br>
+<div id="comment"></div>
+
+<link rel="stylesheet" href="../vender/comment/comment.css" />
+<script type="text/javascript" src="../vender/comment/toast.js"></script>
+<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
+<script type="text/javascript">
+    var articleUUID = "4af968e8018e99a8c78c5a009fdd4ca8";
+    var pageIndex = 1;
+</script>
+<script type="text/javascript" src="../vender/comment/comment.js"></script>
+<!-- 评论 end -->
+
+
+</div>
+
+
+<div id='link' style='display:none;'>
+<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
+<h3>· Social</h3>
+<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
+<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
+<h3>· Links</h3>
+<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
+<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
+<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
+<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
+</div>
+<br>
+
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2020
+            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
+        &nbsp;   
+        </p>  
+</div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  if(window.location.host.indexOf("localhost") == -1){
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  }
+})();
+</script>
+
+
+</body>
+
+<!-- 语法高亮 -->
+<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
+<script src="../vender/js/highlight/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+// console.log(hljs.listLanguages());
+</script>

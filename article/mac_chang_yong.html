@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head> 
+<title>Mac常用 - Ruibin.Chow</title>
+
+
+<link rel="shortcut icon" href="../vender/image/me.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="Mac常用,其它,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
+<meta name="description" content="Lua Install All Platform" />
+<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+
+
+<script type="text/javascript" src="../vender/js/default.js"></script>
+<script type="text/javascript" src="../vender/js/article.default.js"></script>
+<link rel="stylesheet" href="../vender/css/default.css" />
+<link rel="stylesheet" href="../vender/css/article.default.css" />
+
+<script type="text/javascript">
+
+RBReady(changeFrame);
+
+</script>
+
+</head>
+
+<body>
+
+
+<div id="navbar" >
+    <div id="menu" class="container">
+    <ul>
+
+    <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
+    <li><a href="../about.html" class="item">About Me</a></li>
+    <li><a href="./index.html" class="item">Blog</a></li>
+    <li><a class="item">Tags</a>
+        <div class="subs">
+        
+<ul>
+
+<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
+<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
+<li><a href="./Tag_python.html">Python(1)</a></li>
+<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
+<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
+<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
+<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
+<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
+<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
+<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
+<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
+<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
+<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
+</ul>
+
+        </div> 
+    </li>
+    <li><a href="./Archives.html" class="item">Archives</a></li>
+
+    </ul>
+    </div>
+</div> 
+<p></p>
+
+
+
+
+
+<div class="container" id="content">
+
+<div id='header'>
+    <h2>Mac常用</h2>
+    <footer>
+        Date:&nbsp;<span id='create_time'>
+            2014-05-13 14:44
+        </span>
+        &nbsp;&nbsp;
+        Tags:&nbsp; 
+<span id='article_tags'>
+         
+<a href='../article/Tag_qi_ta.html' class='article_tag'>其它</a>
+
+</span>
+
+    </footer>
+    <hr>
+</div>
+
+<h3>Mac下PATH环境变量设置</h3>
+<p>如果没特殊说明,设置PATH的语法都为：</p>
+<div class="highlight"><pre><code><span class="cp">#中间用冒号隔开</span>
+<span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="err">$</span><span class="nl">PATH</span><span class="p">:</span><span class="o">&lt;</span><span class="n">PATH</span> <span class="mi">1</span><span class="o">&gt;:&lt;</span><span class="n">PATH</span> <span class="mi">2</span><span class="o">&gt;:&lt;</span><span class="n">PATH</span> <span class="mi">3</span><span class="o">&gt;:------:&lt;</span><span class="n">PATH</span> <span class="n">N</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>1.创建并以 TextEdit 的方式打开 ~/.bash_profile 文件</p>
+<p>touch ~/.bash_profile;</p>
+<p>open -t ~/.bash_profile</p>
+<p>2.新增环境变量</p>
+<div class="highlight"><pre><code><span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s">&quot;$HOME/.rbenv/bin:$PATH&quot;</span>
+</code></pre></div>
+<p>3.让以上所做的配置生效</p>
+<div class="highlight"><pre><code><span class="n">source</span> <span class="o">~/</span><span class="p">.</span><span class="n">bash_profile</span>
+</code></pre></div>
+<p>4.查看是否生效（有时可能需要关闭当前 Terminal 窗口重新开启一个）</p>
+<div class="highlight"><pre><code><span class="n">echo</span> <span class="err">$</span><span class="n">PATH</span>
+</code></pre></div>
+<p>需要注意的一点（冒号乃环境变量的分隔符）：</p>
+<div class="highlight"><pre><code><span class="err">$</span><span class="n">HOME</span><span class="o">/</span><span class="p">.</span><span class="n">rbenv</span><span class="o">/</span><span class="nl">bin</span><span class="p">:</span><span class="err">$</span><span class="n">PATH</span> <span class="err">中的</span> <span class="err">$</span><span class="n">PATH</span> <span class="err">特指</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nl">bin</span><span class="p">:</span><span class="o">/</span><span class="nl">bin</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nl">sbin</span><span class="p">:</span><span class="o">/</span><span class="nl">sbin</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span>
+</code></pre></div>
+<p>如果要添加多个环境变量的话，需按照如下的方式来书写：</p>
+<div class="highlight"><pre><code><span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s">&quot;$PATH:/Applications/MacVim-snapshot-68&quot;</span>
+<span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s">&quot;$HOME/.rbenv/bin:$PATH&quot;</span>
+<span class="n">eval</span> <span class="s">&quot;$(rbenv init -)&quot;</span>
+<span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s">&quot;$HOME/.rbenv/bin:$PATH&quot;</span>
+<span class="n">eval</span> <span class="s">&quot;$(rbenv init -)&quot;</span>
+</code></pre></div>
+<p>显示/隐藏Mac隐藏文件命令如下(注意其中的空格并且区分大小写)：
+显示Mac隐藏文件的命令：defaults write com.apple.finder AppleShowAllFiles -bool true</p>
+<p>隐藏Mac隐藏文件的命令：defaults write com.apple.finder AppleShowAllFiles -bool false</p>
+<p>或者显示Mac隐藏文件的命令：defaults write com.apple.finder AppleShowAllFiles YES</p>
+<p>隐藏Mac隐藏文件的命令：defaults write com.apple.finder AppleShowAllFiles NO</p>
+<p>输完单击Enter键，退出终端，重新启动Finder就可以了</p>
+<p>重启Finder：鼠标单击窗口左上角的苹果标志--&gt;强制退出--&gt;Finder--&gt;重新启动打开终端,进到所在的目录,然后出入一下代码find . -name ".svn" | xargs rm -Rf</p>
+<p><br/></p>
+<p><hr>
+<br/></p>
+<h3>mac忘记密码的解决办法</h3>
+<p>开机， 启动时按“cmd+S”。这时，你会进入Single User Model，出现像DOS一样的提示符 #root&gt;。请在#root&gt;下 输入 (注意空格, 大小写)</p>
+<p>　　fsck -y</p>
+<p>　　mount -uaw /</p>
+<p>　　rm /var/db/.AppleSetupDone</p>
+<p>　　reboot</p>
+<p>　　紧接着，苹果电脑会重启 ，并且在开机后出现新装机时的欢迎界面。你需要像第一次打开苹果电脑一样， 重新建立一个新的管理员账号(数据会保留)。当开机完毕之后，在新的管理员下请打开 系统预制 - 账户。打开最下面的锁， 当跳出密码框时， 输入新的管理员帐号密码。这时，你会看到出现至少两个账号，包括了新的管理员的帐号和你原来的帐号。你可以点中原来的账号, 选 密码 - 更改密码。注意，你不需要有原先的密码就直接可以设定新密码了。下一步就是点下面的登陆选项 (小房子)。选中自动以右边的身份登陆， 同时在下拉菜单中选你原先的账号。当重启或注销之后，你可以用新密码登陆原帐户了。当然，你也可以将刚刚新建的帐户删除。</p>
+<p><br/></p>
+<p><hr>
+<br/></p>
+<h3>CocoaPods pod install/pod update更新慢的问题</h3>
+<p>最近使用CocoaPods来添加第三方类库，无论是执行pod install还是pod update都卡在了Analyzing dependencies不动
+原因在于当执行以上两个命令的时候会升级CocoaPods的spec仓库，加一个参数可以省略这一步，然后速度就会提升不少。加参数的命令如下：</p>
+<div class="highlight"><pre><code><span class="n">pod</span> <span class="n">install</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">update</span>
+<span class="n">pod</span> <span class="n">update</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">update</span>
+</code></pre></div>
+<div class="highlight"><pre><code><span class="err">命令行更新（安装）步骤</span>
+<span class="err">$</span> <span class="n">sudo</span> <span class="n">gem</span> <span class="n">update</span> <span class="o">--</span><span class="n">system</span> <span class="c1">// 先更新gem，国内需要切换源</span>
+<span class="err">$</span> <span class="n">gem</span> <span class="n">sources</span> <span class="o">--</span><span class="n">remove</span>  
+<span class="err">$</span> <span class="n">gem</span> <span class="n">sources</span> <span class="o">-</span><span class="n">a</span>  
+<span class="err">$</span> <span class="n">gem</span> <span class="n">sources</span> <span class="o">-</span><span class="n">l</span>
+<span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span> <span class="n">CURRENT</span> <span class="n">SOURCES</span> <span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span><span class="err">\</span><span class="o">*</span>
+
+<span class="err">$</span> <span class="n">sudo</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">cocoapods</span> <span class="c1">// 安装cocoapods</span>
+<span class="err">$</span> <span class="n">pod</span> <span class="n">setup</span>
+</code></pre></div>
+<p><br/></p>
+<p><hr>
+<br/></p>
+<h3>item2是mac下非常好用的一款终端。但默认的配色实在不好用，经过一翻搜索终于找到了比较满意的。</h3>
+<p>配色（Terminal终端要变色也要设置第一步）
+1.先要修改~/.bash_profile.代码如下</p>
+<div class="highlight"><pre><code><span class="cp">#enables colorin the terminal bash shell export</span>
+<span class="n">export</span> <span class="n">CLICOLOR</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="cp">#sets up thecolor scheme for list export</span>
+<span class="n">export</span> <span class="n">LSCOLORS</span><span class="o">=</span><span class="n">gxfxcxdxbxegedabagacad</span>
+
+<span class="cp">#sets up theprompt color (currently a green similar to linux terminal)</span>
+<span class="n">export</span> <span class="n">PS1</span><span class="o">=</span><span class="err">&#39;\</span><span class="p">[</span><span class="err">\</span><span class="mo">033</span><span class="p">[</span><span class="mo">01</span><span class="p">;</span><span class="mi">32</span><span class="n">m</span><span class="err">\</span><span class="p">]</span><span class="err">\</span><span class="n">u</span><span class="err">@\</span><span class="n">h</span><span class="err">\</span><span class="p">[</span><span class="err">\</span><span class="mo">033</span><span class="p">[</span><span class="mo">00</span><span class="n">m</span><span class="err">\</span><span class="p">]</span><span class="o">:</span><span class="err">\</span><span class="p">[</span><span class="err">\</span><span class="mo">033</span><span class="p">[</span><span class="mo">01</span><span class="p">;</span><span class="mi">36</span><span class="n">m</span><span class="err">\</span><span class="p">]</span><span class="err">\</span><span class="n">w</span><span class="err">\</span><span class="p">[</span><span class="err">\</span><span class="mo">033</span><span class="p">[</span><span class="mo">00</span><span class="n">m</span><span class="err">\</span><span class="p">]</span><span class="err">\$</span> <span class="err">&#39;</span>
+
+<span class="cp">#enables colorfor iTerm</span>
+<span class="n">export</span> <span class="n">TERM</span><span class="o">=</span><span class="n">xterm</span><span class="o">-</span><span class="mi">256</span><span class="n">color</span>
+</code></pre></div>
+<p>每个代码都有注释，第二三行设置终端名，也就是当前用户名、目录，并且变色处理，方便认别。</p>
+<p>2.选择喜欢的配色方案。</p>
+<p>在Preferences-&gt;Profiles-&gt;Colors的load presets可以选择某个配色方案。也可以自己下载。在网站<a href="http://iterm2colorschemes.com/，几乎可以找到所有可用的配色方案。大家自己选择吧">http://iterm2colorschemes.com/，几乎可以找到所有可用的配色方案。大家自己选择吧</a></p>
+<p>大小写敏感
+对于目录中经常有大写字母的情况，使用tab变得很麻烦。google之后找到了解决办法，取消大小写敏感。代码如下：</p>
+<div class="highlight"><pre><code><span class="n">echo</span> <span class="s">&quot;set completion-ignore-case On&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">inputrc</span>
+</code></pre></div>
+<p>快捷揵
+这大概是item吸引用户的魅力所在了。</p>
+<p>1.⌘ +数字在各 tab标签直接来回切换</p>
+<p>2.选择即复制 + 鼠标中键粘贴，这个很实用</p>
+<p>3.⌘ + f所查找的内容会被自动复制</p>
+<p>4.⌘ + d 横着分屏 / ⌘ + shift + d 竖着分屏</p>
+<p>5.⌘ + r = clear，而且只是换到新一屏，不会想 clear一样创建一个空屏</p>
+<p>6.ctrl + u 清空当前行，无论光标在什么位置</p>
+<p>7.输入开头命令后 按⌘ + ;会自动列出输入过的命令</p>
+<p>8.⌘ + shift + h 会列出剪切板历史</p>
+<p>9.可以在 Preferences &gt; keys设置全局快捷键调出 iterm，这个也可以用过 Alfred实现</p>
+<p>10.⌘← / ⌘→ 到一行命令最左边/最右边 ，这个功能同 C+a / C+e</p>
+<p>11.⌥← /⌥→按单词前移/后移，相当与 C+f / C+b，其实这个功能在Iterm中已经预定义好了，⌥f /⌥b，看个人习惯了</p>
+<p>再来些linux上也通用的快捷键：</p>
+<p>C+a / C+e 这个几乎在哪都可以使用</p>
+<p>C+p / !! 上一条命令</p>
+<p>C+k 从光标处删至命令行尾 (本来 C+u是删至命令行首，但iterm中是删掉整行)</p>
+<p>C+w A+d 从光标处删至字首/尾</p>
+<p>C+h C+d 删掉光标前后的自负</p>
+<p>C+y 粘贴至光标后</p>
+<p>C+r 搜索命令历史，这个较常用</p>
+<p>窗口说明</p>
+<p>iterm2的窗口分为3个等级：window , tab , pane。请看下图。</p>
+<p>此图下侧的是tab， 图中分左右的是pane。用上这两项，iterm2才真得是好用。</p>
+<p>默认的话，新建pan是有快捷键的Cmd+d,切换pane有默认设置 Cmd+[ 和 Cmd+] .但是新建tab是没有默认快捷键的，这个用户可以自己设置，在Preferences-&gt;Keys。</p>
+<p>笔者设新建tab的快捷键是Cmd+t 。</p>
+<p><br/></p>
+<p><hr>
+<br/></p>
+<h3>Macports</h3>
+<p>一.通过(.pkg)安装: Mac OS X Package (.pkg) Installer</p>
+<p>访问官方网站: <a href="http://www.macports.org/install.php">http://www.macports.org/install.php</a></p>
+<p><a href="http://distfiles.macports.org/MacPorts/MacPorts-2.1.1-10.7-Lion.pkg">http://distfiles.macports.org/MacPorts/MacPorts-2.1.1-10.7-Lion.pkg</a></p>
+<p>二.通过(Source)安装MacPorts：Source Installation</p>
+<p>1.cd到Downloads/目录下wget下载 MacPorts-2.1.1.tar.gz</p>
+<p>输入: wget <a href="https://distfiles.macports.org/MacPorts/MacPorts-2.1.1.tar.gz">https://distfiles.macports.org/MacPorts/MacPorts-2.1.1.tar.gz</a></p>
+<p>2.解压 MacPorts-2.1.1.tar.gz 输入: tar zxvf MacPorts-2.1.1.tar.gz (tar jxvf MacPorts2.1.1.tar.bz2)</p>
+<p>3.cd到解压到的目录MacPorts-2.1.1输入: ./configure &amp;&amp; make &amp;&amp; sudo make install 安装</p>
+<p>中间提示输入密码完成安装!</p>
+<p>7.然后将/opt/local/bin和/opt/local/sbin添加到$PATH搜索路径中</p>
+<p>编辑/etc/profile文件 $ sudo vim /etc/profile (特许编辑,强制保存退出 wq!)文件最后加上下面两句</p>
+<div class="highlight"><pre><code><span class="n">export</span> <span class="n">PATH</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nl">bin</span><span class="p">:</span><span class="err">$</span><span class="n">PATH</span>
+<span class="n">export</span> <span class="n">PATH</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nl">sbin</span><span class="p">:</span><span class="err">$</span><span class="n">PATH</span>
+</code></pre></div>
+<p><br/></p>
+<p><hr>
+<br/></p>
+<h3>Homebrew</h3>
+<p>Homebrew是啥东东？apt-get和yum知道吧？Homebrew就相当于MacOS中的yum。</p>
+<p>安装：终端中输入：</p>
+<div class="highlight"><pre><code><span class="n">ruby</span> <span class="o">-</span><span class="n">e</span> <span class="s">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span>
+</code></pre></div>
+<p>然后按提示输入管理员密码 如果发现安装失败，得到类似这样的错误信息：</p>
+<div class="highlight"><pre><code><span class="nl">error</span><span class="p">:</span> <span class="n">unable</span> <span class="n">to</span> <span class="n">unlink</span> <span class="n">old</span> <span class="err">‘</span><span class="n">Library</span><span class="o">/</span><span class="n">ENV</span><span class="o">/</span><span class="mf">3.2.6</span><span class="err">′</span> <span class="p">(</span><span class="n">Permission</span> <span class="n">denied</span><span class="p">)</span>
+</code></pre></div>
+<p>那说明你遇到了权限问题，这样修复：</p>
+<div class="highlight"><pre><code><span class="n">sudo</span> <span class="n">chmod</span> <span class="o">-</span><span class="n">R</span> <span class="mi">775</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">Library</span>
+</code></pre></div>
+<p>在安装完毕后，还需要执行这条：</p>
+<div class="highlight"><pre><code><span class="n">sudo</span> <span class="n">chmod</span> <span class="o">-</span><span class="n">R</span> <span class="mi">775</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">Cellar</span>
+</code></pre></div>
+<p>如果安装软件后运行软件，发现提示command not found，查看一下/etc/paths文件，确保/usr/local/sbin有添加，我的paths文件内容如下：</p>
+<div class="highlight"><pre><code><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">sbin</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span>
+<span class="o">/</span><span class="n">bin</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span>
+<span class="o">/</span><span class="n">sbin</span>
+</code></pre></div>
+<p>你ls -l /usr/local/sbin，会发现里面有你用brew安装过的软件的symlink：</p>
+<div class="highlight"><pre><code><span class="n">lrwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">mac</span>  <span class="n">admin</span>  <span class="mi">34</span>  <span class="mi">1</span> <span class="mi">19</span> <span class="mi">15</span><span class="o">:</span><span class="mo">02</span> <span class="n">iftop</span> <span class="o">-&gt;</span> <span class="p">..</span><span class="o">/</span><span class="n">Cellar</span><span class="o">/</span><span class="n">iftop</span><span class="o">/</span><span class="mf">1.0</span><span class="n">pre4</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">iftop</span>
+<span class="n">lrwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">mac</span>  <span class="n">admin</span>  <span class="mi">27</span>  <span class="mi">1</span> <span class="mi">23</span> <span class="mi">09</span><span class="o">:</span><span class="mi">25</span> <span class="n">mtr</span> <span class="o">-&gt;</span> <span class="p">..</span><span class="o">/</span><span class="n">Cellar</span><span class="o">/</span><span class="n">mtr</span><span class="o">/</span><span class="mf">0.86</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">mtr</span>
+</code></pre></div>
+<p>OS升级后，如果发现brew提示如下错误：</p>
+<div class="highlight"><pre><code><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="nl">brew</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">brew</span><span class="p">.</span><span class="nl">rb</span><span class="p">:</span> <span class="o">/</span><span class="n">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">Ruby</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Versions</span><span class="o">/</span><span class="mf">1.8</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="nl">ruby</span><span class="p">:</span> <span class="n">bad</span> <span class="nl">interpreter</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="nl">brew</span><span class="p">:</span> <span class="n">line</span> <span class="mi">26</span><span class="o">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">brew</span><span class="p">.</span><span class="nl">rb</span><span class="p">:</span> <span class="n">Undefined</span> <span class="nl">error</span><span class="p">:</span> <span class="mi">0</span>
+</code></pre></div>
+<p>可以通过如下手段修复：</p>
+<p>```
+cd /usr/local/Library
+git pull origin master</p>
+<p>删除所有.svn目录</p>
+<p>命令如下</p>
+<p>find . -type d -name ".svn"|xargs rm -rf</p>
+<p>或者</p>
+<p>find . -type d -iname ".svn" -exec rm -rf {} ";</p>
+
+
+<br>
+<br>
+<p></p>
+
+
+<!-- Share BEGIN -->
+<div id="share"></div>
+<script type="text/javascript" src="../vender/share/share.js"></script>
+<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
+<link rel="stylesheet" href="../vender/share/share.css">
+<!-- Share END -->
+
+
+<br><p></p>
+
+
+<!-- 评论 start -->
+<div class="commentBox" id="globeCommentBox">
+    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
+    <div>
+        <input type="text" name="nickname" placeholder="nickname">
+    </div>
+    <div>
+        <input type="text" name="email" placeholder="email">
+    </div>
+    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
+</div>
+<br>
+<div id="comment"></div>
+
+<link rel="stylesheet" href="../vender/comment/comment.css" />
+<script type="text/javascript" src="../vender/comment/toast.js"></script>
+<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
+<script type="text/javascript">
+    var articleUUID = "311d378c13e7a7c9153940eea8c6bc88";
+    var pageIndex = 1;
+</script>
+<script type="text/javascript" src="../vender/comment/comment.js"></script>
+<!-- 评论 end -->
+
+
+</div>
+
+
+<div id='link' style='display:none;'>
+<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
+<h3>· Social</h3>
+<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
+<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
+<h3>· Links</h3>
+<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
+<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
+<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
+<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
+</div>
+<br>
+
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2020
+            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
+        &nbsp;   
+        </p>  
+</div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  if(window.location.host.indexOf("localhost") == -1){
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  }
+})();
+</script>
+
+
+</body>
+
+<!-- 语法高亮 -->
+<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
+<script src="../vender/js/highlight/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+// console.log(hljs.listLanguages());
+</script>

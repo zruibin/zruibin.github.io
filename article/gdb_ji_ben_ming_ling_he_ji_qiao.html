@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head> 
+<title>GDB基本命令和技巧 - Ruibin.Chow</title>
+
+
+<link rel="shortcut icon" href="../vender/image/me.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="GDB基本命令和技巧,C/C++,Makefile,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
+<meta name="description" content="gdb基本命令和技巧" />
+<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+
+
+<script type="text/javascript" src="../vender/js/default.js"></script>
+<script type="text/javascript" src="../vender/js/article.default.js"></script>
+<link rel="stylesheet" href="../vender/css/default.css" />
+<link rel="stylesheet" href="../vender/css/article.default.css" />
+
+<script type="text/javascript">
+
+RBReady(changeFrame);
+
+</script>
+
+</head>
+
+<body>
+
+
+<div id="navbar" >
+    <div id="menu" class="container">
+    <ul>
+
+    <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
+    <li><a href="../about.html" class="item">About Me</a></li>
+    <li><a href="./index.html" class="item">Blog</a></li>
+    <li><a class="item">Tags</a>
+        <div class="subs">
+        
+<ul>
+
+<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
+<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
+<li><a href="./Tag_python.html">Python(1)</a></li>
+<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
+<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
+<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
+<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
+<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
+<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
+<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
+<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
+<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
+<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
+</ul>
+
+        </div> 
+    </li>
+    <li><a href="./Archives.html" class="item">Archives</a></li>
+
+    </ul>
+    </div>
+</div> 
+<p></p>
+
+
+
+
+
+<div class="container" id="content">
+
+<div id='header'>
+    <h2>GDB基本命令和技巧</h2>
+    <footer>
+        Date:&nbsp;<span id='create_time'>
+            2014-12-18 01:26
+        </span>
+        &nbsp;&nbsp;
+        Tags:&nbsp; 
+<span id='article_tags'>
+         
+<a href='../article/Tag_cc++.html' class='article_tag'>C/C++</a>
+
+<a href='../article/Tag_makefile.html' class='article_tag'>Makefile</a>
+
+</span>
+
+    </footer>
+    <hr>
+</div>
+
+<h3>关于GDB</h3>
+<p>对于大多数Cocoa程序员来说，最常用的debugger莫过于Xcode自带的调试工具了。而实际上，它正是gdb的一个图形化包装。相对于gdb，图形化带来了很多便利，但同时也缺少了一些重要功能。而且在某些情况下，gdb反而更加方便。因此，学习gdb，了解一下幕后的实质，也是有必要的。</p>
+<p>gdb可以通过终端运行，也可以在Xcode的控制台调用命令。本文将通过终端讲述一些gdb的基本命令和技巧。</p>
+<p>首先，我们来看一个例子：</p>
+<div class="highlight"><pre><code><span class="cp">#import &lt;Foundation/Foundation.h&gt;  </span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>  
+<span class="p">{</span>  
+    <span class="n">NSAutoreleasePool</span> <span class="o">*</span><span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>  
+    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;Hello, world!&quot;</span><span class="p">);</span>  
+    <span class="p">[</span><span class="n">pool</span> <span class="n">release</span><span class="p">];</span>  
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>  
+<span class="p">}</span>
+</code></pre></div>
+<p>我们把文件命名为test.m，然后编译：</p>
+<div class="highlight"><pre><code><span class="n">gcc</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">framework</span> <span class="n">Foundation</span> <span class="n">test</span><span class="p">.</span><span class="n">m</span>
+</code></pre></div>
+<p>准备工作已经完成。现在我们可以开始调试了。只要把要调试的文件名作为参数，启动gdb：</p>
+<div class="highlight"><pre><code><span class="n">gdb</span> <span class="n">a</span><span class="p">.</span><span class="n">out</span>
+</code></pre></div>
+<p>gdb启动后会输出很多法律声明之类的信息。无视它们，最后我们看到一个提示：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span>
+</code></pre></div>
+<p>成功！现在debugger和刚才编译好的程序都被装载了。不过，现在程序还没有开始运行。因为gdb在程序开始前把它暂停了，好让我们有机会设置调试参数。这次我们不需要做特别设置，所以马上开始运行吧：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">run</span>  
+
+<span class="n">Starting</span> <span class="nl">program</span><span class="p">:</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">mikeash</span><span class="o">/</span><span class="n">shell</span><span class="o">/</span><span class="n">a</span><span class="p">.</span><span class="n">out</span>  
+<span class="n">Reading</span> <span class="n">symbols</span> <span class="k">for</span> <span class="n">shared</span> <span class="n">libraries</span> <span class="p">.</span><span class="o">++++</span><span class="p">.......................</span> <span class="n">done</span>  
+<span class="mi">2011</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mi">16</span> <span class="mi">20</span><span class="o">:</span><span class="mi">28</span><span class="o">:</span><span class="mf">53.658</span> <span class="n">a</span><span class="p">.</span><span class="n">out</span><span class="p">[</span><span class="mi">2946</span><span class="o">:</span><span class="n">a0f</span><span class="p">]</span> <span class="n">Hello</span><span class="p">,</span> <span class="n">world</span><span class="o">!</span>  
+
+<span class="n">Program</span> <span class="n">exited</span> <span class="n">normally</span><span class="p">.</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span>
+</code></pre></div>
+<p>糟糕，程序竟然exited normally了（==|||）。这可不行，我们得让他崩溃才行。所以我们给这个小程序添加一个bug：</p>
+<div class="highlight"><pre><code><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>  
+<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Hello, world! x = %@&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+</code></pre></div>
+<p>nice。这样一来程序就会漂亮地崩溃了:</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">run</span>  
+
+<span class="n">Starting</span> <span class="nl">program</span><span class="p">:</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">mikeash</span><span class="o">/</span><span class="n">shell</span><span class="o">/</span><span class="n">a</span><span class="p">.</span><span class="n">out</span>  
+<span class="n">Reading</span> <span class="n">symbols</span> <span class="k">for</span> <span class="n">shared</span> <span class="n">libraries</span> <span class="p">.</span><span class="o">++++</span><span class="p">.......................</span> <span class="n">done</span>  
+
+<span class="n">Program</span> <span class="n">received</span> <span class="n">signal</span> <span class="n">EXC_BAD_ACCESS</span><span class="p">,</span> <span class="n">Could</span> <span class="n">not</span> <span class="n">access</span> <span class="n">memory</span><span class="p">.</span>  
+<span class="nl">Reason</span><span class="p">:</span> <span class="mi">13</span> <span class="n">at</span> <span class="nl">address</span><span class="p">:</span> <span class="mh">0x0000000000000000</span>  
+<span class="mh">0x00007fff84f1011c</span> <span class="n">in</span> <span class="n">objc_msgSend</span> <span class="p">()</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span>
+</code></pre></div>
+<p>如果我们是在shell中直接运行的程序，在崩溃后就会回到shell。不过现在我们是通过gdb运行的，所以现在并没有跳出。gdb暂停了我们的程序，但依然使之驻留在内存中，让我们有机会做调试。</p>
+<p>首先，我们想知道具体是哪里导致了程序崩溃。gdb已经通过刚才的输出告知了我们： 函数objc_msgSend就是祸之根源。但是这个信息并不足够，因为这个objc_msgSend是objc运行时库中的函数。我们并不知道它是怎么调用的。我们关注的是我们自己的代码。 
+要知道这一点，我们需要得到当前进程的函数调用栈的情况，以此回溯找到我们自己的方法。这时我们需要用到backtrace命令，一般简写为bt：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">bt</span>  
+<span class="cp">#0 0x00007fff84f1011c in objc_msgSend ()  </span>
+<span class="cp">#1 0x00007fff864ff30b in _CFStringAppendFormatAndArgumentsAux ()  </span>
+<span class="cp">#2 0x00007fff864ff27d in _CFStringCreateWithFormatAndArgumentsAux ()  </span>
+<span class="cp">#3 0x00007fff8657e9ef in _CFLogvEx ()  </span>
+<span class="cp">#4 0x00007fff87beab3e in NSLogv ()  </span>
+<span class="cp">#5 0x00007fff87beaad6 in NSLog ()  </span>
+<span class="cp">#6 0x0000000100000ed7 in main () at test.m:10</span>
+</code></pre></div>
+<p>现在我们可以看到，程序在test.m的第10行，调用NSLog方法时崩溃了。接下来我们想看一下这次调用的详细信息。这时我们要用到up命令。up命令可以在栈的各层之间跳转。本例中，我们的代码main是#6：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">up</span> <span class="mi">6</span>  
+<span class="cp">#6 0x0000000100000ed7 in main () at test.m:10  </span>
+       <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Hello, world! x = %@&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+</code></pre></div>
+<p>这回不仅是函数名，连出错的那行代码也打印出来了。但是，我们还可以使用list(简写为l)命令，打印出更多信息： 
+ps: 如果需要回到栈列表。可以使用down命令。</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">l</span>  
+
+   <span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>  
+   <span class="p">{</span>  
+       <span class="n">NSAutoreleasePool</span> <span class="o">*</span><span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>  
+       <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>  
+      <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Hello, world! x = %@&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>  
+      <span class="p">[</span><span class="n">pool</span> <span class="n">release</span><span class="p">];</span>  
+
+      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>  
+  <span class="p">}</span>
+</code></pre></div>
+<p>啊，整个代码都被列出来了。虽然我们用编辑器打开test.m文件然后找到第10行也可以打到同样效果，但显然没有上面的方法更有效率。（当然没有Xcode自带的那个快就是了）</p>
+<p>好了，现在我们再来看看这个bug（虽然是我们自己弄出来的）。很明显，在格式化字符串前少加了一个@。我们改正它，并重新运行一遍程序：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">run</span>  
+<span class="n">Starting</span> <span class="nl">program</span><span class="p">:</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">mikeash</span><span class="o">/</span><span class="n">shell</span><span class="o">/</span><span class="n">a</span><span class="p">.</span><span class="n">out</span>  
+<span class="n">Reading</span> <span class="n">symbols</span> <span class="k">for</span> <span class="n">shared</span> <span class="n">libraries</span> <span class="p">.</span><span class="o">++++</span><span class="p">.......................</span> <span class="n">done</span>  
+
+<span class="n">Program</span> <span class="n">received</span> <span class="n">signal</span> <span class="n">EXC_BAD_ACCESS</span><span class="p">,</span> <span class="n">Could</span> <span class="n">not</span> <span class="n">access</span> <span class="n">memory</span><span class="p">.</span>  
+<span class="nl">Reason</span><span class="p">:</span> <span class="n">KERN_INVALID_ADDRESS</span> <span class="n">at</span> <span class="nl">address</span><span class="p">:</span> <span class="mh">0x000000000000002a</span>  
+<span class="mh">0x00007fff84f102b3</span> <span class="n">in</span> <span class="n">objc_msgSend_fixup</span> <span class="p">()</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">bt</span>  
+<span class="cp">#0 0x00007fff84f102b3 in objc_msgSend_fixup ()  </span>
+<span class="cp">#1 0x0000000000000000 in ?? ()</span>
+</code></pre></div>
+<p>啊咧，程序还是崩溃了。更杯具的是，栈信息没有显示出这个objc_msgSend_fixup方法是从哪里调用的。这样我们就没法用上面的方法找到目标代码了。这时，我们只好请出一个debugger最常用的功能：断点。</p>
+<p>在gdb中，设置断点通过break命令实现。它可以简写为b。有两种方法可以确定断点的位置：传入一个已定义的符号，或是直接地通过一个file:line对设置位置。 
+现在让我们在main函数的开始处设置一个断点：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">b</span> <span class="n">test</span><span class="p">.</span><span class="nl">m</span><span class="p">:</span><span class="mi">8</span>  
+<span class="n">Breakpoint</span> <span class="mi">1</span> <span class="n">at</span> <span class="mh">0x100000e8f</span><span class="o">:</span> <span class="n">file</span> <span class="n">test</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="n">line</span> <span class="mf">8.</span>
+</code></pre></div>
+<p>debugger给了我们一个回应，告诉我们断点设置成功了，而且这个断点的标号是1。断点的标号很有用，可以用来给断点排序&amp;停用&amp;启用&amp;删除等。不过我们现在不需要理会，我们只是接着运行程序:</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">run</span>  
+<span class="n">The</span> <span class="n">program</span> <span class="n">being</span> <span class="n">debugged</span> <span class="n">has</span> <span class="n">been</span> <span class="n">started</span> <span class="n">already</span><span class="p">.</span>  
+<span class="n">Start</span> <span class="n">it</span> <span class="n">from</span> <span class="n">the</span> <span class="n">beginning</span><span class="o">?</span> <span class="p">(</span><span class="n">y</span> <span class="n">or</span> <span class="n">n</span><span class="p">)</span> <span class="n">y</span>  
+<span class="n">Starting</span> <span class="nl">program</span><span class="p">:</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">mikeash</span><span class="o">/</span><span class="n">shell</span><span class="o">/</span><span class="n">a</span><span class="p">.</span><span class="n">out</span>  
+
+<span class="n">Breakpoint</span> <span class="mi">1</span><span class="p">,</span> <span class="n">main</span> <span class="p">(</span><span class="n">argc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">argv</span><span class="o">=</span><span class="mh">0x7fff5fbff628</span><span class="p">)</span> <span class="n">at</span> <span class="n">test</span><span class="p">.</span><span class="nl">m</span><span class="p">:</span><span class="mi">8</span>  
+<span class="mi">8</span>       <span class="n">NSAutoreleasePool</span> <span class="o">*</span><span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</code></pre></div>
+<p>debugger在在我们期望的地方停下了。现在我们使用next(简写n)命令单步调试程序，看看它到底是在哪一行崩溃的：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">n</span>  
+       <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span>  
+      <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;Hello, world! x = %@&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span>  
+
+<span class="n">Program</span> <span class="n">received</span> <span class="n">signal</span> <span class="n">EXC_BAD_ACCESS</span><span class="p">,</span> <span class="n">Could</span> <span class="n">not</span> <span class="n">access</span> <span class="n">memory</span><span class="p">.</span>  
+<span class="nl">Reason</span><span class="p">:</span> <span class="n">KERN_INVALID_ADDRESS</span> <span class="n">at</span> <span class="nl">address</span><span class="p">:</span> <span class="mh">0x000000000000002a</span>  
+<span class="mh">0x00007fff84f102b3</span> <span class="n">in</span> <span class="n">objc_msgSend_fixup</span> <span class="p">()</span>
+</code></pre></div>
+<p>值得注意的是，我只键入了一次n命令，随后直接敲了2次回车。这样做的原因是gdb把任何空输入当作最近一次输入命令的重复。所以这里相当于输入了3次n。</p>
+<p>现在我们可以看到，崩溃之处依然是NSLog。原因嘛，当然是在格式化输出的地方用%@表示int型变量x了。我们仔细看一下输出信息：崩溃原因是错误地访问了0x000000000000002a这个地址。而2a的十进制表示正是42－－我们为x赋的值。编译器把它当作地址了。</p>
+<h3>输出数值</h3>
+<p>一个很重要的调试方法是输出表达式和变量的值。在gdb中，这是通过print命令完成的。</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="n">x</span>  
+<span class="err">$</span><span class="mi">1</span> <span class="o">=</span> <span class="mi">42</span>
+</code></pre></div>
+<p>在print命令后追加/format可以格式化输出。/format是一个gdb的格式化字符串，比较有用的格式化字符有 x:十进制数; c:字符; a:地址等。</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span><span class="o">/</span><span class="n">x</span> <span class="n">x</span>  
+<span class="err">$</span><span class="mi">2</span> <span class="o">=</span> <span class="mh">0x2a</span>
+</code></pre></div>
+<p>print－object方法(简写为po)用来输出obj-c中的对象。它的工作原理是，向被调用的对象发送名为debugDescription的消息。它和常见的description消息很像。</p>
+<p>举例来说，让我们输出一下autorelease pool：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">po</span> <span class="n">pool</span>  
+<span class="o">&lt;</span><span class="nl">NSAutoreleasePool</span><span class="p">:</span> <span class="mh">0x10010e820</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>这个命令不仅仅可以输出显式定义的对象，也可以输出表达式的结果。这次我们测试一下nsobject中debugDescription的方法签名：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">po</span> <span class="p">[</span><span class="n">NSObject</span> <span class="nl">instanceMethodSignatureForSelector</span><span class="p">:</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">debugDescription</span><span class="p">)]</span>  
+<span class="o">&lt;</span><span class="nl">NSMethodSignature</span><span class="p">:</span> <span class="mh">0x10010f320</span><span class="o">&gt;</span>  
+    <span class="n">number</span> <span class="n">of</span> <span class="n">arguments</span> <span class="o">=</span> <span class="mi">2</span>  
+    <span class="n">frame</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">224</span>  
+    <span class="n">is</span> <span class="n">special</span> <span class="k">struct</span> <span class="k">return</span><span class="o">?</span> <span class="n">NO</span>  
+    <span class="k">return</span> <span class="nl">value</span><span class="p">:</span> <span class="o">--------</span> <span class="o">--------</span> <span class="o">--------</span> <span class="o">--------</span>  
+        <span class="n">type</span> <span class="n">encoding</span> <span class="p">(</span><span class="err">@</span><span class="p">)</span> <span class="sc">&#39;@&#39;</span>  
+        <span class="n">flags</span> <span class="p">{</span><span class="n">isObject</span><span class="p">}</span>  
+        <span class="n">modifiers</span> <span class="p">{}</span>  
+        <span class="n">frame</span> <span class="p">{</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">offset</span> <span class="n">adjust</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">size</span> <span class="n">adjust</span> <span class="o">=</span> <span class="mi">0</span><span class="p">}</span>  
+        <span class="n">memory</span> <span class="p">{</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">8</span><span class="p">}</span>  
+    <span class="n">argument</span> <span class="mi">0</span><span class="o">:</span> <span class="o">--------</span> <span class="o">--------</span> <span class="o">--------</span> <span class="o">--------</span>  
+        <span class="n">type</span> <span class="n">encoding</span> <span class="p">(</span><span class="err">@</span><span class="p">)</span> <span class="sc">&#39;@&#39;</span>  
+        <span class="n">flags</span> <span class="p">{</span><span class="n">isObject</span><span class="p">}</span>  
+        <span class="n">modifiers</span> <span class="p">{}</span>  
+        <span class="n">frame</span> <span class="p">{</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">offset</span> <span class="n">adjust</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">size</span> <span class="n">adjust</span> <span class="o">=</span> <span class="mi">0</span><span class="p">}</span>  
+        <span class="n">memory</span> <span class="p">{</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">8</span><span class="p">}</span>  
+    <span class="n">argument</span> <span class="mi">1</span><span class="o">:</span> <span class="o">--------</span> <span class="o">--------</span> <span class="o">--------</span> <span class="o">--------</span>  
+        <span class="n">type</span> <span class="n">encoding</span> <span class="p">(</span><span class="o">:</span><span class="p">)</span> <span class="sc">&#39;:&#39;</span>  
+        <span class="n">flags</span> <span class="p">{}</span>  
+        <span class="n">modifiers</span> <span class="p">{}</span>  
+        <span class="n">frame</span> <span class="p">{</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">offset</span> <span class="n">adjust</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">size</span> <span class="n">adjust</span> <span class="o">=</span> <span class="mi">0</span><span class="p">}</span>  
+        <span class="n">memory</span> <span class="p">{</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">8</span><span class="p">}</span>
+</code></pre></div>
+<p>是不是很方便。但是要注意，gdb也许会不能识别NSObject这样的类名。这时我们就要使用一些小技巧，比如说用NSClassFromString来获得类名：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">po</span> <span class="p">[</span><span class="n">NSClassFromString</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;NSObject&quot;</span><span class="p">)</span> <span class="nl">instanceMethodSignatureForSelector</span><span class="p">:</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">debugDescription</span><span class="p">)]</span>
+</code></pre></div>
+<p>返回值是对象的表达式可以用po命令输出结果，那么返回值是基本类型的方法又怎样呢？显然，它们是可以用p命令输出的。但是要小心，因为gdb并不能自动识别出返回值的类型。所以我们在输出前要显式地转换一下：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="p">[</span><span class="n">NSObject</span> <span class="nl">instancesRespondToSelector</span><span class="p">:</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">doesNotExist</span><span class="p">)]</span>  
+<span class="n">Unable</span> <span class="n">to</span> <span class="n">call</span> <span class="n">function</span> <span class="s">&quot;objc_msgSend&quot;</span> <span class="n">at</span> <span class="mh">0x7fff84f100f4</span><span class="o">:</span> <span class="n">no</span> <span class="k">return</span> <span class="n">type</span> <span class="n">information</span> <span class="n">available</span><span class="p">.</span>  
+<span class="n">To</span> <span class="n">call</span> <span class="n">this</span> <span class="n">function</span> <span class="n">anyway</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">cast</span> <span class="n">the</span> <span class="k">return</span> <span class="n">type</span> <span class="n">explicitly</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span> <span class="err">&#39;</span><span class="n">print</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">fabs</span> <span class="p">(</span><span class="mf">3.0</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="p">(</span><span class="kt">char</span><span class="p">)[</span><span class="n">NSObject</span> <span class="nl">instancesRespondToSelector</span><span class="p">:</span> <span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">doesNotExist</span><span class="p">)]</span>  
+<span class="err">$</span><span class="mi">5</span> <span class="o">=</span> <span class="mi">0</span> <span class="err">&#39;</span><span class="mo">00</span><span class="err">&#39;</span>
+</code></pre></div>
+<p>你也许发现了，doesNotExist方法的返回值是BOOL，而我们做的转换却是char。这是因为gdb也不能识别那些用typedef定义的类型。不仅仅是你定义的，即使是Cocoa框架里定义的也不行。</p>
+<p>你也许已经注意到，在用p进行输出的时侯，输出值前面会有一个类似"$1="的前缀。它们是gdb变量。它们可以在后面的表达式中使用，来指代它后面的值。在下面的例子里，我们开辟了一块内存，将其置零，然后释放。在这个过程中，我们使用了gdb变量，这样就不用一遍遍地复制粘贴地址了。</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  
+<span class="err">$</span><span class="mi">6</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="mh">0x100105ab0</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">bzero</span><span class="p">(</span><span class="err">$</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  
+<span class="err">$</span><span class="mi">7</span> <span class="o">=</span> <span class="kt">void</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="o">*</span><span class="err">$</span><span class="mi">6</span>  
+<span class="err">$</span><span class="mi">8</span> <span class="o">=</span> <span class="mi">0</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">free</span><span class="p">(</span><span class="err">$</span><span class="mi">6</span><span class="p">)</span>  
+<span class="err">$</span><span class="mi">9</span> <span class="o">=</span> <span class="kt">void</span>
+</code></pre></div>
+<p>我们也想把这个技巧用到对象上，但不幸的是po命令并不会把它的返回值存储到变量里。所以我们在得到一个新的对象时必须先使用p命令：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)[[</span><span class="n">NSObject</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span>  
+<span class="err">$</span><span class="mi">10</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span> <span class="mh">0x100105950</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">po</span> <span class="err">$</span><span class="mi">10</span>  
+<span class="o">&lt;</span><span class="nl">NSObject</span><span class="p">:</span> <span class="mh">0x100105950</span><span class="o">&gt;</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="p">(</span><span class="kt">long</span><span class="p">)[</span><span class="err">$</span><span class="mi">10</span> <span class="n">retainCount</span><span class="p">]</span>  
+<span class="err">$</span><span class="mi">11</span> <span class="o">=</span> <span class="mi">1</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">p</span> <span class="p">(</span><span class="kt">void</span><span class="p">)[</span><span class="err">$</span><span class="mi">10</span> <span class="n">release</span><span class="p">]</span>  
+<span class="err">$</span><span class="mi">12</span> <span class="o">=</span> <span class="kt">void</span>
+</code></pre></div>
+<h3>检查内存</h3>
+<p>有些时候，仅仅输出一个数值还不能帮助我们查找出错误。我们需要一次性地打印出一整块内存来窥视全局。这时候我们就需要使用x命令。</p>
+<p>x命令的格式是x/format address。其中address很简单，它通常是指向一块内存的表达式。但是format的语法就有点复杂了。它由三个部分组成：</p>
+<p>第一个是要显示的块的数量；第二个是显示格式(如x代表16进制,d代表十进制,c代表字符)；第三个是每个块的大小。值得注意的是第三部分，即块大小是用字符对应的。用b, h, w,  g 分别表示1, 2, 4, 8 bytes。举例来说，用十六进制方式，打印从ptr开始的4个4-byte块应该这样写：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">x</span><span class="o">/</span><span class="mi">4</span><span class="n">xw</span> <span class="n">ptr</span>
+</code></pre></div>
+<p>接下来举一个比较实际的例子。我们看一下NSObject类的内容：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">x</span><span class="o">/</span><span class="mi">4</span><span class="n">xg</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)[</span><span class="n">NSObject</span> <span class="n">class</span><span class="p">]</span>  
+<span class="mh">0x7fff70adb468</span> <span class="o">&lt;</span><span class="n">OBJC_CLASS_</span><span class="err">$</span><span class="n">_NSObject</span><span class="o">&gt;:</span> <span class="mh">0x00007fff70adb440</span>  <span class="mh">0x0000000000000000</span>  
+<span class="mh">0x7fff70adb478</span> <span class="o">&lt;</span><span class="n">OBJC_CLASS_</span><span class="err">$</span><span class="n">_NSObject</span><span class="o">+</span><span class="mi">16</span><span class="o">&gt;:</span>  <span class="mh">0x0000000100105ac0</span>  <span class="mh">0x0000000100104ac0</span>
+</code></pre></div>
+<p>接下来再看看一个NSObject实例的内容：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">x</span><span class="o">/</span><span class="mi">1</span><span class="n">xg</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)[</span><span class="n">NSObject</span> <span class="n">new</span><span class="p">]</span>  
+<span class="mh">0x100105ba0</span><span class="o">:</span>    <span class="mh">0x00007fff70adb468</span>
+</code></pre></div>
+<p>现在我们看到，在实例开头引用了类的地址。</p>
+<h3>设置变量</h3>
+<p>有时，查看数值程度的能力还是稍弱了一点，我们还想能够修改变量。这也很简单，只需要使用set命令：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">set</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">43</span>
+</code></pre></div>
+<p>我们可以用任意表达式给一个变量赋值。比如说新创建一个对象然后赋值：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">set</span> <span class="n">obj</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)[[</span><span class="n">NSObject</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span>
+</code></pre></div>
+<h3>断点</h3>
+<p>我们可以在程序的某个位置设置断点，这样当程序运行到那里的时候就会暂停，而把控制权转移给调试器。就像之前提到的，我们用break命令来设置断点。下面详细地列出了如何设置断点的目标：</p>
+<p>SymbolName: 为断点指定一个函数名。这样断点就会设置在该函数上。 
+file.c:1234: 把断点设置在指定文件的一行。 
+-[ClassName method:name:]: 把断点设置在objc的方法上。用+代表类方法。 
+*0xdeadbeef: 在内存的指定位置设置断点。这不是很常用，一般在没有源码的调试时使用。</p>
+<p>断点可以用enable命令和disable命令来切换到使用和停用状态，也可以通过delete命令彻底删除。想要查看现有断点的话，使用info breakpoints命令（可以简写成info b，或是i b）。</p>
+<p>另外，我们也可以用if命令，把断点升级成条件断点。顾名思义，条件断点只会在设定的条件成真时起作用。举例来说，下面的语句为MyMethod添加了一个条件断点，它只在参数等于5的时候有效：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">b</span> <span class="o">-</span><span class="p">[</span><span class="n">Class</span> <span class="nl">myMethod</span><span class="p">:]</span> <span class="k">if</span> <span class="n">parameter</span> <span class="o">==</span> <span class="mi">5</span>
+</code></pre></div>
+<p>最后，在断点上可以附加gdb命令。这样，当断点中断时，附带的命令会自动执行。附加命令使用commands breakpointnumber。这时gdb就会进入断点指令输入状态。</p>
+<p>断点指令就是一个以end结尾的标准gdb指令序列。举个例子，我们想在每次NSLog被调用时输出栈信息：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">b</span> <span class="n">NSLog</span>  
+<span class="n">Breakpoint</span> <span class="mi">4</span> <span class="n">at</span> <span class="mh">0x7fff87beaa62</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">commands</span>  
+<span class="n">Type</span> <span class="n">commands</span> <span class="k">for</span> <span class="n">when</span> <span class="n">breakpoint</span> <span class="mi">4</span> <span class="n">is</span> <span class="n">hit</span><span class="p">,</span> <span class="n">one</span> <span class="n">per</span> <span class="n">line</span><span class="p">.</span>  
+<span class="n">End</span> <span class="n">with</span> <span class="n">a</span> <span class="n">line</span> <span class="n">saying</span> <span class="n">just</span> <span class="s">&quot;end&quot;</span><span class="p">.</span>  
+<span class="o">&gt;</span><span class="n">bt</span>  
+<span class="o">&gt;</span><span class="n">end</span>
+</code></pre></div>
+<p>这很好理解，只有一点需要提一下：如果commands命令是作用在刚设置的断点上的话，那么就可以省略断点序号。</p>
+<p>有些时候，我们希望调试器输出一些信息，但是并不想中断程序运行。这实际上也可以通过追加指令实现。我们只需要在指令的最后增加continue指令就行了。在下面的例子里，我们在断点中断后打印栈信息和参数信息，随后继续运行：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">b</span> <span class="o">-</span><span class="p">[</span><span class="n">Class</span> <span class="nl">myMethod</span><span class="p">:]</span>  
+<span class="n">Breakpoint</span> <span class="mi">5</span> <span class="n">at</span> <span class="mh">0x7fff864f1404</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">commands</span>  
+<span class="n">Type</span> <span class="n">commands</span> <span class="k">for</span> <span class="n">when</span> <span class="n">breakpoint</span> <span class="mi">5</span> <span class="n">is</span> <span class="n">hit</span><span class="p">,</span> <span class="n">one</span> <span class="n">per</span> <span class="n">line</span><span class="p">.</span>  
+<span class="n">End</span> <span class="n">with</span> <span class="n">a</span> <span class="n">line</span> <span class="n">saying</span> <span class="n">just</span> <span class="s">&quot;end&quot;</span><span class="p">.</span>  
+<span class="o">&gt;</span><span class="n">bt</span>  
+<span class="o">&gt;</span><span class="n">p</span> <span class="n">parameter</span>  
+<span class="o">&gt;</span><span class="k">continue</span>  
+<span class="o">&gt;</span><span class="n">end</span>
+</code></pre></div>
+<p>最后一个奇特的运用是return命令。它和c中的同名命令一样，都用来跳出当前函数。如果设置了参数，这参数会作为函数的返回值。</p>
+<p>比如说，我们可以用这个技巧屏蔽掉NSLog函数：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">commands</span>  
+<span class="n">Type</span> <span class="n">commands</span> <span class="k">for</span> <span class="n">when</span> <span class="n">breakpoint</span> <span class="mi">6</span> <span class="n">is</span> <span class="n">hit</span><span class="p">,</span> <span class="n">one</span> <span class="n">per</span> <span class="n">line</span><span class="p">.</span>  
+<span class="n">End</span> <span class="n">with</span> <span class="n">a</span> <span class="n">line</span> <span class="n">saying</span> <span class="n">just</span> <span class="s">&quot;end&quot;</span><span class="p">.</span>  
+<span class="o">&gt;</span><span class="k">return</span>  
+<span class="o">&gt;</span><span class="k">continue</span>  
+<span class="o">&gt;</span><span class="n">end</span>
+</code></pre></div>
+<p>有一点需要提醒：虽然上述的技巧很有用，但同时它会带来副作用。例如上面屏蔽NSLog的技巧会严重拖慢程序的运行速度。因为每次断点中断，都会使控制权转移到debugger一边，然后运行命令。这些跨进程的操作很耗时间。</p>
+<p>有时候也许看不出来，但当执行的断点变多，或是你在诸如objc_msgSend这样的方法上添加了条件断点，那么也许你的程序会一直运行到天荒地老。</p>
+<h3>无源码时的参数</h3>
+<p>有时我们需要在没有代码的地方调试。比如说，我们在用xcode调试时，经常会发现程序在Cocoa框架里的某个地方崩溃了。我们需要找到到底是在哪里出错了。这种时候，一个可行的方法就是查看崩溃处的参数，看看到底发生了什么。</p>
+<p>这是一篇很好的文章，它讲解了在不同的体系结构下，参数是如何存储的。不过它并没有讲到ARM（= =）。所幸ARM的存储很简单，参数只是按顺序被存储在$r0, $r1, $r2, $r3寄存器里。记住，在所有通过寄存器传递参数的体系结构里（i386不是），只有在函数开头的一小段里，寄存器里存的才是参数。因为在程序进行的过程中，它们随时都可能被其他变量替换掉。</p>
+<p>举例来说，我们可以打印出传给NSLog的参数：</p>
+<div class="highlight"><pre><code><span class="n">Breakpoint</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0x00007fff87beaa62</span> <span class="n">in</span> <span class="n">NSLog</span> <span class="p">()</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">po</span> <span class="err">$</span><span class="n">rdi</span>  
+<span class="n">Hello</span><span class="p">,</span> <span class="n">world</span><span class="o">!</span>
+</code></pre></div>
+<p>这里有个很常见的技巧：如果我们想给NSLog添加断点来巡查崩溃，就可以根据输出内容设置一下判断，让debugger不至于在每次NSLog时都中断：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="k">break</span> <span class="n">NSLog</span> <span class="k">if</span> <span class="p">(</span><span class="kt">char</span><span class="p">)[</span><span class="err">$</span><span class="n">rdi</span> <span class="nl">hasPrefix</span><span class="p">:</span> <span class="err">@</span><span class="s">&quot;crashing&quot;</span><span class="p">]</span>
+</code></pre></div>
+<p>记住，方法的前两个参数是self和_cmd。所以我们的参数应该从$rdx(x86_64)或$rd2(ARM)开始计算。</p>
+<h3>异常</h3>
+<p>异常会被运行时方法objc_exception_throw抛出。在这个方法里设置断点是很重要的。原因有两点：</p>
+<ol>
+<li>抛出异常，通常是程序出现严重错误的信号。 </li>
+<li>被抛出的异常通常会被对应的代码捕获。如果你不在这里设置断点的话，就只能获得异常被捕获之后的信息，而不知道它到底是在哪里被抛出的。 </li>
+</ol>
+<p>如果你设置了断点，程序就会在异常被抛出的时候停止。这样你就有机会查看栈信息，知道具体是哪里抛出了异常。</p>
+<p>为异常设置断点的方法也很简单，因为要抛出的异常是objc_exception_throw方法的唯一一个参数，所以我们可以用上一小节提到的方法来完成它。</p>
+<h3>线程</h3>
+<p>现在，多线程代码随处可见。知道如何调试多线程程序也越来越重要。以下一段代码启动了几个后台运行的线程：</p>
+<div class="highlight"><pre><code><span class="n">dispatch_apply</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">x</span><span class="p">){</span>  
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>  
+<span class="p">});</span>
+</code></pre></div>
+<p>运行debugger，在程序睡眠的时候用Control-C杀掉它：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">run</span>  
+<span class="n">Starting</span> <span class="nl">program</span><span class="p">:</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">mikeash</span><span class="o">/</span><span class="n">shell</span><span class="o">/</span><span class="n">a</span><span class="p">.</span><span class="n">out</span>  
+<span class="n">Reading</span> <span class="n">symbols</span> <span class="k">for</span> <span class="n">shared</span> <span class="n">libraries</span> <span class="p">.</span><span class="o">+++</span><span class="p">........................</span> <span class="n">done</span>  
+<span class="o">^</span><span class="n">C</span>  
+<span class="n">Program</span> <span class="n">received</span> <span class="n">signal</span> <span class="n">SIGINT</span><span class="p">,</span> <span class="n">Interrupt</span><span class="p">.</span>  
+<span class="mh">0x00007fff88c6ff8a</span> <span class="n">in</span> <span class="n">__semwait_signal</span> <span class="p">()</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">bt</span>  
+<span class="cp">#0 0x00007fff88c6ff8a in __semwait_signal ()  </span>
+<span class="cp">#1 0x00007fff88c6fe19 in nanosleep ()  </span>
+<span class="cp">#2 0x00007fff88cbcdf0 in sleep ()  </span>
+<span class="cp">#3 0x0000000100000ea7 in __main_block_invoke_1 (.block_descriptor=0x1000010a0, x=0) at test.m:12  </span>
+<span class="cp">#4 0x00007fff88cbbbc8 in _dispatch_apply2 ()  </span>
+<span class="cp">#5 0x00007fff88cb31e5 in dispatch_apply_f ()  </span>
+<span class="cp">#6 0x0000000100000e6a in main (argc=1, argv=0x7fff5fbff628) at test.m:11</span>
+</code></pre></div>
+<p>和我们想的一样，我们输出了一个线程的信息。但是，另外两个后台运行的线程在哪里？我们可以用info threads命令获取所有线程的列表：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">info</span> <span class="n">threads</span>  
+  <span class="mi">3</span> <span class="s">&quot;com.apple.root.default-priorit&quot;</span> <span class="mh">0x00007fff88c6ff8a</span> <span class="n">in</span> <span class="n">__semwait_signal</span> <span class="p">()</span>  
+  <span class="mi">2</span> <span class="s">&quot;com.apple.root.default-priorit&quot;</span> <span class="mh">0x00007fff88c6ff8a</span> <span class="n">in</span> <span class="n">__semwait_signal</span> <span class="p">()</span>  
+<span class="o">*</span> <span class="mi">1</span> <span class="s">&quot;com.apple.root.default-priorit&quot;</span> <span class="mh">0x00007fff88c6ff8a</span> <span class="n">in</span> <span class="n">__semwait_signal</span> <span class="p">()</span>
+</code></pre></div>
+<p>线程1前面有个星号，这表示它是现在活动中的线程。现在我们切换到线程2：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="kr">thread</span> <span class="mi">2</span>  
+<span class="p">[</span><span class="n">Switching</span> <span class="n">to</span> <span class="kr">thread</span> <span class="mi">2</span> <span class="p">(</span><span class="n">process</span> <span class="mi">4794</span><span class="p">),</span> <span class="s">&quot;com.apple.root.default-priority&quot;</span><span class="p">]</span>  
+<span class="mh">0x00007fff88c6ff8a</span> <span class="n">in</span> <span class="n">__semwait_signal</span> <span class="p">()</span>  
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">bt</span>  
+<span class="cp">#0 0x00007fff88c6ff8a in __semwait_signal ()  </span>
+<span class="cp">#1 0x00007fff88c6fe19 in nanosleep ()  </span>
+<span class="cp">#2 0x00007fff88cbcdf0 in sleep ()  </span>
+<span class="cp">#3 0x0000000100000ea7 in __main_block_invoke_1 (.block_descriptor=0x1000010a0, x=1) at test.m:12  </span>
+<span class="cp">#4 0x00007fff88cbbbc8 in _dispatch_apply2 ()  </span>
+<span class="cp">#5 0x00007fff88c4f7f1 in _dispatch_worker_thread2 ()  </span>
+<span class="cp">#6 0x00007fff88c4f128 in _pthread_wqthread ()  </span>
+<span class="cp">#7 0x00007fff88c4efc5 in start_wqthread ()</span>
+</code></pre></div>
+<p>现在我们输出了线程2的信息。然后时线程3……是不是觉得这种方法效率太低了？我们只有3个线程，但如果有300个呢？幸好，gdb提供了thread apply all backtrace命令（简写为t a a bt），用来列出所有线程的详细信息。</p>
+<p>Thread 3 (process 4794):</p>
+<div class="highlight"><pre><code><span class="cp">#0 0x00007fff88c6ff8a in __semwait_signal () </span>
+<span class="cp">#1 0x00007fff88c6fe19 in nanosleep () </span>
+<span class="cp">#2 0x00007fff88cbcdf0 in sleep () </span>
+<span class="cp">#3 0x0000000100000ea7 in __main_block_invoke_1 (.block_descriptor=0x1000010a0, x=2) at test.m:12 </span>
+<span class="cp">#4 0x00007fff88cbbbc8 in _dispatch_apply2 () </span>
+<span class="cp">#5 0x00007fff88c4f7f1 in _dispatch_worker_thread2 () </span>
+<span class="cp">#6 0x00007fff88c4f128 in _pthread_wqthread () </span>
+<span class="cp">#7 0x00007fff88c4efc5 in start_wqthread ()</span>
+</code></pre></div>
+<p>Thread 2 (process 4794):</p>
+<div class="highlight"><pre><code><span class="cp">#0 0x00007fff88c6ff8a in __semwait_signal () </span>
+<span class="cp">#1 0x00007fff88c6fe19 in nanosleep () </span>
+<span class="cp">#2 0x00007fff88cbcdf0 in sleep () </span>
+<span class="cp">#3 0x0000000100000ea7 in __main_block_invoke_1 (.block_descriptor=0x1000010a0, x=1) at test.m:12 </span>
+<span class="cp">#4 0x00007fff88cbbbc8 in _dispatch_apply2 () </span>
+<span class="cp">#5 0x00007fff88c4f7f1 in _dispatch_worker_thread2 () </span>
+<span class="cp">#6 0x00007fff88c4f128 in _pthread_wqthread () </span>
+<span class="cp">#7 0x00007fff88c4efc5 in start_wqthread ()</span>
+</code></pre></div>
+<p>Thread 1 (process 4794):</p>
+<div class="highlight"><pre><code><span class="cp">#0 0x00007fff88c6ff8a in __semwait_signal () </span>
+<span class="cp">#1 0x00007fff88c6fe19 in nanosleep () </span>
+<span class="cp">#2 0x00007fff88cbcdf0 in sleep () </span>
+<span class="cp">#3 0x0000000100000ea7 in __main_block_invoke_1 (.block_descriptor=0x1000010a0, x=0) at test.m:12 </span>
+<span class="cp">#4 0x00007fff88cbbbc8 in _dispatch_apply2 () </span>
+<span class="cp">#5 0x00007fff88cb31e5 in dispatch_apply_f () </span>
+<span class="cp">#6 0x0000000100000e6a in main (argc=1, argv=0x7fff5fbff628) at test.m:11</span>
+</code></pre></div>
+<p>现在我们可以方便地查看整个程序中的线程了。如果想要更彻底地观察某个线程，只需要用thread命令切换到该线程，然后使用各种已经学过的gdb命令。</p>
+<h3>控制台参数和环境变量</h3>
+<p>在用gdb调试带参数的程序时会遇到一个疑惑，即程序的参数究竟怎么输入：</p>
+<div class="highlight"><pre><code><span class="err">$</span> <span class="n">gdb</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">echo</span> <span class="n">hello</span> <span class="n">world</span>  
+<span class="n">Excess</span> <span class="n">command</span> <span class="n">line</span> <span class="n">arguments</span> <span class="n">ignored</span><span class="p">.</span> <span class="p">(</span><span class="n">world</span><span class="p">)</span>  
+<span class="p">[...]</span>  
+<span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">mikeash</span><span class="o">/</span><span class="n">shell</span><span class="o">/</span><span class="nl">hello</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span>
+</code></pre></div>
+<p>如上，把参数直接缀在后面显然是不对的。因为这样它们会被解释成gdb的参数，而不是要调试程序的参数。运行结果也证明了这一点，gdb把hello和world都解释成了要运行的程序名。</p>
+<p>解决方法也很简单，即，在gdb启动之后，执行run命令的同时输入参数：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">run</span> <span class="n">hello</span> <span class="n">world</span>  
+<span class="n">Starting</span> <span class="nl">program</span><span class="p">:</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">echo</span> <span class="n">hello</span> <span class="n">world</span>  
+<span class="n">Reading</span> <span class="n">symbols</span> <span class="k">for</span> <span class="n">shared</span> <span class="n">libraries</span> <span class="o">+</span><span class="p">.</span> <span class="n">done</span>  
+<span class="n">hello</span> <span class="n">world</span>
+</code></pre></div>
+<p>环境变量可以在启动gdb之前预先在shell中载入，通常情况下这么做也没有问题。但是，如果你操纵的环境变量会对每个程序都造成严重影响的话，这就不是一个好主意了。在这种情况下，我们用set env命令，做针对于目标程序的修改：</p>
+<div class="highlight"><pre><code><span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">set</span> <span class="n">env</span> <span class="n">DYLD_INSERT_LIBRARIES</span> <span class="o">/</span><span class="n">gdb</span><span class="o">/</span><span class="n">crashes</span><span class="o">/</span><span class="k">if</span><span class="o">/</span><span class="n">this</span><span class="o">/</span><span class="n">is</span><span class="o">/</span><span class="n">inserted</span><span class="p">.</span><span class="n">dylib</span>
+</code></pre></div>
+
+
+<br>
+<br>
+<p></p>
+
+
+<!-- Share BEGIN -->
+<div id="share"></div>
+<script type="text/javascript" src="../vender/share/share.js"></script>
+<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
+<link rel="stylesheet" href="../vender/share/share.css">
+<!-- Share END -->
+
+
+<br><p></p>
+
+
+<!-- 评论 start -->
+<div class="commentBox" id="globeCommentBox">
+    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
+    <div>
+        <input type="text" name="nickname" placeholder="nickname">
+    </div>
+    <div>
+        <input type="text" name="email" placeholder="email">
+    </div>
+    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
+</div>
+<br>
+<div id="comment"></div>
+
+<link rel="stylesheet" href="../vender/comment/comment.css" />
+<script type="text/javascript" src="../vender/comment/toast.js"></script>
+<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
+<script type="text/javascript">
+    var articleUUID = "5c38b6e144b791a0daf00d21089f2593";
+    var pageIndex = 1;
+</script>
+<script type="text/javascript" src="../vender/comment/comment.js"></script>
+<!-- 评论 end -->
+
+
+</div>
+
+
+<div id='link' style='display:none;'>
+<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
+<h3>· Social</h3>
+<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
+<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
+<h3>· Links</h3>
+<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
+<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
+<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
+<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
+</div>
+<br>
+
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2020
+            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
+        &nbsp;   
+        </p>  
+</div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  if(window.location.host.indexOf("localhost") == -1){
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  }
+})();
+</script>
+
+
+</body>
+
+<!-- 语法高亮 -->
+<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
+<script src="../vender/js/highlight/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+// console.log(hljs.listLanguages());
+</script>

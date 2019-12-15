@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN" manifest="index.appcache">
+<head>
+<title> Ruibin.Chow</title>
+
+<meta charset="UTF-8">  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="Ruibin.Chow" />
+<meta name="description" content="RBCHOW - 无论你是狮子还是羚羊,你都必须奔跑,无论你是贫穷还是富有,你都必须奋斗！" />
+<meta name="COPYRIGHT" content="版权所有2015,http://www.zruibin.cc">
+
+<link rel="shortcut icon" href="./vender/image/me.png" />
+
+<script type="text/javascript" src="vender/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="vender/js/jquery.tooltip.js"></script>
+
+<script type="text/javascript" src="vender/js/default.js"></script>
+<link type="text/css" href="vender/css/default.css" rel="stylesheet" media="all" />
+
+<style type="text/css">
+body{
+    background: url(./vender/image/bg.png) repeat;
+    overflow:hidden; 
+}
+#main{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    overflow-x:hidden;
+    z-index:2;position:absolute;left:0px; top:0px;
+}
+
+h1 {
+    text-align:center;
+    font-size: 48px;
+    color:#FFFFFF;
+}
+
+h2 {
+    text-align:center;
+    color:#FFFFFF;
+}
+
+#blog {
+    text-align:center;
+    font-size: 24px;
+}
+
+#design {
+    text-align:center;
+    font-size: 22px;
+}
+
+h1, h2, #blog, #design {
+    font-family:  Georgia, Helvetica, Arial, "Helvetica Neue";
+}
+
+.linker a{ color: white; text-decoration: none;}
+.linker a:hover{ color: red;}
+
+
+
+#menu {
+    /*background: #333;*/
+    background-color: rgba(51,51,51,0.9);
+    z-index:102;
+    position:absolute;
+    right:0px; 
+    top: 35%;
+    width: 10em;
+}
+#menu li {
+    font-size: 80%;
+    font-family: Verdana;
+    margin: 0;
+    padding: 0;
+}
+#menu a {
+    /*background: #333;*/
+    background-color: rgba(51,51,51,0.7);
+    border-bottom: 1px solid #393939;
+    color: #ccc;
+    display: block;
+    margin: 0;
+    padding: 8px 2px;
+    text-decoration: none;
+    font-weight:normal;
+}
+#menu a:hover {
+    background-color: #2580a2;
+    color: #fff;
+    padding-bottom: 8px;
+}
+
+</style>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    // $("#main").jScrollPane({autoReinitialise:true, mouseWheelSpeed: 60});
+
+    main();
+    //调整窗口大小后再根据窗口大小来调整位置
+    $(window).resize(function() {  
+
+    });
+
+    $("#menu").css("right","-7.5em")
+    $("#menu").hover(function() {
+            $(this).animate({"margin-right":"7.5em"}, "normal");
+        }, function() {
+            $(this).animate({"margin-right":"0em"}, "normal");
+    });
+    $("#menu a").tooltip("right");
+
+
+    $("#sinaWeibo").css("left","-320px")
+    $("#sinaWeibo").hover(function() {
+            $(this).animate({"margin-left":"320px"}, "normal");
+        }, function() {
+            $(this).animate({"margin-left":"0px"}, "normal");
+    });
+
+    makeTheBackToTopView();
+}); 
+
+
+// alert($(window).height()); //浏览器当前窗口可视区域高度 
+// alert($(document).height()); //浏览器当前窗口文档的高度 
+// alert($(document.body).height());//浏览器当前窗口文档body的高度 
+// alert($(document.body).outerHeight(true));//浏览器当前窗口文档body的总高度 包括border padding margin 
+// alert($(window).width()); //浏览器当前窗口可视区域宽度 
+// alert($(document).width());//浏览器当前窗口文档对象宽度 
+// alert($(document.body).width());//浏览器当前窗口文档body的高度 
+// alert($(document.body).outerWidth(true));//浏览器当前窗口文档body的总宽度 包括border padding margin 
+
+function main(){
+    if (isMobile()) {
+        $("#sinaWeibo").hide();
+        // $("#menu").hide();
+    };
+}
+
+</script>
+
+
+</head>
+<body>
+
+<div id="main">
+
+<h1>Ruibin.Chow</h1>
+
+<!-- <br> -->
+
+<!-- <h2>无论你是狮子还是羚羊,你都必须奔跑,无论你是贫穷还是富有,你都必须奋斗！</h2> -->
+
+<!-- <br>
+<button style="margin-top: 2000px;"></button>
+<br><br><br><br><br> -->
+
+<br><br>
+
+<h3 id="blog" class="linker">
+<a href="./article/"><span>技术博客</span></a>
+</h3>
+
+<h3 id="blog" class="linker">
+<a href="http://zruibin.lofter.com/" target="blank"><span>个人博客</span></a>
+</h3>
+
+<h3 id="design" class="linker">
+<a href="http://ruibin-design.lofter.com/" target="blank"><span>DESIGN</span></a>
+</h3>
+<br>
+
+
+
+
+
+
+
+</div>
+
+
+
+<div id="menu">
+<ul>
+    <li><a href="http://private.zruibin.cc" title="文章" target="blank"><span>文章</span></a></li>
+   <li><a href="./modules/mahua/index.html" title="markdown" target="blank"><span>在线编辑markdown文档的编辑器</span></a></li>
+   <li><a href="vender/js/sql.js/test.html" title="sql.js" target="blank"><span>sql.js Test</span></a></li>
+<!--    <li><a href="#" title="Products"><span>Products Ruibin Chow</span></a></li>
+   <li><a href="#" title="Company"><span>Company</span></a></li> -->
+</ul>
+</div>
+
+
+<style type="text/css">
+#sinaWeibo { z-index:102; position:absolute; left:0px;  top: 20%;}
+#sinaWeibo iframe { float:left;}
+#sinaWeibo ul { float:left; background-color: red; top: 40%}
+</style>
+<div id="sinaWeibo">
+<iframe  width="320" height="550" class="share_self"  frameborder="0" scrolling="no" 
+src="http://widget.weibo.com/weiboshow/index.php?
+language=&width=320&height=550&fansRow=1&ptype=1&speed=0&skin=10&isTitle=1&noborder=1&isWeibo=1&isFans=1
+&uid=1809159370&verifier=5e3ee136&dpc=1">
+</iframe>
+<ul>
+   <li></li>
+</ul>
+</div>
+
+
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?8bcfb010ef22d87e1ae02a16eb00ee71";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<style type="text/css">
+#copyright { /*background-color:#B7B7B7;*/ z-index:2; position:absolute; left:0px;  bottom:0px;  width: 100%; text-align: center;}
+ .alignright{ font-family: Georgia, Helvetica, Arial, "Helvetica Neue"; font-size: 16px; color: white;  }
+.alignright a{ color: blue; text-decoration: none;}
+.alignright a:hover{ color: red;}
+.alignright a:active{ color: black;}
+</style>
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2015
+            <a href="http://www.zruibin.cc">Ruibin.Chow</a>
+            . ALL RIGHTS RESERVED.
+        &nbsp;
+        
+        </p>  
+</div>
+
+
+</body>
+
+
+</html>
+
+

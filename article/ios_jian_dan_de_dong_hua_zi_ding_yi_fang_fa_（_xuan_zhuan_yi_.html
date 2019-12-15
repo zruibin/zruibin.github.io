@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head> 
+<title>iOS 简单的动画自定义方法（旋转、移动、闪烁等）与 如何让view只响应一个按钮 与 让自己开发的iOS App允许用户通过itunes共享文件 - Ruibin.Chow</title>
+
+
+<link rel="shortcut icon" href="../vender/image/me.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="keywords" content="iOS 简单的动画自定义方法（旋转、移动、闪烁等）与 如何让view只响应一个按钮 与 让自己开发的iOS App允许用户通过itunes共享文件,iOS,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
+<meta name="description" content="iOS 简单的动画自定义方法（旋转、移动、闪烁等）与 如何让view只响应一个按钮 与 让自己开发的iOS App允许用户通过itunes共享文件" />
+<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+
+
+<script type="text/javascript" src="../vender/js/default.js"></script>
+<script type="text/javascript" src="../vender/js/article.default.js"></script>
+<link rel="stylesheet" href="../vender/css/default.css" />
+<link rel="stylesheet" href="../vender/css/article.default.css" />
+
+<script type="text/javascript">
+
+RBReady(changeFrame);
+
+</script>
+
+</head>
+
+<body>
+
+
+<div id="navbar" >
+    <div id="menu" class="container">
+    <ul>
+
+    <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
+    <li><a href="../about.html" class="item">About Me</a></li>
+    <li><a href="./index.html" class="item">Blog</a></li>
+    <li><a class="item">Tags</a>
+        <div class="subs">
+        
+<ul>
+
+<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
+<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
+<li><a href="./Tag_python.html">Python(1)</a></li>
+<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
+<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
+<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
+<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
+<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
+<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
+<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
+<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
+<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
+<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
+</ul>
+
+        </div> 
+    </li>
+    <li><a href="./Archives.html" class="item">Archives</a></li>
+
+    </ul>
+    </div>
+</div> 
+<p></p>
+
+
+
+
+
+<div class="container" id="content">
+
+<div id='header'>
+    <h2>iOS 简单的动画自定义方法（旋转、移动、闪烁等）与 如何让view只响应一个按钮 与 让自己开发的iOS App允许用户通过itunes共享文件</h2>
+    <footer>
+        Date:&nbsp;<span id='create_time'>
+            2015-04-14 14:30
+        </span>
+        &nbsp;&nbsp;
+        Tags:&nbsp; 
+<span id='article_tags'>
+         
+<a href='../article/Tag_ios.html' class='article_tag'>iOS</a>
+
+</span>
+
+    </footer>
+    <hr>
+</div>
+
+<p><a href='http://www.cnblogs.com/kenshincui/p/3972100.html' target='blank'>iOS核心动画</a></p>
+<div class="highlight"><pre><code><span class="cp">#define kDegreesToRadian(x) (M_PI * (x) / 180.0)</span>
+
+<span class="cp">#define kRadianToDegrees(radian) (radian*180.0)/(M_PI)</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">superviewDidLoad</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="err">@</span><span class="s">&quot;测试动画&quot;</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColorlightGrayColor</span><span class="p">];</span>
+
+
+    <span class="n">myTest1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabelalloc</span><span class="p">]</span><span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">40</span><span class="p">)];</span>
+    <span class="n">myTest1</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColorblueColor</span><span class="p">];</span>
+    <span class="n">myTest1</span><span class="p">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="n">NSTextAlignmentCenter</span><span class="p">;</span>
+    <span class="n">myTest1</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="err">@</span><span class="s">&quot;Test...&quot;</span><span class="p">;</span>
+    <span class="n">myTest1</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColorwhiteColor</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="nl">viewaddSubview</span><span class="p">:</span><span class="n">myTest1</span><span class="p">];</span>
+
+      <span class="c1">//闪烁效果。</span>
+<span class="c1">//    [myTest1.layer addAnimation:[self opacityForever_Animation:0.5] forKey:nil];</span>
+      <span class="c1">///移动的动画。</span>
+<span class="c1">//    [myTest1.layer addAnimation:[self moveX:1.0f X:[NSNumber numberWithFloat:200.0f]] forKey:nil];</span>
+    <span class="c1">//缩放效果。</span>
+<span class="c1">//    [myTest1.layer addAnimation:[self scale:[NSNumber numberWithFloat:1.0f] orgin:[NSNumber numberWithFloat:3.0f] durTimes:2.0f Rep:MAXFLOAT] forKey:nil];</span>
+     <span class="c1">//组合动画。</span>
+<span class="c1">//    NSArray *myArray = [NSArray arrayWithObjects:[self opacityForever_Animation:0.5],[self moveX:1.0f X:[NSNumber numberWithFloat:200.0f]],[self scale:[NSNumber numberWithFloat:1.0f] orgin:[NSNumber numberWithFloat:3.0f] durTimes:2.0f Rep:MAXFLOAT], nil];</span>
+<span class="c1">//    [myTest1.layer addAnimation:[self groupAnimation:myArray durTimes:3.0f Rep:MAXFLOAT] forKey:nil];</span>
+    <span class="c1">//路径动画。</span>
+<span class="c1">//    CGMutablePathRef myPah = CGPathCreateMutable();</span>
+<span class="c1">//    CGPathMoveToPoint(myPah, nil,30, 77);</span>
+<span class="c1">//    CGPathAddCurveToPoint(myPah, nil, 50, 50, 60, 200, 200, 200);//这里的是控制点。</span>
+<span class="c1">//    [myTest1.layer addAnimation:[self keyframeAnimation:myPah durTimes:5 Rep:MAXFLOAT] forKey:nil];</span>
+    <span class="c1">//旋转动画。</span>
+    <span class="p">[</span><span class="n">myTest1</span><span class="p">.</span><span class="nl">layeraddAnimation</span><span class="p">:[</span><span class="nl">selfrotation</span><span class="p">:</span><span class="mi">2</span><span class="nl">degree</span><span class="p">:</span><span class="n">kRadianToDegrees</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span><span class="nl">direction</span><span class="p">:</span><span class="mi">1</span><span class="nl">repeatCount</span><span class="p">:</span><span class="n">MAXFLOAT</span><span class="p">]</span> <span class="nl">forKey</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>
+
+
+<span class="p">}</span>
+
+<span class="cp">#pragma mark === 永久闪烁的动画 ======</span>
+<span class="o">-</span><span class="p">(</span><span class="n">CABasicACnimation</span> <span class="o">*</span><span class="p">)</span><span class="nl">opacityForever_Animation</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">time</span>
+<span class="p">{</span>
+    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="nl">CABasicAnimationanimationWithKeyPath</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;opacity&quot;</span><span class="p">];</span><span class="c1">//必须写opacity才行。</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="p">[</span><span class="nl">NSNumbernumberWithFloat</span><span class="p">:</span><span class="mf">1.0f</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="nl">NSNumbernumberWithFloat</span><span class="p">:</span><span class="mf">0.0f</span><span class="p">];</span><span class="c1">//这是透明度。</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">autoreverses</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="n">MAXFLOAT</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+     <span class="n">animation</span><span class="p">.</span><span class="n">timingFunction</span><span class="o">=</span><span class="p">[</span><span class="nl">CAMediaTimingFunctionfunctionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseIn</span><span class="p">];</span><span class="c1">///没有的话是均匀的动画。</span>
+    <span class="k">return</span> <span class="n">animation</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark =====横向、纵向移动===========</span>
+<span class="o">-</span><span class="p">(</span><span class="n">CABasicAnimation</span> <span class="o">*</span><span class="p">)</span><span class="nl">moveX</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">time</span> <span class="nl">X</span><span class="p">:(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="n">x</span>
+<span class="p">{</span>
+    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="nl">CABasicAnimationanimationWithKeyPath</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;transform.translation.x&quot;</span><span class="p">];</span><span class="c1">///.y的话就向下移动。</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span><span class="c1">//yes的话，又返回原位置了。</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="n">MAXFLOAT</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">animation</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark =====缩放-=============</span>
+<span class="o">-</span><span class="p">(</span><span class="n">CABasicAnimation</span> <span class="o">*</span><span class="p">)</span><span class="nl">scale</span><span class="p">:(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="n">Multiple</span> <span class="nl">orgin</span><span class="p">:(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="n">orginMultiple</span> <span class="nl">durTimes</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">time</span> <span class="nl">Rep</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">repertTimes</span>
+<span class="p">{</span>
+    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="nl">CABasicAnimationanimationWithKeyPath</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;transform.scale&quot;</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="n">Multiple</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="n">orginMultiple</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">autoreverses</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="n">repertTimes</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="p">;</span><span class="c1">//不设置时候的话，有一个默认的缩放时间.</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+    <span class="k">return</span>  <span class="n">animation</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark =====组合动画-=============</span>
+<span class="o">-</span><span class="p">(</span><span class="n">CAAnimationGroup</span> <span class="o">*</span><span class="p">)</span><span class="nl">groupAnimation</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">animationAry</span> <span class="nl">durTimes</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">time</span> <span class="nl">Rep</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">repeatTimes</span>
+<span class="p">{</span>
+    <span class="n">CAAnimationGroup</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAAnimationGroupanimation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">animations</span> <span class="o">=</span> <span class="n">animationAry</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="n">repeatTimes</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">animation</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark =====路径动画-=============</span>
+<span class="o">-</span><span class="p">(</span><span class="n">CAKeyframeAnimation</span> <span class="o">*</span><span class="p">)</span><span class="nl">keyframeAnimation</span><span class="p">:(</span><span class="n">CGMutablePathRef</span><span class="p">)</span><span class="n">path</span> <span class="nl">durTimes</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">time</span> <span class="nl">Rep</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">repeatTimes</span>
+<span class="p">{</span>
+    <span class="n">CAKeyframeAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="nl">CAKeyframeAnimationanimationWithKeyPath</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;position&quot;</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="p">[</span><span class="nl">CAMediaTimingFunctionfunctionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseIn</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">autoreverses</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="n">repeatTimes</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">animation</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark ====旋转动画======</span>
+<span class="o">-</span><span class="p">(</span><span class="n">CABasicAnimation</span> <span class="o">*</span><span class="p">)</span><span class="nl">rotation</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">dur</span> <span class="nl">degree</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="n">degree</span> <span class="nl">direction</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="n">direction</span> <span class="nl">repeatCount</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="n">repeatCount</span>
+<span class="p">{</span>
+    <span class="n">CATransform3D</span> <span class="n">rotationTransform</span> <span class="o">=</span> <span class="n">CATransform3DMakeRotation</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">direction</span><span class="p">);</span>
+    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="nl">CABasicAnimationanimationWithKeyPath</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;transform&quot;</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSValue</span> <span class="nl">valueWithCATransform3D</span><span class="p">:</span><span class="n">rotationTransform</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span>  <span class="o">=</span>  <span class="n">dur</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">autoreverses</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">cumulative</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="n">repeatCount</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="n">animation</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<p><br/><hr><br/></p>
+<h3>如何让view只响应一个按钮</h3>
+<p>一些应用经常会在一个view上放多个按钮，比如登录页面，就会有注册与登录按钮。理论上讲注册和登录按钮是不能同时按下的，但是如果你同时按下这两个按钮，这两个东东都会显示响应高亮状态，其结果就不可预知了。这种情况经常会被测试童鞋当成bug如何让view只响应一个按钮 - 杨叫兽 - 青青子衿 悠悠我心。</p>
+<p>其实UIView类属性有个exclusiveTouch属性，表示是否该view响应触摸是排他的。默认的设置是NO，即不排他。如果想让按钮排他响应，只需将按钮的exclusiveTouch设置为YES即可。</p>
+<p>实际编程中我一般会在viewDidLoad方法中对self.view中的subview进行遍历，如果是按钮对象就将它的exclusiveTouch属性设为YES。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre><code><span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">subview</span> <span class="n">in</span> <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">subview</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">UIButton</span> <span class="n">class</span><span class="p">]])</span> <span class="p">{</span>
+            <span class="n">subview</span><span class="p">.</span><span class="n">exclusiveTouch</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p>另外说明：手势识别会忽略exclusiveTouch设置。详见苹果官方例子：SimpleGestureRecognizers。</p>
+<p><br/><hr><br/></p>
+<h3>让自己开发的iOS App允许用户通过itunes共享文件</h3>
+<p>如果我们想在自己开发的应用中，支持这个服务，就需要在应用程序的配置文件也就是plist文件中</p>
+<p>添加Application supports iTunes file sharing，设置为YES。</p>
+
+
+<br>
+<br>
+<p></p>
+
+
+<!-- Share BEGIN -->
+<div id="share"></div>
+<script type="text/javascript" src="../vender/share/share.js"></script>
+<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
+<link rel="stylesheet" href="../vender/share/share.css">
+<!-- Share END -->
+
+
+<br><p></p>
+
+
+<!-- 评论 start -->
+<div class="commentBox" id="globeCommentBox">
+    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
+    <div>
+        <input type="text" name="nickname" placeholder="nickname">
+    </div>
+    <div>
+        <input type="text" name="email" placeholder="email">
+    </div>
+    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
+</div>
+<br>
+<div id="comment"></div>
+
+<link rel="stylesheet" href="../vender/comment/comment.css" />
+<script type="text/javascript" src="../vender/comment/toast.js"></script>
+<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
+<script type="text/javascript">
+    var articleUUID = "ab418c29bd4e637ea92520aa75ec67cc";
+    var pageIndex = 1;
+</script>
+<script type="text/javascript" src="../vender/comment/comment.js"></script>
+<!-- 评论 end -->
+
+
+</div>
+
+
+<div id='link' style='display:none;'>
+<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
+<h3>· Social</h3>
+<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
+<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
+<h3>· Links</h3>
+<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
+<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
+<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
+<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
+</div>
+<br>
+
+<div id="copyright" >
+        <p class="alignright">
+            COPYRIGHT &copy; 2010-2020
+            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
+        &nbsp;   
+        </p>  
+</div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  if(window.location.host.indexOf("localhost") == -1){
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  }
+})();
+</script>
+
+
+</body>
+
+<!-- 语法高亮 -->
+<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
+<script src="../vender/js/highlight/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+// console.log(hljs.listLanguages());
+</script>
