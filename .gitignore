@@ -17,7 +17,7 @@ DerivedData
 *.hmap
 build/
 /build/*
-build.zip
+# build.zip
 
 #svn文件夹忽略
 .svn/
