@@ -7,59 +7,34 @@
 
 <link rel="shortcut icon" href="../vender/image/me.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="keywords" content="iOS Block、NSThread、NSOperation、GCD,iOS,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
 <meta name="description" content="iOS Block、NSThread、NSOperation、GCD" />
-<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+<meta name="COPYRIGHT" content="版权所有2010,http://private.zruibin.cn" />
 
-
-<script type="text/javascript" src="../vender/js/default.js"></script>
-<script type="text/javascript" src="../vender/js/article.default.js"></script>
-<link rel="stylesheet" href="../vender/css/default.css" />
-<link rel="stylesheet" href="../vender/css/article.default.css" />
-
-<script type="text/javascript">
-
-RBReady(changeFrame);
-
+<script type="text/javascript" charset="UTF-8">
+var sourcePrefix = "../";
 </script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/sea.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/seajs-css.js"></script>
 
 </head>
 
-<body>
+<body style="visibility: hidden;">
 
 
 <div id="navbar" >
     <div id="menu" class="container">
     <ul>
-
     <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
     <li><a href="../about.html" class="item">About Me</a></li>
     <li><a href="./index.html" class="item">Blog</a></li>
-    <li><a class="item">Tags</a>
-        <div class="subs">
-        
-<ul>
-
-<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
-<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
-<li><a href="./Tag_python.html">Python(1)</a></li>
-<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
-<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
-<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
-<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
-<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
-<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
-<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
-<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
-<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
-<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
-</ul>
-
-        </div> 
+    <li><a class="item" href="../article/tags.html">Tags</a>
+        &nbsp;
+        <div class="subs" id="tags"></div> 
     </li>
-    <li><a href="./Archives.html" class="item">Archives</a></li>
+    <li><a href="./archives.html" class="item">Archives</a></li>
 
     </ul>
     </div>
@@ -67,27 +42,24 @@ RBReady(changeFrame);
 <p></p>
 
 
-
-
-
 <div class="container" id="content">
 
 <div id='header'>
     <h2>iOS Block、NSThread、NSOperation、GCD</h2>
     <footer>
-        Date:&nbsp;<span id='create_time'>
+        Date:<span id='create_time'>
             2014-12-16 15:57
         </span>
-        &nbsp;&nbsp;
-        Tags:&nbsp; 
+        &nbsp;
+        Tags: 
 <span id='article_tags'>
          
-<a href='../article/Tag_ios.html' class='article_tag'>iOS</a>
+<a href='../article/tag_ios.html' class='article_tag'>iOS</a>
 
 </span>
 
     </footer>
-    <hr>
+    <hr/>
 </div>
 
 <h2>Block</h2>
@@ -96,42 +68,42 @@ RBReady(changeFrame);
 <ol>
 <li>Blocks 作为property的时候要使用copy</li>
 </ol>
-<div class="highlight"><pre><code><span class="err">@</span><span class="n">property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">SomeBlockType</span> <span class="n">someBlock</span><span class="p">;</span>
+<div class="highlight"><pre><code><span></span><span class="err">@</span><span class="n">property</span><span class="w"> </span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="w"> </span><span class="n">copy</span><span class="p">)</span><span class="w"> </span><span class="n">SomeBlockType</span><span class="w"> </span><span class="n">someBlock</span><span class="p">;</span>
 </code></pre></div>
 <ol>
 <li>防止retain cycle造成内存泄漏。下面是一种比较好的作法。</li>
 </ol>
-<div class="highlight"><pre><code><span class="n">SomeObjectClass</span> <span class="o">*</span><span class="n">someObject</span> <span class="o">=</span> <span class="p">...</span>
-<span class="n">__weak</span> <span class="n">SomeObjectClass</span> <span class="o">*</span><span class="n">weakSomeObject</span> <span class="o">=</span> <span class="n">someObject</span><span class="p">;</span>
+<div class="highlight"><pre><code><span></span><span class="n">SomeObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">someObject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
+<span class="n">__weak</span><span class="w"> </span><span class="n">SomeObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">weakSomeObject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">someObject</span><span class="p">;</span>
 
-<span class="n">someObject</span><span class="p">.</span><span class="n">completionHandler</span> <span class="o">=</span> <span class="o">^</span><span class="p">{</span>
-    <span class="n">SomeObjectClass</span> <span class="o">*</span><span class="n">strongSomeObject</span> <span class="o">=</span> <span class="n">weakSomeObject</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">strongSomeObject</span> <span class="o">==</span> <span class="n">nil</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="c1">// The original someObject doesn&#39;t exist anymore.</span>
-        <span class="c1">// Ignore, notify or otherwise handle this case.</span>
-    <span class="p">}</span>
-    <span class="k">else</span>
-    <span class="p">{</span>
-        <span class="c1">// okay, NOW we can do something with someObject</span>
-        <span class="p">[</span><span class="n">strongSomeObject</span> <span class="n">someMethod</span><span class="p">];</span>
-    <span class="p">}</span>
+<span class="n">someObject</span><span class="p">.</span><span class="n">completionHandler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
+<span class="w">    </span><span class="n">SomeObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">strongSomeObject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weakSomeObject</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strongSomeObject</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// The original someObject doesn&#39;t exist anymore.</span>
+<span class="w">        </span><span class="c1">// Ignore, notify or otherwise handle this case.</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// okay, NOW we can do something with someObject</span>
+<span class="w">        </span><span class="p">[</span><span class="n">strongSomeObject</span><span class="w"> </span><span class="n">someMethod</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">};</span>
 </code></pre></div>
 <p>当然，如果Block不会被赋值给SomeObjectClass的property就不需要先定义一个weak对象。</p>
 <p>相信大家为解决告警，又会得到一个比较圆满的解决方案，见下：</p>
-<div class="highlight"><pre><code><span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nl">onTest</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="n">sender</span>  
-<span class="p">{</span>  
-    <span class="n">BlockDemo</span> <span class="o">*</span><span class="n">demo</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BlockDemo</span> <span class="n">alloc</span><span class="p">]</span><span class="n">init</span><span class="p">];</span>  
+<div class="highlight"><pre><code><span></span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">onTest</span><span class="o">:</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">sender</span><span class="w">  </span>
+<span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">BlockDemo</span><span class="w"> </span><span class="o">*</span><span class="n">demo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">BlockDemo</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="n">init</span><span class="p">];</span><span class="w">  </span>
 
-    <span class="n">__weak</span> <span class="n">typeof</span><span class="p">(</span><span class="n">BlockDemo</span><span class="p">)</span> <span class="o">*</span><span class="n">weakDemo</span> <span class="o">=</span> <span class="n">demo</span><span class="p">;</span>  
+<span class="w">    </span><span class="n">__weak</span><span class="w"> </span><span class="nf">typeof</span><span class="p">(</span><span class="n">BlockDemo</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="n">weakDemo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">demo</span><span class="p">;</span><span class="w">  </span>
 
-    <span class="p">[</span><span class="n">demo</span> <span class="nl">setExecuteFinished</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>  
-        <span class="k">if</span> <span class="p">(</span><span class="n">weakDemo</span><span class="p">.</span><span class="n">resultCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>  
-            <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;call back ok.&quot;</span><span class="p">);</span>  
-        <span class="p">}</span>  
-    <span class="p">}];</span>  
-    <span class="p">[</span><span class="n">demo</span> <span class="n">executeTest</span><span class="p">];</span>  
+<span class="w">    </span><span class="p">[</span><span class="n">demo</span><span class="w"> </span><span class="n">setExecuteFinished</span><span class="o">:^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">weakDemo</span><span class="p">.</span><span class="n">resultCode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">            </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;call back ok.&quot;</span><span class="p">);</span><span class="w">  </span>
+<span class="w">        </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}];</span><span class="w">  </span>
+<span class="w">    </span><span class="p">[</span><span class="n">demo</span><span class="w"> </span><span class="n">executeTest</span><span class="p">];</span><span class="w">  </span>
 <span class="p">}</span>
 </code></pre></div>
 <p>这样写，即去除了告警又保证了block的运行。</p>
@@ -141,57 +113,57 @@ RBReady(changeFrame);
 <h2>多线程之Thread</h2>
 <p>每个iOS应用程序都有个专门用来更新显示UI界面、处理用户的触摸事件的主线程，因此不能将其他太耗时的操作放在主线程中执行，不然会造成主线程堵塞(出现卡机现象)，带来极坏的用户体验。一般的解决方案就是将那些耗时的操作放到另外一个线程中去执行，多线程编程是防止主线程堵塞，增加运行效率的最佳方法。
      iOS支持多个层次的多线程编程，层次越高的抽象程度越高，使用也越方便，也是苹果最推荐使用的方法。</p>
-<div class="highlight"><pre><code><span class="err">下面根据抽象层次从低到高依次列出</span><span class="n">iOS</span><span class="err">所支持的多线程编程方法：</span>
-<span class="mf">1.</span><span class="n">Thread</span> <span class="err">：是三种方法里面相对轻量级的，但需要管理线程的生命周期、同步、加锁问题，这会导致一定的性能开销。</span>
-<span class="mf">2.</span><span class="n">Cocoa</span> <span class="n">Operations</span><span class="err">：是基于</span><span class="n">OC</span><span class="err">实现的，</span><span class="n">NSOperation</span><span class="err">以面向对象的方式封装了需要执行的操作，不必关心线程管理、同步等问题。</span><span class="n">NSOperation</span><span class="err">是一个抽象基类，</span><span class="n">iOS</span><span class="err">提供了两种默认实现：</span><span class="n">NSInvocationOperation</span><span class="err">和</span><span class="n">NSBlockOperation</span><span class="err">，当然也可以自定义</span><span class="n">NSOperation</span><span class="err">。</span>
-<span class="mf">3.</span><span class="n">Grand</span> <span class="n">Central</span> <span class="n">Dispatch</span><span class="p">(</span><span class="err">简称</span><span class="n">GCD</span><span class="err">，</span><span class="n">iOS4</span><span class="err">才开始支持</span><span class="p">)</span><span class="err">：提供了一些新特性、运行库来支持多核并行编程，它的关注点更高：如何在多个</span><span class="n">cpu</span><span class="err">上提升效率。</span>
+<div class="highlight"><pre><code><span></span><span class="n">下面根据抽象层次从低到高依次列出iOS所支持的多线程编程方法</span><span class="err">：</span>
+<span class="mf">1.</span><span class="n">Thread</span><span class="w"> </span><span class="err">：</span><span class="n">是三种方法里面相对轻量级的</span><span class="err">，</span><span class="n">但需要管理线程的生命周期</span><span class="err">、</span><span class="n">同步</span><span class="err">、</span><span class="n">加锁问题</span><span class="err">，</span><span class="n">这会导致一定的性能开销</span><span class="err">。</span>
+<span class="mf">2.</span><span class="n">Cocoa</span><span class="w"> </span><span class="n">Operations</span><span class="err">：</span><span class="n">是基于OC实现的</span><span class="err">，</span><span class="n">NSOperation以面向对象的方式封装了需要执行的操作</span><span class="err">，</span><span class="n">不必关心线程管理</span><span class="err">、</span><span class="n">同步等问题</span><span class="err">。</span><span class="n">NSOperation是一个抽象基类</span><span class="err">，</span><span class="n">iOS提供了两种默认实现</span><span class="err">：</span><span class="n">NSInvocationOperation和NSBlockOperation</span><span class="err">，</span><span class="n">当然也可以自定义NSOperation</span><span class="err">。</span>
+<span class="mf">3.</span><span class="n">Grand</span><span class="w"> </span><span class="n">Central</span><span class="w"> </span><span class="n">Dispatch</span><span class="p">(</span><span class="n">简称GCD</span><span class="err">，</span><span class="n">iOS4才开始支持</span><span class="p">)</span><span class="err">：</span><span class="n">提供了一些新特性</span><span class="err">、</span><span class="n">运行库来支持多核并行编程</span><span class="err">，</span><span class="n">它的关注点更高</span><span class="err">：</span><span class="n">如何在多个cpu上提升效率</span><span class="err">。</span>
 </code></pre></div>
-<div class="highlight"><pre><code><span class="c1">//************    一：初始化   **************//</span>
-    <span class="c1">// 1 . 动态方法</span>
+<div class="highlight"><pre><code><span></span><span class="c1">//************    一：初始化   **************//</span>
+<span class="w">    </span><span class="c1">// 1 . 动态方法</span>
 
-    <span class="n">NSThread</span> <span class="o">*</span><span class="kr">thread</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSThread</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">selector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span> <span class="nl">object</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>
-    <span class="kr">thread</span><span class="p">.</span><span class="n">threadPriority</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">[</span><span class="kr">thread</span> <span class="n">start</span><span class="p">];</span>
+<span class="w">    </span><span class="n">NSThread</span><span class="w"> </span><span class="o">*</span><span class="kr">thread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">initWithTarget</span><span class="o">:</span><span class="n">self</span><span class="w"> </span><span class="n">selector</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span><span class="w"> </span><span class="n">object</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span>
+<span class="w">    </span><span class="kr">thread</span><span class="p">.</span><span class="n">threadPriority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">[</span><span class="kr">thread</span><span class="w"> </span><span class="n">start</span><span class="p">];</span>
 
-    <span class="c1">// 2. 静态方法</span>
+<span class="w">    </span><span class="c1">// 2. 静态方法</span>
 
-    <span class="p">[</span><span class="n">NSThread</span> <span class="nl">detachNewThreadSelector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span> <span class="nl">toTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">withObject</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>
-    <span class="c1">// 调用完毕后，会马上创建并开启新线程</span>
+<span class="w">    </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">detachNewThreadSelector</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span><span class="w"> </span><span class="n">toTarget</span><span class="o">:</span><span class="n">self</span><span class="w"> </span><span class="n">withObject</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// 调用完毕后，会马上创建并开启新线程</span>
 
-    <span class="c1">// 3. 隐式的创建线程</span>
-    <span class="p">[</span><span class="n">self</span> <span class="nl">performSelectorInBackground</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span> <span class="nl">withObject</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// 3. 隐式的创建线程</span>
+<span class="w">    </span><span class="p">[</span><span class="n">self</span><span class="w"> </span><span class="n">performSelectorInBackground</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span><span class="w"> </span><span class="n">withObject</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span>
 
-    <span class="c1">//************    二：获取当前线程   **************//</span>
+<span class="w">    </span><span class="c1">//************    二：获取当前线程   **************//</span>
 
-    <span class="n">NSThread</span> <span class="o">*</span><span class="n">currentTh</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">];</span>
+<span class="w">    </span><span class="n">NSThread</span><span class="w"> </span><span class="o">*</span><span class="n">currentTh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">];</span>
 
 
-    <span class="c1">//************    三：获取主线程  **************//</span>
+<span class="w">    </span><span class="c1">//************    三：获取主线程  **************//</span>
 
-    <span class="n">NSThread</span> <span class="o">*</span><span class="n">main</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">mainThread</span><span class="p">];</span>
+<span class="w">    </span><span class="n">NSThread</span><span class="w"> </span><span class="o">*</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">mainThread</span><span class="p">];</span>
 
-    <span class="c1">//************      四、暂停当前线程 **************//</span>
+<span class="w">    </span><span class="c1">//************      四、暂停当前线程 **************//</span>
 
-    <span class="c1">// 暂停2s</span>
-    <span class="p">[</span><span class="n">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// 暂停2s</span>
+<span class="w">    </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">sleepForTimeInterval</span><span class="o">:</span><span class="mi">2</span><span class="p">];</span>
 
-    <span class="n">NSDate</span> <span class="o">*</span><span class="n">date</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nl">dateWithTimeInterval</span><span class="p">:</span><span class="mi">2</span> <span class="nl">sinceDate</span><span class="p">:[</span><span class="n">NSDate</span> <span class="n">date</span><span class="p">]];</span>
-    <span class="p">[</span><span class="n">NSThread</span> <span class="nl">sleepUntilDate</span><span class="p">:</span><span class="n">date</span><span class="p">];</span>
+<span class="w">    </span><span class="n">NSDate</span><span class="w"> </span><span class="o">*</span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSDate</span><span class="w"> </span><span class="n">dateWithTimeInterval</span><span class="o">:</span><span class="mi">2</span><span class="w"> </span><span class="n">sinceDate</span><span class="o">:</span><span class="p">[</span><span class="n">NSDate</span><span class="w"> </span><span class="n">date</span><span class="p">]];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">sleepUntilDate</span><span class="o">:</span><span class="n">date</span><span class="p">];</span>
 
-    <span class="c1">//************      五、线程间的通信 **************//</span>
+<span class="w">    </span><span class="c1">//************      五、线程间的通信 **************//</span>
 
-    <span class="c1">//1.在指定线程上执行操作</span>
-    <span class="n">NSThread</span> <span class="o">*</span><span class="n">currentThread</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">];</span>
-    <span class="p">[</span><span class="n">self</span> <span class="nl">performSelector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span> <span class="nl">onThread</span><span class="p">:</span><span class="n">currentThread</span> <span class="nl">withObject</span><span class="p">:</span><span class="n">nil</span> <span class="nl">waitUntilDone</span><span class="p">:</span><span class="n">NO</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">//1.在指定线程上执行操作</span>
+<span class="w">    </span><span class="n">NSThread</span><span class="w"> </span><span class="o">*</span><span class="n">currentThread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">self</span><span class="w"> </span><span class="n">performSelector</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span><span class="w"> </span><span class="n">onThread</span><span class="o">:</span><span class="n">currentThread</span><span class="w"> </span><span class="n">withObject</span><span class="o">:</span><span class="n">nil</span><span class="w"> </span><span class="n">waitUntilDone</span><span class="o">:</span><span class="n">NO</span><span class="p">];</span>
 
-    <span class="c1">//2.在主线程上执行操作</span>
+<span class="w">    </span><span class="c1">//2.在主线程上执行操作</span>
 
-    <span class="p">[</span><span class="n">self</span> <span class="nl">performSelectorOnMainThread</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span> <span class="nl">withObject</span><span class="p">:</span><span class="n">nil</span> <span class="nl">waitUntilDone</span><span class="p">:</span><span class="n">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">self</span><span class="w"> </span><span class="n">performSelectorOnMainThread</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span><span class="w"> </span><span class="n">withObject</span><span class="o">:</span><span class="n">nil</span><span class="w"> </span><span class="n">waitUntilDone</span><span class="o">:</span><span class="n">YES</span><span class="p">];</span>
 
-    <span class="c1">//3.在当前线程执行操作</span>
-    <span class="p">[</span><span class="n">self</span> <span class="nl">performSelector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span> <span class="nl">withObject</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">//3.在当前线程执行操作</span>
+<span class="w">    </span><span class="p">[</span><span class="n">self</span><span class="w"> </span><span class="n">performSelector</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">runOne</span><span class="p">)</span><span class="w"> </span><span class="n">withObject</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span>
 
-    <span class="c1">//************      六、优缺点**************//</span>
+<span class="w">    </span><span class="c1">//************      六、优缺点**************//</span>
 
 
 <span class="c1">//    1.优点：NSThread比其他两种多线程方案较轻量级，更直观地控制线程对象</span>
@@ -208,64 +180,64 @@ NSOperation本身是抽象基类，因此必须使用它的子类，使用NSOper
 NSOperation调用start方法即可开始执行操作，NSOperation对象默认按同步方式执行,也就是在调用start方法的那个线程中直接执行。NSOperation对象的isConcurrent方法会告诉我们这个操作相对于调用start方法的线程,是同步还是异步执行。isConcurrent方法默认返回NO,表示操作与调用线程同步执行</p>
 <p>3.取消操作
 operation开始执行之后, 默认会一直执行操作直到完成，我们也可以调用cancel方法中途取消操作</p>
-<div class="highlight"><pre><code><span class="p">[</span><span class="n">operation</span> <span class="n">cancel</span><span class="p">];</span>
+<div class="highlight"><pre><code><span></span><span class="p">[</span><span class="n">operation</span><span class="w"> </span><span class="n">cancel</span><span class="p">];</span>
 </code></pre></div>
 <p>4.监听操作的执行
 如果我们想在一个NSOperation执行完毕后做一些事情，就调用NSOperation的setCompletionBlock方法来设置想做的事情</p>
-<div class="highlight"><pre><code><span class="n">operation</span><span class="p">.</span><span class="n">completionBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">()</span> <span class="p">{</span>  
-    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;执行完毕&quot;</span><span class="p">);</span>  
+<div class="highlight"><pre><code><span></span><span class="n">operation</span><span class="p">.</span><span class="n">completionBlock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">^</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;执行完毕&quot;</span><span class="p">);</span><span class="w">  </span>
 <span class="p">};</span>
 </code></pre></div>
 <p>或者</p>
-<div class="highlight"><pre><code><span class="p">[</span><span class="n">operation</span> <span class="nl">setCompletionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">()</span> <span class="p">{</span>  
-    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;执行完毕&quot;</span><span class="p">);</span>  
+<div class="highlight"><pre><code><span></span><span class="p">[</span><span class="n">operation</span><span class="w"> </span><span class="n">setCompletionBlock</span><span class="o">:^</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;执行完毕&quot;</span><span class="p">);</span><span class="w">  </span>
 <span class="p">}];</span>
 </code></pre></div>
 <h4>二、NSInvocationOperation</h4>
 <p>1.简介
 基于一个对象和selector来创建操作。如果你已经有现有的方法来执行需要的任务,就可以使用这个类</p>
 <p>2.创建并执行操作</p>
-<div class="highlight"><pre><code><span class="c1">// 这个操作是：调用self的run方法  </span>
-<span class="n">NSInvocationOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSInvocationOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">selector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">run</span><span class="p">)</span> <span class="nl">object</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>  
+<div class="highlight"><pre><code><span></span><span class="c1">// 这个操作是：调用self的run方法  </span>
+<span class="n">NSInvocationOperation</span><span class="w"> </span><span class="o">*</span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">NSInvocationOperation</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">initWithTarget</span><span class="o">:</span><span class="n">self</span><span class="w"> </span><span class="n">selector</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">run</span><span class="p">)</span><span class="w"> </span><span class="n">object</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span><span class="w">  </span>
 <span class="c1">// 开始执行任务(同步执行)  </span>
-<span class="p">[</span><span class="n">operation</span> <span class="n">start</span><span class="p">];</span>
+<span class="p">[</span><span class="n">operation</span><span class="w"> </span><span class="n">start</span><span class="p">];</span>
 </code></pre></div>
 <h4>三、NSBlockOperation</h4>
 <p>1.简介</p>
-<div class="highlight"><pre><code><span class="err">能够并发地执行一个或多个</span><span class="n">block</span><span class="err">对象，所有相关的</span><span class="n">block</span><span class="err">都执行完之后</span><span class="p">,</span><span class="err">操作才算完成</span>
+<div class="highlight"><pre><code><span></span><span class="n">能够并发地执行一个或多个block对象</span><span class="err">，</span><span class="n">所有相关的block都执行完之后</span><span class="p">,</span><span class="n">操作才算完成</span>
 </code></pre></div>
 <p>2.创建并执行操作</p>
-<div class="highlight"><pre><code><span class="n">NSBlockOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(){</span>  
-        <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;执行了一个新的操作，线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>  
-<span class="p">}];</span>  
- <span class="c1">// 开始执行任务(这里还是同步执行)  </span>
-<span class="p">[</span><span class="n">operation</span> <span class="n">start</span><span class="p">];</span>
+<div class="highlight"><pre><code><span></span><span class="n">NSBlockOperation</span><span class="w"> </span><span class="o">*</span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSBlockOperation</span><span class="w"> </span><span class="n">blockOperationWithBlock</span><span class="o">:^</span><span class="p">(){</span><span class="w">  </span>
+<span class="w">        </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;执行了一个新的操作，线程：%@&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">]);</span><span class="w">  </span>
+<span class="p">}];</span><span class="w">  </span>
+<span class="w"> </span><span class="c1">// 开始执行任务(这里还是同步执行)  </span>
+<span class="p">[</span><span class="n">operation</span><span class="w"> </span><span class="n">start</span><span class="p">];</span>
 </code></pre></div>
 <p>3.通过addExecutionBlock方法添加block操作</p>
-<div class="highlight"><pre><code><span class="n">NSBlockOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(){</span>  
-    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;执行第1次操作，线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>  
-<span class="p">}];</span>  
+<div class="highlight"><pre><code><span></span><span class="n">NSBlockOperation</span><span class="w"> </span><span class="o">*</span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSBlockOperation</span><span class="w"> </span><span class="n">blockOperationWithBlock</span><span class="o">:^</span><span class="p">(){</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;执行第1次操作，线程：%@&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">]);</span><span class="w">  </span>
+<span class="p">}];</span><span class="w">  </span>
 
-<span class="p">[</span><span class="n">operation</span> <span class="nl">addExecutionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">()</span> <span class="p">{</span>  
-    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;又执行了1个新的操作，线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>  
-<span class="p">}];</span>  
+<span class="p">[</span><span class="n">operation</span><span class="w"> </span><span class="n">addExecutionBlock</span><span class="o">:^</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;又执行了1个新的操作，线程：%@&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">]);</span><span class="w">  </span>
+<span class="p">}];</span><span class="w">  </span>
 
-<span class="p">[</span><span class="n">operation</span> <span class="nl">addExecutionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">()</span> <span class="p">{</span>  
-    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;又执行了1个新的操作，线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>  
-<span class="p">}];</span>  
+<span class="p">[</span><span class="n">operation</span><span class="w"> </span><span class="n">addExecutionBlock</span><span class="o">:^</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;又执行了1个新的操作，线程：%@&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">]);</span><span class="w">  </span>
+<span class="p">}];</span><span class="w">  </span>
 
-<span class="p">[</span><span class="n">operation</span> <span class="nl">addExecutionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">()</span> <span class="p">{</span>  
-    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;又执行了1个新的操作，线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>  
-<span class="p">}];</span>  
+<span class="p">[</span><span class="n">operation</span><span class="w"> </span><span class="n">addExecutionBlock</span><span class="o">:^</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;又执行了1个新的操作，线程：%@&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">]);</span><span class="w">  </span>
+<span class="p">}];</span><span class="w">  </span>
 
 <span class="c1">// 开始执行任务  </span>
-<span class="p">[</span><span class="n">operation</span> <span class="n">start</span><span class="p">];</span>
+<span class="p">[</span><span class="n">operation</span><span class="w"> </span><span class="n">start</span><span class="p">];</span>
 </code></pre></div>
 <p>打印信息如下：</p>
-<div class="highlight"><pre><code><span class="mi">2013</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mo">02</span> <span class="mi">21</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mf">46.102</span> <span class="kr">thread</span><span class="p">[</span><span class="mi">4602</span><span class="o">:</span><span class="n">c07</span><span class="p">]</span> <span class="err">又执行了</span><span class="mi">1</span><span class="err">个新的操作，线程：</span><span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x7121d50</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">),</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">}</span>  
-<span class="mi">2013</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mo">02</span> <span class="mi">21</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mf">46.102</span> <span class="kr">thread</span><span class="p">[</span><span class="mi">4602</span><span class="o">:</span><span class="mf">3f</span><span class="mo">03</span><span class="p">]</span> <span class="err">又执行了</span><span class="mi">1</span><span class="err">个新的操作，线程：</span><span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x742e1d0</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">),</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">5</span><span class="p">}</span>  
-<span class="mi">2013</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mo">02</span> <span class="mi">21</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mf">46.102</span> <span class="kr">thread</span><span class="p">[</span><span class="mi">4602</span><span class="o">:</span><span class="mi">1</span><span class="n">b03</span><span class="p">]</span> <span class="err">执行第</span><span class="mi">1</span><span class="err">次操作，线程：</span><span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x742de50</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">),</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">3</span><span class="p">}</span>  
-<span class="mi">2013</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mo">02</span> <span class="mi">21</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mf">46.102</span> <span class="kr">thread</span><span class="p">[</span><span class="mi">4602</span><span class="o">:</span><span class="mi">1303</span><span class="p">]</span> <span class="err">又执行了</span><span class="mi">1</span><span class="err">个新的操作，线程：</span><span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x7157bf0</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">),</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">4</span><span class="p">}</span>
+<div class="highlight"><pre><code><span></span><span class="mi">2013</span><span class="mo">-02-02</span><span class="w"> </span><span class="mi">21</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mf">46.102</span><span class="w"> </span><span class="kr">thread</span><span class="p">[</span><span class="mi">4602</span><span class="o">:</span><span class="n">c07</span><span class="p">]</span><span class="w"> </span><span class="n">又执行了1个新的操作</span><span class="err">，</span><span class="n">线程</span><span class="err">：</span><span class="o">&lt;</span><span class="n">NSThread</span><span class="o">:</span><span class="w"> </span><span class="mh">0x7121d50</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">null</span><span class="p">),</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w">  </span>
+<span class="mi">2013</span><span class="mo">-02-02</span><span class="w"> </span><span class="mi">21</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mf">46.102</span><span class="w"> </span><span class="kr">thread</span><span class="p">[</span><span class="mi">4602</span><span class="o">:</span><span class="mf">3f</span><span class="mo">03</span><span class="p">]</span><span class="w"> </span><span class="n">又执行了1个新的操作</span><span class="err">，</span><span class="n">线程</span><span class="err">：</span><span class="o">&lt;</span><span class="n">NSThread</span><span class="o">:</span><span class="w"> </span><span class="mh">0x742e1d0</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">null</span><span class="p">),</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">}</span><span class="w">  </span>
+<span class="mi">2013</span><span class="mo">-02-02</span><span class="w"> </span><span class="mi">21</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mf">46.102</span><span class="w"> </span><span class="kr">thread</span><span class="p">[</span><span class="mi">4602</span><span class="o">:</span><span class="mi">1</span><span class="n">b03</span><span class="p">]</span><span class="w"> </span><span class="n">执行第1次操作</span><span class="err">，</span><span class="n">线程</span><span class="err">：</span><span class="o">&lt;</span><span class="n">NSThread</span><span class="o">:</span><span class="w"> </span><span class="mh">0x742de50</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">null</span><span class="p">),</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">}</span><span class="w">  </span>
+<span class="mi">2013</span><span class="mo">-02-02</span><span class="w"> </span><span class="mi">21</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mf">46.102</span><span class="w"> </span><span class="kr">thread</span><span class="p">[</span><span class="mi">4602</span><span class="o">:</span><span class="mi">1303</span><span class="p">]</span><span class="w"> </span><span class="n">又执行了1个新的操作</span><span class="err">，</span><span class="n">线程</span><span class="err">：</span><span class="o">&lt;</span><span class="n">NSThread</span><span class="o">:</span><span class="w"> </span><span class="mh">0x7157bf0</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">null</span><span class="p">),</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">}</span>
 </code></pre></div>
 <p>可以看出，这4个block是并发执行的，也就是在不同线程中执行的，num属性可以看成是线程的id</p>
 <h4>四、自定义NSOperation</h4>
@@ -275,52 +247,52 @@ operation开始执行之后, 默认会一直执行操作直到完成，我们也
 比如叫做DownloadOperation，用来下载图片</p>
 <p>1&gt; 继承NSOperation，重写main方法，执行主任务
 DownloadOperation.h</p>
-<div class="highlight"><pre><code><span class="cp">#import &lt;Foundation/Foundation.h&gt;  </span>
-<span class="err">@</span><span class="n">protocol</span> <span class="n">DownloadOperationDelegate</span><span class="p">;</span>  
+<div class="highlight"><pre><code><span></span><span class="cp">#import &lt;Foundation/Foundation.h&gt;  </span>
+<span class="err">@</span><span class="n">protocol</span><span class="w"> </span><span class="n">DownloadOperationDelegate</span><span class="p">;</span><span class="w">  </span>
 
-<span class="err">@</span><span class="n">interface</span> <span class="nl">DownloadOperation</span> <span class="p">:</span> <span class="n">NSOperation</span>  
+<span class="err">@</span><span class="n">interface</span><span class="w"> </span><span class="n">DownloadOperation</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">NSOperation</span><span class="w">  </span>
 <span class="c1">// 图片的url路径  </span>
-<span class="err">@</span><span class="n">property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">imageUrl</span><span class="p">;</span>  
+<span class="err">@</span><span class="n">property</span><span class="w"> </span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="w"> </span><span class="n">copy</span><span class="p">)</span><span class="w"> </span><span class="n">NSString</span><span class="w"> </span><span class="o">*</span><span class="n">imageUrl</span><span class="p">;</span><span class="w">  </span>
 <span class="c1">// 代理  </span>
-<span class="err">@</span><span class="n">property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">DownloadOperationDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>  
+<span class="err">@</span><span class="n">property</span><span class="w"> </span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="w"> </span><span class="n">retain</span><span class="p">)</span><span class="w"> </span><span class="n">id</span><span class="o">&lt;</span><span class="n">DownloadOperationDelegate</span><span class="o">&gt;</span><span class="w"> </span><span class="n">delegate</span><span class="p">;</span><span class="w">  </span>
 
-<span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nl">initWithUrl</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">url</span> <span class="nl">delegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">DownloadOperationDelegate</span><span class="o">&gt;</span><span class="p">)</span><span class="n">delegate</span><span class="p">;</span>  
-<span class="err">@</span><span class="n">end</span>  
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">initWithUrl</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">url</span><span class="w"> </span><span class="n">delegate</span><span class="o">:</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">DownloadOperationDelegate</span><span class="o">&gt;</span><span class="p">)</span><span class="n">delegate</span><span class="p">;</span><span class="w">  </span>
+<span class="err">@</span><span class="n">end</span><span class="w">  </span>
 
 <span class="c1">// 图片下载的协议  </span>
-<span class="err">@</span><span class="n">protocol</span> <span class="n">DownloadOperationDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>  
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">downloadFinishWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="n">image</span><span class="p">;</span>  
+<span class="err">@</span><span class="n">protocol</span><span class="w"> </span><span class="n">DownloadOperationDelegate</span><span class="w"> </span><span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span><span class="w">  </span>
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">downloadFinishWithImage</span><span class="o">:</span><span class="p">(</span><span class="n">UIImage</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">image</span><span class="p">;</span><span class="w">  </span>
 <span class="err">@</span><span class="n">end</span>
 </code></pre></div>
 <p>DownloadOperation.m</p>
-<div class="highlight"><pre><code><span class="cp">#import &quot;DownloadOperation.h&quot;  </span>
+<div class="highlight"><pre><code><span></span><span class="cp">#import &quot;DownloadOperation.h&quot;  </span>
 
-<span class="err">@</span><span class="n">implementation</span> <span class="n">DownloadOperation</span>  
-<span class="err">@</span><span class="n">synthesize</span> <span class="n">delegate</span> <span class="o">=</span> <span class="n">_delegate</span><span class="p">;</span>  
-<span class="err">@</span><span class="n">synthesize</span> <span class="n">imageUrl</span> <span class="o">=</span> <span class="n">_imageUrl</span><span class="p">;</span>  
+<span class="err">@</span><span class="n">implementation</span><span class="w"> </span><span class="n">DownloadOperation</span><span class="w">  </span>
+<span class="err">@</span><span class="n">synthesize</span><span class="w"> </span><span class="n">delegate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_delegate</span><span class="p">;</span><span class="w">  </span>
+<span class="err">@</span><span class="n">synthesize</span><span class="w"> </span><span class="n">imageUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_imageUrl</span><span class="p">;</span><span class="w">  </span>
 
 <span class="c1">// 初始化  </span>
-<span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nl">initWithUrl</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">url</span> <span class="nl">delegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">DownloadOperationDelegate</span><span class="o">&gt;</span><span class="p">)</span><span class="n">delegate</span> <span class="p">{</span>  
-    <span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">])</span> <span class="p">{</span>  
-        <span class="n">self</span><span class="p">.</span><span class="n">imageUrl</span> <span class="o">=</span> <span class="n">url</span><span class="p">;</span>  
-        <span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">delegate</span><span class="p">;</span>  
-    <span class="p">}</span>  
-    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>  
-<span class="p">}</span>  
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">initWithUrl</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">url</span><span class="w"> </span><span class="n">delegate</span><span class="o">:</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">DownloadOperationDelegate</span><span class="o">&gt;</span><span class="p">)</span><span class="n">delegate</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">super</span><span class="w"> </span><span class="n">init</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">imageUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">url</span><span class="p">;</span><span class="w">  </span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delegate</span><span class="p">;</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">self</span><span class="p">;</span><span class="w">  </span>
+<span class="p">}</span><span class="w">  </span>
 <span class="c1">// 释放内存  </span>
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span> <span class="p">{</span>  
-    <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>  
-    <span class="p">[</span><span class="n">_delegate</span> <span class="n">release</span><span class="p">];</span>  
-    <span class="p">[</span><span class="n">_imageUrl</span> <span class="n">release</span><span class="p">];</span>  
-<span class="p">}</span>  
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="p">[</span><span class="n">super</span><span class="w"> </span><span class="n">dealloc</span><span class="p">];</span><span class="w">  </span>
+<span class="w">    </span><span class="p">[</span><span class="n">_delegate</span><span class="w"> </span><span class="n">release</span><span class="p">];</span><span class="w">  </span>
+<span class="w">    </span><span class="p">[</span><span class="n">_imageUrl</span><span class="w"> </span><span class="n">release</span><span class="p">];</span><span class="w">  </span>
+<span class="p">}</span><span class="w">  </span>
 
 <span class="c1">// 执行主任务  </span>
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">main</span> <span class="p">{</span>  
-    <span class="c1">// 新建一个自动释放池，如果是异步执行操作，那么将无法访问到主线程的自动释放池  </span>
-    <span class="err">@</span><span class="n">autoreleasepool</span> <span class="p">{</span>  
-        <span class="c1">// ....  </span>
-    <span class="p">}</span>  
-<span class="p">}</span>  
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">main</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="c1">// 新建一个自动释放池，如果是异步执行操作，那么将无法访问到主线程的自动释放池  </span>
+<span class="w">    </span><span class="err">@</span><span class="n">autoreleasepool</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="c1">// ....  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="p">}</span><span class="w">  </span>
 <span class="err">@</span><span class="n">end</span>
 </code></pre></div>
 <p>2&gt; 正确响应取消事件</p>
@@ -333,34 +305,34 @@ DownloadOperation.h</p>
 <li>代码中相对比较容易中止操作的任何地方</li>
 <li>DownloadOperation的main方法实现如下</li>
 </ul>
-<div class="highlight"><pre><code><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">main</span> <span class="p">{</span>  
-    <span class="c1">// 新建一个自动释放池，如果是异步执行操作，那么将无法访问到主线程的自动释放池  </span>
-    <span class="err">@</span><span class="n">autoreleasepool</span> <span class="p">{</span>  
-        <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">isCancelled</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>  
+<div class="highlight"><pre><code><span></span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">main</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="c1">// 新建一个自动释放池，如果是异步执行操作，那么将无法访问到主线程的自动释放池  </span>
+<span class="w">    </span><span class="err">@</span><span class="n">autoreleasepool</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">isCancelled</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">  </span>
 
-        <span class="c1">// 获取图片数据  </span>
-        <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">imageUrl</span><span class="p">];</span>  
-        <span class="n">NSData</span> <span class="o">*</span><span class="n">imageData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>  
+<span class="w">        </span><span class="c1">// 获取图片数据  </span>
+<span class="w">        </span><span class="n">NSURL</span><span class="w"> </span><span class="o">*</span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSURL</span><span class="w"> </span><span class="n">URLWithString</span><span class="o">:</span><span class="n">self</span><span class="p">.</span><span class="n">imageUrl</span><span class="p">];</span><span class="w">  </span>
+<span class="w">        </span><span class="n">NSData</span><span class="w"> </span><span class="o">*</span><span class="n">imageData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSData</span><span class="w"> </span><span class="n">dataWithContentsOfURL</span><span class="o">:</span><span class="n">url</span><span class="p">];</span><span class="w">  </span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">isCancelled</span><span class="p">)</span> <span class="p">{</span>  
-            <span class="n">url</span> <span class="o">=</span> <span class="n">nil</span><span class="p">;</span>  
-            <span class="n">imageData</span> <span class="o">=</span> <span class="n">nil</span><span class="p">;</span>  
-            <span class="k">return</span><span class="p">;</span>  
-        <span class="p">}</span>  
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">isCancelled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">            </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nil</span><span class="p">;</span><span class="w">  </span>
+<span class="w">            </span><span class="n">imageData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nil</span><span class="p">;</span><span class="w">  </span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w">  </span>
+<span class="w">        </span><span class="p">}</span><span class="w">  </span>
 
-        <span class="c1">// 初始化图片  </span>
-        <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageWithData</span><span class="p">:</span><span class="n">imageData</span><span class="p">];</span>  
+<span class="w">        </span><span class="c1">// 初始化图片  </span>
+<span class="w">        </span><span class="n">UIImage</span><span class="w"> </span><span class="o">*</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">UIImage</span><span class="w"> </span><span class="n">imageWithData</span><span class="o">:</span><span class="n">imageData</span><span class="p">];</span><span class="w">  </span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">isCancelled</span><span class="p">)</span> <span class="p">{</span>  
-            <span class="n">image</span> <span class="o">=</span> <span class="n">nil</span><span class="p">;</span>  
-            <span class="k">return</span><span class="p">;</span>  
-        <span class="p">}</span>  
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">isCancelled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">            </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nil</span><span class="p">;</span><span class="w">  </span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w">  </span>
+<span class="w">        </span><span class="p">}</span><span class="w">  </span>
 
-        <span class="k">if</span> <span class="p">([</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">downloadFinishWithImage</span><span class="p">:)])</span> <span class="p">{</span>  
-            <span class="c1">// 把图片数据传回到主线程  </span>
-            <span class="p">[(</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">performSelectorOnMainThread</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">downloadFinishWithImage</span><span class="p">:)</span> <span class="nl">withObject</span><span class="p">:</span><span class="n">image</span> <span class="nl">waitUntilDone</span><span class="p">:</span><span class="n">NO</span><span class="p">];</span>  
-        <span class="p">}</span>  
-    <span class="p">}</span>  
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">([</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span><span class="w"> </span><span class="n">respondsToSelector</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">downloadFinishWithImage</span><span class="o">:</span><span class="p">)])</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">            </span><span class="c1">// 把图片数据传回到主线程  </span>
+<span class="w">            </span><span class="p">[(</span><span class="n">NSObject</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span><span class="w"> </span><span class="n">performSelectorOnMainThread</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">downloadFinishWithImage</span><span class="o">:</span><span class="p">)</span><span class="w"> </span><span class="n">withObject</span><span class="o">:</span><span class="n">image</span><span class="w"> </span><span class="n">waitUntilDone</span><span class="o">:</span><span class="n">NO</span><span class="p">];</span><span class="w">  </span>
+<span class="w">        </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
 <span class="p">}</span>
 </code></pre></div>
 <h3>GCD</h3>
@@ -376,8 +348,8 @@ DownloadOperation.h</p>
 <p>1.获得全局并发Dispatch Queue (concurrent dispatch queue)</p>
 <p>1&gt; 并发dispatch queue可以同时并行地执行多个任务,不过并发queue仍然按先进先出的顺序来启动任务。并发queue会在之前的任务完成之前就出列下一个任务并开始执行。并发queue同时执行的任务数量会根据应用和系统动态变化,各种因素包括:可用核数量、其它进程正在执行的工作数量、其它串行dispatch queue中优先任务的数量等.</p>
 <p>2&gt; 系统给每个应用提供三个并发dispatch queue,整个应用内全局共享,三个queue的区别是优先级。你不需要显式地创建这些queue,使用dispatch_get_global_queue函数来获取这三个queue:</p>
-<div class="highlight"><pre><code><span class="c1">// 获取默认优先级的全局并发dispatch queue  </span>
-<span class="kt">dispatch_queue_t</span>  <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<div class="highlight"><pre><code><span></span><span class="c1">// 获取默认优先级的全局并发dispatch queue  </span>
+<span class="n">dispatch_queue_t</span><span class="w">  </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 </code></pre></div>
 <p>第一个参数用于指定优先级，分别使用DISPATCH_QUEUE_PRIORITY_HIGH和DISPATCH_QUEUE_PRIORITY_LOW两个常量来获取高和低优先级的两个queue；第二个参数目前未使用到，默认0即可</p>
 <p>3&gt; 虽然dispatch queue是引用计数的对象,但你不需要retain和release全局并发queue。因为这些queue对应用是全局的,retain和release调用会被忽略。你也不需要存储这三个queue的引用,每次都直接调用dispatch_get_global_queue获得queue就行了。</p>
@@ -385,8 +357,8 @@ DownloadOperation.h</p>
 <p>1&gt; 应用的任务需要按特定顺序执行时,就需要使用串行Dispatch Queue,串行queue每次只能执行一个任务。你可以使用串行queue来替代锁,保护共享资源 或可变的数据结构。和锁不一样的是,串行queue确保任务按可预测的顺序执行。而且只要你异步地提交任务到串行queue,就永远不会产生死锁</p>
 <p>2&gt; 你必须显式地创建和管理所有你使用的串行queue,应用可以创建任意数量的串行queue,但不要为了同时执行更多任务而创建更多的串行queue。如果你需要并发地执行大量任务,应该把任务提交到全局并发queue</p>
 <p>3&gt; 利用dispatch_queue_create函数创建串行queue,两个参数分别是queue名和一组queue属性</p>
-<div class="highlight"><pre><code><span class="kt">dispatch_queue_t</span> <span class="n">queue</span><span class="p">;</span>  
-<span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;cn.itcast.queue&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<div class="highlight"><pre><code><span></span><span class="n">dispatch_queue_t</span><span class="w"> </span><span class="n">queue</span><span class="p">;</span><span class="w">  </span>
+<span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;cn.itcast.queue&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
 </code></pre></div>
 <p>3.运行时获得公共Queue</p>
 <p>GCD提供了函数让应用访问几个公共dispatch queue:</p>
@@ -406,49 +378,49 @@ DownloadOperation.h</p>
 <p>2&gt; 同步添加任务</p>
 <p>少数时候你可能希望同步地调度任务,以避免竞争条件或其它同步错误。 使用dispatch_sync和dispatch_sync_f函数同步地添加任务到Queue,这两个函数会阻塞当前调用线程,直到相应任务完成执行。注意：绝对不要在任务中调用 dispatch_sync或dispatch_sync_f函数,并同步调度新任务到当前正在执行的 queue。对于串行queue这一点特别重要,因为这样做肯定会导致死锁;而并发queue也应该避免这样做。</p>
 <p>3&gt; 代码演示</p>
-<div class="highlight"><pre><code><span class="c1">// 调用前，查看下当前线程  </span>
-<span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;当前调用线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>  
+<div class="highlight"><pre><code><span></span><span class="c1">// 调用前，查看下当前线程  </span>
+<span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;当前调用线程：%@&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">]);</span><span class="w">  </span>
 
 <span class="c1">// 创建一个串行queue  </span>
-<span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;cn.itcast.queue&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>  
+<span class="n">dispatch_queue_t</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;cn.itcast.queue&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w">  </span>
 
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>  
-    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;开启了一个异步任务，当前线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>  
-<span class="p">});</span>  
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;开启了一个异步任务，当前线程：%@&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">]);</span><span class="w">  </span>
+<span class="p">});</span><span class="w">  </span>
 
-<span class="n">dispatch_sync</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>  
-    <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;开启了一个同步任务，当前线程：%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSThread</span> <span class="n">currentThread</span><span class="p">]);</span>  
-<span class="p">});</span>  
+<span class="n">dispatch_sync</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;开启了一个同步任务，当前线程：%@&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">NSThread</span><span class="w"> </span><span class="n">currentThread</span><span class="p">]);</span><span class="w">  </span>
+<span class="p">});</span><span class="w">  </span>
 <span class="c1">// 销毁队列  </span>
 <span class="n">dispatch_release</span><span class="p">(</span><span class="n">queue</span><span class="p">);</span>
 </code></pre></div>
 <p>打印信息：</p>
-<div class="highlight"><pre><code><span class="mi">2013</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mo">03</span> <span class="mi">09</span><span class="o">:</span><span class="mo">03</span><span class="o">:</span><span class="mf">37.348</span> <span class="kr">thread</span><span class="p">[</span><span class="mi">6491</span><span class="o">:</span><span class="n">c07</span><span class="p">]</span> <span class="err">当前调用线程：</span><span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x714fa80</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">),</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">}</span>  
-<span class="mi">2013</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mo">03</span> <span class="mi">09</span><span class="o">:</span><span class="mo">03</span><span class="o">:</span><span class="mf">37.349</span> <span class="kr">thread</span><span class="p">[</span><span class="mi">6491</span><span class="o">:</span><span class="mf">1e03</span><span class="p">]</span> <span class="err">开启了一个异步任务，当前线程：</span><span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x74520a0</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">),</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">3</span><span class="p">}</span>  
-<span class="mi">2013</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mo">03</span> <span class="mi">09</span><span class="o">:</span><span class="mo">03</span><span class="o">:</span><span class="mf">37.350</span> <span class="kr">thread</span><span class="p">[</span><span class="mi">6491</span><span class="o">:</span><span class="n">c07</span><span class="p">]</span> <span class="err">开启了一个同步任务，当前线程：</span><span class="o">&lt;</span><span class="nl">NSThread</span><span class="p">:</span> <span class="mh">0x714fa80</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">null</span><span class="p">),</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">}</span>
+<div class="highlight"><pre><code><span></span><span class="mi">2013</span><span class="mo">-02-03</span><span class="w"> </span><span class="mi">09</span><span class="o">:</span><span class="mo">03</span><span class="o">:</span><span class="mf">37.348</span><span class="w"> </span><span class="kr">thread</span><span class="p">[</span><span class="mi">6491</span><span class="o">:</span><span class="n">c07</span><span class="p">]</span><span class="w"> </span><span class="n">当前调用线程</span><span class="err">：</span><span class="o">&lt;</span><span class="n">NSThread</span><span class="o">:</span><span class="w"> </span><span class="mh">0x714fa80</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">null</span><span class="p">),</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span><span class="w">  </span>
+<span class="mi">2013</span><span class="mo">-02-03</span><span class="w"> </span><span class="mi">09</span><span class="o">:</span><span class="mo">03</span><span class="o">:</span><span class="mf">37.349</span><span class="w"> </span><span class="kr">thread</span><span class="p">[</span><span class="mi">6491</span><span class="o">:</span><span class="mf">1e03</span><span class="p">]</span><span class="w"> </span><span class="n">开启了一个异步任务</span><span class="err">，</span><span class="n">当前线程</span><span class="err">：</span><span class="o">&lt;</span><span class="n">NSThread</span><span class="o">:</span><span class="w"> </span><span class="mh">0x74520a0</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">null</span><span class="p">),</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">}</span><span class="w">  </span>
+<span class="mi">2013</span><span class="mo">-02-03</span><span class="w"> </span><span class="mi">09</span><span class="o">:</span><span class="mo">03</span><span class="o">:</span><span class="mf">37.350</span><span class="w"> </span><span class="kr">thread</span><span class="p">[</span><span class="mi">6491</span><span class="o">:</span><span class="n">c07</span><span class="p">]</span><span class="w"> </span><span class="n">开启了一个同步任务</span><span class="err">，</span><span class="n">当前线程</span><span class="err">：</span><span class="o">&lt;</span><span class="n">NSThread</span><span class="o">:</span><span class="w"> </span><span class="mh">0x714fa80</span><span class="o">&gt;</span><span class="p">{</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">null</span><span class="p">),</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">}</span>
 </code></pre></div>
 <p>2.并发地执行循环迭代</p>
 <p>如果你使用循环执行固定次数的迭代, 并发dispatch queue可能会提高性能。
 例如下面的for循环：</p>
-<div class="highlight"><pre><code><span class="kt">int</span> <span class="n">i</span><span class="p">;</span>  
-<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>  
-<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  
-   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d  &quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>  
+<div class="highlight"><pre><code><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w">  </span>
+<span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">  </span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">   </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d  &quot;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span><span class="w">  </span>
 <span class="p">}</span>
 </code></pre></div>
 <p>1&gt; 如果每次迭代执行的任务与其它迭代独立无关,而且循环迭代执行顺序也无关紧要的话,你可以调用dispatch_apply或dispatch_apply_f函数来替换循环。这两个函数为每次循环迭代将指定的block或函数提交到queue。当dispatch到并发 queue时,就有可能同时执行多个循环迭代。用dispatch_apply或dispatch_apply_f时你可以指定串行或并发 queue。并发queue允许同时执行多个循环迭代,而串行queue就没太大必要使用了。</p>
 <p>下面代码使用dispatch_apply替换了for循环,你传递的block必须包含一个size_t类型的参数,用来标识当前循环迭代。第一次迭代这个参数值为0,最后一次值为count - 1</p>
-<div class="highlight"><pre><code><span class="c1">// 获得全局并发queue  </span>
-<span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
-<span class="kt">size_t</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>  
-<span class="n">dispatch_apply</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>  
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%zd &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>  
-<span class="p">});</span>  
+<div class="highlight"><pre><code><span></span><span class="c1">// 获得全局并发queue  </span>
+<span class="n">dispatch_queue_t</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span>
+<span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">  </span>
+<span class="n">dispatch_apply</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%zd &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w">  </span>
+<span class="p">});</span><span class="w">  </span>
 <span class="c1">// 销毁队列  </span>
 <span class="n">dispatch_release</span><span class="p">(</span><span class="n">queue</span><span class="p">);</span>
 </code></pre></div>
 <p>打印信息：</p>
-<div class="highlight"><pre><code><span class="mi">1</span> <span class="mi">2</span> <span class="mi">0</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span>
+<div class="highlight"><pre><code><span></span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">9</span>
 </code></pre></div>
 <p>可以看出，这些迭代是并发执行的</p>
 <p>和普通for循环一样,dispatch_apply和dispatch_apply_f函数也是在所有迭代完成之后才会返回，因此这两个函数会阻塞当前线程，主线程中调用这两个函数必须小心,可能会阻止事件处理循环并无法响应用户事件。所以如果循环代码需要一定的时间执行,可以考虑在另一个线程中调用这两个函数。如果你传递的参数是串行queue,而且正是执行当前代码的queue,就会产生死锁。</p>
@@ -456,15 +428,15 @@ DownloadOperation.h</p>
 <p>1&gt; GCD提供一个特殊的dispatch queue,可以在应用的主线程中执行任务。只要应用主线程设置了run loop(由CFRunLoopRef类型或NSRunLoop对象管理),就会自动创建这个queue,并且最后会自动销毁。非Cocoa应用如果不显式地设置run loop, 就必须显式地调用dispatch_main函数来显式地激活这个dispatch queue，否则虽然你可以添加任务到queue,但任务永远不会被执行。</p>
 <p>2&gt; 调用dispatch_get_main_queue函数获得应用主线程的dispatch queue,添加到这个queue的任务由主线程串行化执行</p>
 <p>3&gt; 代码实现，比如异步下载图片后，回到主线程显示图片</p>
-<div class="highlight"><pre><code><span class="c1">// 异步下载图片  </span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>  
-    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;http://car0.autoimg.cn/upload/spec/9579/u_20120110174805627264.jpg&quot;</span><span class="p">];</span>  
-    <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageWithData</span><span class="p">:[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfURL</span><span class="p">:</span><span class="n">url</span><span class="p">]];</span>  
+<div class="highlight"><pre><code><span></span><span class="c1">// 异步下载图片  </span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSURL</span><span class="w"> </span><span class="o">*</span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSURL</span><span class="w"> </span><span class="n">URLWithString</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;http://car0.autoimg.cn/upload/spec/9579/u_20120110174805627264.jpg&quot;</span><span class="p">];</span><span class="w">  </span>
+<span class="w">    </span><span class="n">UIImage</span><span class="w"> </span><span class="o">*</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">UIImage</span><span class="w"> </span><span class="n">imageWithData</span><span class="o">:</span><span class="p">[</span><span class="n">NSData</span><span class="w"> </span><span class="n">dataWithContentsOfURL</span><span class="o">:</span><span class="n">url</span><span class="p">]];</span><span class="w">  </span>
 
-    <span class="c1">// 回到主线程显示图片  </span>
-    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>  
-        <span class="n">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">;</span>  
-    <span class="p">});</span>  
+<span class="w">    </span><span class="c1">// 回到主线程显示图片  </span>
+<span class="w">    </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image</span><span class="p">;</span><span class="w">  </span>
+<span class="w">    </span><span class="p">});</span><span class="w">  </span>
 <span class="p">});</span>
 </code></pre></div>
 <p>4.任务中使用Objective-C对象</p>
@@ -473,173 +445,117 @@ DownloadOperation.h</p>
 <p>我们可以使用dispatch_suspend函数暂停一个queue以阻止它执行block对象;使用dispatch_resume函数继续dispatch queue。调用dispatch_suspend会增加queue的引用计数,调用dispatch_resume则减少queue的引用计数。当引用计数大于0时,queue就保持挂起状态。因此你必须对应地调用suspend和resume函数。挂起和继续是异步的,而且只在执行block之间（比如在执行一个新的block之前或之后）生效。挂起一个queue不会导致正在执行的block停止。</p>
 <h4>六、Dispatch Group的使用</h4>
 <p>假设有这样一个需求：从网络上下载两张不同的图片，然后显示到不同的UIImageView上去，一般可以这样实现</p>
-<div class="highlight"><pre><code><span class="c1">// 根据url获取UIImage  </span>
-<span class="o">-</span> <span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nl">imageWithURLString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">urlString</span> <span class="p">{</span>  
-    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">urlString</span><span class="p">];</span>  
-    <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>  
-    <span class="k">return</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageWithData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>  
-<span class="p">}</span>  
+<div class="highlight"><pre><code><span></span><span class="c1">// 根据url获取UIImage  </span>
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">UIImage</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">imageWithURLString</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">urlString</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSURL</span><span class="w"> </span><span class="o">*</span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSURL</span><span class="w"> </span><span class="n">URLWithString</span><span class="o">:</span><span class="n">urlString</span><span class="p">];</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSData</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSData</span><span class="w"> </span><span class="n">dataWithContentsOfURL</span><span class="o">:</span><span class="n">url</span><span class="p">];</span><span class="w">  </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">[</span><span class="n">UIImage</span><span class="w"> </span><span class="n">imageWithData</span><span class="o">:</span><span class="n">data</span><span class="p">];</span><span class="w">  </span>
+<span class="p">}</span><span class="w">  </span>
 
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">downloadImages</span> <span class="p">{</span>  
-    <span class="c1">// 异步下载图片  </span>
-    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>  
-        <span class="c1">// 下载第一张图片  </span>
-        <span class="n">NSString</span> <span class="o">*</span><span class="n">url1</span> <span class="o">=</span> <span class="err">@</span><span class="s">&quot;http://car0.autoimg.cn/upload/spec/9579/u_20120110174805627264.jpg&quot;</span><span class="p">;</span>  
-        <span class="n">UIImage</span> <span class="o">*</span><span class="n">image1</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">imageWithURLString</span><span class="p">:</span><span class="n">url1</span><span class="p">];</span>  
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">downloadImages</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="c1">// 异步下载图片  </span>
+<span class="w">    </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="c1">// 下载第一张图片  </span>
+<span class="w">        </span><span class="n">NSString</span><span class="w"> </span><span class="o">*</span><span class="n">url1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">@</span><span class="s">&quot;http://car0.autoimg.cn/upload/spec/9579/u_20120110174805627264.jpg&quot;</span><span class="p">;</span><span class="w">  </span>
+<span class="w">        </span><span class="n">UIImage</span><span class="w"> </span><span class="o">*</span><span class="n">image1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">self</span><span class="w"> </span><span class="n">imageWithURLString</span><span class="o">:</span><span class="n">url1</span><span class="p">];</span><span class="w">  </span>
 
-        <span class="c1">// 下载第二张图片  </span>
-        <span class="n">NSString</span> <span class="o">*</span><span class="n">url2</span> <span class="o">=</span> <span class="err">@</span><span class="s">&quot;http://hiphotos.baidu.com/lvpics/pic/item/3a86813d1fa41768bba16746.jpg&quot;</span><span class="p">;</span>  
-        <span class="n">UIImage</span> <span class="o">*</span><span class="n">image2</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">imageWithURLString</span><span class="p">:</span><span class="n">url2</span><span class="p">];</span>  
+<span class="w">        </span><span class="c1">// 下载第二张图片  </span>
+<span class="w">        </span><span class="n">NSString</span><span class="w"> </span><span class="o">*</span><span class="n">url2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">@</span><span class="s">&quot;http://hiphotos.baidu.com/lvpics/pic/item/3a86813d1fa41768bba16746.jpg&quot;</span><span class="p">;</span><span class="w">  </span>
+<span class="w">        </span><span class="n">UIImage</span><span class="w"> </span><span class="o">*</span><span class="n">image2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">self</span><span class="w"> </span><span class="n">imageWithURLString</span><span class="o">:</span><span class="n">url2</span><span class="p">];</span><span class="w">  </span>
 
-        <span class="c1">// 回到主线程显示图片  </span>
-        <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>  
-            <span class="n">self</span><span class="p">.</span><span class="n">imageView1</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image1</span><span class="p">;</span>  
+<span class="w">        </span><span class="c1">// 回到主线程显示图片  </span>
+<span class="w">        </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">            </span><span class="n">self</span><span class="p">.</span><span class="n">imageView1</span><span class="p">.</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image1</span><span class="p">;</span><span class="w">  </span>
 
-            <span class="n">self</span><span class="p">.</span><span class="n">imageView2</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image2</span><span class="p">;</span>  
-        <span class="p">});</span>  
-    <span class="p">});</span>  
+<span class="w">            </span><span class="n">self</span><span class="p">.</span><span class="n">imageView2</span><span class="p">.</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image2</span><span class="p">;</span><span class="w">  </span>
+<span class="w">        </span><span class="p">});</span><span class="w">  </span>
+<span class="w">    </span><span class="p">});</span><span class="w">  </span>
 <span class="p">}</span>
 </code></pre></div>
 <p>虽然这种方案可以解决问题，但其实两张图片的下载过程并不需要按顺序执行，并发执行它们可以提高执行速度。有个注意点就是必须等两张图片都下载完毕后才能回到主线程显示图片。Dispatch Group能够在这种情况下帮我们提升性能。下面先看看Dispatch Group的用处：</p>
 <p>我们可以使用dispatch_group_async函数将多个任务关联到一个Dispatch Group和相应的queue中，group会并发地同时执行这些任务。而且Dispatch Group可以用来阻塞一个线程, 直到group关联的所有的任务完成执行。有时候你必须等待任务完成的结果,然后才能继续后面的处理。
 下面用Dispatch Group优化上面的代码：</p>
-<div class="highlight"><pre><code><span class="c1">// 根据url获取UIImage  </span>
-<span class="o">-</span> <span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nl">imageWithURLString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">urlString</span> <span class="p">{</span>  
-    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">urlString</span><span class="p">];</span>  
-    <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>  
-    <span class="c1">// 这里并没有自动释放UIImage对象  </span>
-    <span class="k">return</span> <span class="p">[[</span><span class="n">UIImage</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>  
-<span class="p">}</span>  
+<div class="highlight"><pre><code><span></span><span class="c1">// 根据url获取UIImage  </span>
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">UIImage</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">imageWithURLString</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">urlString</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSURL</span><span class="w"> </span><span class="o">*</span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSURL</span><span class="w"> </span><span class="n">URLWithString</span><span class="o">:</span><span class="n">urlString</span><span class="p">];</span><span class="w">  </span>
+<span class="w">    </span><span class="n">NSData</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSData</span><span class="w"> </span><span class="n">dataWithContentsOfURL</span><span class="o">:</span><span class="n">url</span><span class="p">];</span><span class="w">  </span>
+<span class="w">    </span><span class="c1">// 这里并没有自动释放UIImage对象  </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">[[</span><span class="n">UIImage</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">initWithData</span><span class="o">:</span><span class="n">data</span><span class="p">];</span><span class="w">  </span>
+<span class="p">}</span><span class="w">  </span>
 
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">downloadImages</span> <span class="p">{</span>  
-    <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">downloadImages</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="n">dispatch_queue_t</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span>
 
-    <span class="c1">// 异步下载图片  </span>
-    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>  
-        <span class="c1">// 创建一个组  </span>
-        <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>  
+<span class="w">    </span><span class="c1">// 异步下载图片  </span>
+<span class="w">    </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="c1">// 创建一个组  </span>
+<span class="w">        </span><span class="n">dispatch_group_t</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_group_create</span><span class="p">();</span><span class="w">  </span>
 
-        <span class="n">__block</span> <span class="n">UIImage</span> <span class="o">*</span><span class="n">image1</span> <span class="o">=</span> <span class="n">nil</span><span class="p">;</span>  
-        <span class="n">__block</span> <span class="n">UIImage</span> <span class="o">*</span><span class="n">image2</span> <span class="o">=</span> <span class="n">nil</span><span class="p">;</span>  
+<span class="w">        </span><span class="n">__block</span><span class="w"> </span><span class="n">UIImage</span><span class="w"> </span><span class="o">*</span><span class="n">image1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nil</span><span class="p">;</span><span class="w">  </span>
+<span class="w">        </span><span class="n">__block</span><span class="w"> </span><span class="n">UIImage</span><span class="w"> </span><span class="o">*</span><span class="n">image2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nil</span><span class="p">;</span><span class="w">  </span>
 
-        <span class="c1">// 关联一个任务到group  </span>
-        <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>  
-            <span class="c1">// 下载第一张图片  </span>
-            <span class="n">NSString</span> <span class="o">*</span><span class="n">url1</span> <span class="o">=</span> <span class="err">@</span><span class="s">&quot;http://car0.autoimg.cn/upload/spec/9579/u_20120110174805627264.jpg&quot;</span><span class="p">;</span>  
-            <span class="n">image1</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">imageWithURLString</span><span class="p">:</span><span class="n">url1</span><span class="p">];</span>  
-        <span class="p">});</span>  
+<span class="w">        </span><span class="c1">// 关联一个任务到group  </span>
+<span class="w">        </span><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">            </span><span class="c1">// 下载第一张图片  </span>
+<span class="w">            </span><span class="n">NSString</span><span class="w"> </span><span class="o">*</span><span class="n">url1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">@</span><span class="s">&quot;http://car0.autoimg.cn/upload/spec/9579/u_20120110174805627264.jpg&quot;</span><span class="p">;</span><span class="w">  </span>
+<span class="w">            </span><span class="n">image1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">self</span><span class="w"> </span><span class="n">imageWithURLString</span><span class="o">:</span><span class="n">url1</span><span class="p">];</span><span class="w">  </span>
+<span class="w">        </span><span class="p">});</span><span class="w">  </span>
 
-        <span class="c1">// 关联一个任务到group  </span>
-        <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>  
-            <span class="c1">// 下载第一张图片  </span>
-            <span class="n">NSString</span> <span class="o">*</span><span class="n">url2</span> <span class="o">=</span> <span class="err">@</span><span class="s">&quot;http://hiphotos.baidu.com/lvpics/pic/item/3a86813d1fa41768bba16746.jpg&quot;</span><span class="p">;</span>  
-            <span class="n">image2</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">imageWithURLString</span><span class="p">:</span><span class="n">url2</span><span class="p">];</span>  
-        <span class="p">});</span>  
+<span class="w">        </span><span class="c1">// 关联一个任务到group  </span>
+<span class="w">        </span><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">            </span><span class="c1">// 下载第一张图片  </span>
+<span class="w">            </span><span class="n">NSString</span><span class="w"> </span><span class="o">*</span><span class="n">url2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">@</span><span class="s">&quot;http://hiphotos.baidu.com/lvpics/pic/item/3a86813d1fa41768bba16746.jpg&quot;</span><span class="p">;</span><span class="w">  </span>
+<span class="w">            </span><span class="n">image2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">self</span><span class="w"> </span><span class="n">imageWithURLString</span><span class="o">:</span><span class="n">url2</span><span class="p">];</span><span class="w">  </span>
+<span class="w">        </span><span class="p">});</span><span class="w">  </span>
 
-        <span class="c1">// 等待组中的任务执行完毕,回到主线程执行block回调  </span>
-        <span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>  
-            <span class="n">self</span><span class="p">.</span><span class="n">imageView1</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image1</span><span class="p">;</span>  
-            <span class="n">self</span><span class="p">.</span><span class="n">imageView2</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image2</span><span class="p">;</span>  
+<span class="w">        </span><span class="c1">// 等待组中的任务执行完毕,回到主线程执行block回调  </span>
+<span class="w">        </span><span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w">  </span>
+<span class="w">            </span><span class="n">self</span><span class="p">.</span><span class="n">imageView1</span><span class="p">.</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image1</span><span class="p">;</span><span class="w">  </span>
+<span class="w">            </span><span class="n">self</span><span class="p">.</span><span class="n">imageView2</span><span class="p">.</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image2</span><span class="p">;</span><span class="w">  </span>
 
-            <span class="c1">// 千万不要在异步线程中自动释放UIImage，因为当异步线程结束，异步线程的自动释放池也会被销毁，那么UIImage也会被销毁  </span>
+<span class="w">            </span><span class="c1">// 千万不要在异步线程中自动释放UIImage，因为当异步线程结束，异步线程的自动释放池也会被销毁，那么UIImage也会被销毁  </span>
 
-            <span class="c1">// 在这里释放图片资源  </span>
-            <span class="p">[</span><span class="n">image1</span> <span class="n">release</span><span class="p">];</span>  
-            <span class="p">[</span><span class="n">image2</span> <span class="n">release</span><span class="p">];</span>  
-        <span class="p">});</span>  
+<span class="w">            </span><span class="c1">// 在这里释放图片资源  </span>
+<span class="w">            </span><span class="p">[</span><span class="n">image1</span><span class="w"> </span><span class="n">release</span><span class="p">];</span><span class="w">  </span>
+<span class="w">            </span><span class="p">[</span><span class="n">image2</span><span class="w"> </span><span class="n">release</span><span class="p">];</span><span class="w">  </span>
+<span class="w">        </span><span class="p">});</span><span class="w">  </span>
 
-        <span class="c1">// 释放group  </span>
-        <span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>  
-    <span class="p">});</span>  
+<span class="w">        </span><span class="c1">// 释放group  </span>
+<span class="w">        </span><span class="n">dispatch_release</span><span class="p">(</span><span class="n">group</span><span class="p">);</span><span class="w">  </span>
+<span class="w">    </span><span class="p">});</span><span class="w">  </span>
 <span class="p">}</span>
 </code></pre></div>
 <p>dispatch_group_notify函数用来指定一个额外的block，该block将在group中所有任务完成后执行</p>
 
 
-<br>
-<br>
+<br/>
+<br/>
 <p></p>
 
 
 <!-- Share BEGIN -->
 <div id="share"></div>
-<script type="text/javascript" src="../vender/share/share.js"></script>
-<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
-<link rel="stylesheet" href="../vender/share/share.css">
 <!-- Share END -->
 
 
-<br><p></p>
+<br/>
 
 
 <!-- 评论 start -->
-<div class="commentBox" id="globeCommentBox">
-    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
-    <div>
-        <input type="text" name="nickname" placeholder="nickname">
-    </div>
-    <div>
-        <input type="text" name="email" placeholder="email">
-    </div>
-    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
-</div>
-<br>
 <div id="comment"></div>
-
-<link rel="stylesheet" href="../vender/comment/comment.css" />
-<script type="text/javascript" src="../vender/comment/toast.js"></script>
-<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
-<script type="text/javascript">
-    var articleUUID = "0e996c3bdbdb99d58c38d3a2265e89ce";
-    var pageIndex = 1;
-</script>
-<script type="text/javascript" src="../vender/comment/comment.js"></script>
 <!-- 评论 end -->
 
-
-</div>
-
-
-<div id='link' style='display:none;'>
-<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
-<h3>· Social</h3>
-<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
-<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
-<h3>· Links</h3>
-<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
-<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
-<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
-<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
-</div>
-<br>
-
-<div id="copyright" >
-        <p class="alignright">
-            COPYRIGHT &copy; 2010-2020
-            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
-        &nbsp; <br/><a href="https://beian.miit.gov.cn/">粤ICP备2021173035号</a>
-        </p>  
-</div>
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  if(window.location.host.indexOf("localhost") == -1){
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  }
-})();
-</script>
+<!-- CopyRight BEGIN -->
+<div id="copyright" ></div>
+<!-- CopyRight END -->
 
 
 </body>
 
-<!-- 语法高亮 -->
-<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
-<script src="../vender/js/highlight/highlight.pack.js"></script>
 <script>
-hljs.initHighlightingOnLoad();
-// console.log(hljs.listLanguages());
+var sourceFile = "iOS Block、NSThread、NSOperation、GCD.md";
 </script>
+
+<script charset="UTF-8" src="../vender/js/loaded.js"></script>
+
+</html>

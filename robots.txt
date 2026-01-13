@@ -7,5 +7,5 @@ Disallow: /vendor/
 Disallow: /h5/
 Disallow: /modules/
 
-Sitemap: https://www.zruibin.cn/sitemap.xml
-Sitemap: https://www.zruibin.cn/baidusitemap.xml
+Sitemap: http://private.zruibin.cn/sitemap.xml
+Sitemap: http://private.zruibin.cn/baidusitemap.xml

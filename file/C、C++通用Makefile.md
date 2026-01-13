@@ -1,0 +1,467 @@
+<!--BEGIN_DATA
+{
+    "create_date": "2014-05-19 13:47", 
+    "modify_date": "2015-10-13 15:04", 
+    "is_top": "0", 
+    "summary": "C/C++通用Makefile", 
+    "tags": "C/C++、Makefile", 
+    "file_name": "C、C++通用Makefile.md"
+}
+END_DATA-->
+
+<br/>
+<hr>
+<br/>
+
+本文推荐了一个用于对 C/C++ 程序进行编译和连接以产生可执行程序的通用 Makefile。 
+
+
+在使用 Makefile 之前，只需对它进行一些简单的设置即可；而且一经设置，即使以后对源程序文件有所增减一般也不再需要改动 Makefile。因此，即便是一个没有学习过 Makefile 书写规则的人，也可以为自己的 C/C++ 程序快速建立一个可工作的 Makefile。 
+
+
+这个 Makefile 可以在 GNU Make 和 GCC 编译器下正常工作。但是不能保证对于其它版本的 Make 和编译器也能正常工作。
+
+此 Makefile 的使用方法如下：
+
+####程序目录的组织 
+
+
+* 尽量将自己的源程序集中在一个目录中，并且把 Makefile 和源程序放在一起，这样用起来比较方便。当然，也可以将源程序分类存放在不同的目录中。 
+* 在程序目录中创建一个名为 Makefile 的文本文件，将后面列出的 Makefile 的内容复制到这个文件中。（注意：在复制的过程中，Makfile 中各命令前面的 Tab 字符有可能被转换成若干个空格。这种情况下需要把 Makefile 命令前面的这些空格替换为一个 Tab。） 
+* 将当前工作目录切换到 Makefile 所在的目录。目前，这个 Makefile 只支持在当前目录中的调用，不支持当前目录和 Makefile 所在的路径不是同一目录的情况。
+
+####指定可执行文件 
+
+* 程序编译和连接成功后产生的可执行文件在 Makefile 中的 PROGRAM 变量中设定。这一项不能为空。为自己程序的可执行文件起一个有意义的名子吧。
+
+####指定源程序 
+
+* 要编译的源程序由其所在的路径和文件的扩展名两项来确定。由于头文件是通过包含来使用的，所以在这里说的源程序不应包含头文件。 
+* 程序所在的路径在 SRCDIRS 中设定。如果源程序分布在不同的目录中，那么需要在 SRCDIRS 中一一指定，并且路径名之间用空格分隔。 
+* 在 SRCEXTS 中指定程序中使用的文件类型。C/C++ 程序的扩展名一般有比较固定的几种形式：.c、.C、.cc、.cpp、.CPP、.c++、.cp、或者.cxx（参见 man gcc）。扩展名决定了程序是 C 还是 C++ 程序：.c 是 C 程序，其它扩展名表示 C++ 程序。一般固定使用其中的一种扩展名即可。但是也有可能需要使用多种扩展名，这可以在 SOURCE_EXT 中一一指定，各个扩展名之间用空格分隔。 
+
+虽然并不常用，但是 C 程序也可以被作为 C++ 程序编译。这可以通过在 Makefile 中设置 CC = $(CXX) 和 CFLAGS = $(CXXFLAGS) 两项即可实现。 
+
+这个 Makefile 支持 C、C++ 以及 C/C++ 混合三种编译方式：
+
+* 如果只指定 .c 扩展名，那么这是一个 C 程序，用 $(CC) 表示的编译命令进行编译和连接。
+* 如果指定的是除 .c 之外的其它扩展名（如 .cc、.cpp、.cxx 等），那么这是一个 C++ 程序，用 $(CXX) 进行编译和连接。
+* 如果既指定了 .c，又指定了其它 C++ 扩展名，那么这是 C/C++ 混合程序，将用 $(CC) 编译其中的 C 程序，用 $(CXX) 编译其中的 C++ 程序，最后再用 $(CXX) 连接程序。 
+　　这些工作都是 make 根据在 Makefile 中提供的程序文件类型（扩展名）自动判断进行的，不需要用户干预。
+
+####指定编译选项 
+
+* 编译选项由三部分组成：预处理选项、编译选项以及连接选项，分别由 CPPFLAGS、CFLAGS与CXXFLAGS、LDFLAGS 指定。 
+* CPPFLAGS 选项可参考 C 预处理命令 cpp 的说明，但是注意不能包含 -M 以及和 -M 有关的选项。如果是 C/C++ 混合编程，也可以在这里设置 C/C++ 的一些共同的编译选项。 
+* CFLAGS 和 CXXFLAGS 两个变量通常用来指定编译选项。前者仅仅用于指定 C 程序的编译选项，后者仅仅用于指定 C++ 程序的编译选项。其实也可以在两个变量中指定一些预处理选项（即一些本来应该放在 CPPFLAGS 中的选项），和 CPPFLAGS 并没有明确的界限。 
+* 连接选项在 LDFLAGS 中指定。如果只使用 C/C++ 标准库，一般没有必要设置。如果使用了非标准库，应该在这里指定连接需要的选项，如库所在的路径、库名以及其它联接选项。 
+* 现在的库一般都提供了一个相应的 .pc 文件来记录使用库所需要的预编译选项、编译选项和连接选项等信息，通过 pkg-config 可以动态提取这些选项。与由用户显式指定各个选项相比，使用 pkg-config 来访问库提供的选项更方便、更具通用性。在后面可以看到一个 GTK+ 程序的例子，其编译和连接选项的指定就是用 pkg-config 实现的。
+
+####编译和连接
+
+　　上面的各项设置好之后保存 Makefile 文件。执行 make 命令，程序就开始编译了。 <br/>
+　　命令 make 会根据 Makefile 中设置好的路径和文件类型搜索源程序文件，然后根据文件的类型调用相应的编译命令、使用相应的编译选项对程序进行编译。 <br/>
+　　编译成功之后程序的连接会自动进行。如果没有错误的话最终会产生程序的可执行文件。 <br/>
+　　注意：在对程序编译之后，会产生和源程序文件一一对应的 .d 文件。这是表示依赖关系的文件，通过它们 make 决定在源程序文件变动之后要进行哪些更新。为每一个源程序文件建立相应的 .d 文件这也是 GNU Make 推荐的方式。<br/>
+
+####Makefile 目标（Targets）
+
+下面是关于这个 Makefile 提供的目标以及它所完成的功能：
+
+make 
+编译和连接程序。相当于 make all。
+
+make objs 
+仅仅编译程序产生 .o 目标文件，不进行连接（一般很少单独使用）。
+
+make clean 
+删除编译产生的目标文件和依赖文件。
+
+make cleanall 
+删除目标文件、依赖文件以及可执行文件。
+
+make rebuild 
+重新编译和连接程序。相当于 make clean && make all。
+
+关于这个 Makefile 的实现原理不准备详细解释了。如果有兴趣的话，可参考文末列出的“参考资料”。
+
+ <br/>
+
+####Makefile 的内容如下： 
+
+```c
+#############################################################  
+# Generic Makefile for C/C++ Program  
+#  
+# License: GPL (General Public License)  
+# Author:  whyglinux <whyglinux AT gmail DOT com>  
+# Date:    2006/03/04 (version 0.1)  
+#          2007/03/24 (version 0.2)  
+#          2007/04/09 (version 0.3)  
+#          2007/06/26 (version 0.4)  
+#          2008/04/05 (version 0.5)  
+#  
+# Description:  
+# ------------  
+# This is an easily customizable makefile template. The purpose is to  
+# provide an instant building environment for C/C++ programs.  
+#  
+# It searches all the C/C++ source files in the specified directories,  
+# makes dependencies, compiles and links to form an executable.  
+#  
+# Besides its default ability to build C/C++ programs which use only  
+# standard C/C++ libraries, you can customize the Makefile to build  
+# those using other libraries. Once done, without any changes you can  
+# then build programs using the same or less libraries, even if source  
+# files are renamed, added or removed. Therefore, it is particularly  
+# convenient to use it to build codes for experimental or study use.  
+#  
+# GNU make is expected to use the Makefile. Other versions of makes  
+# may or may not work.  
+#  
+# Usage:  
+# ------  
+# 1. Copy the Makefile to your program directory.  
+# 2. Customize in the "Customizable Section" only if necessary:  
+#    * to use non-standard C/C++ libraries, set pre-processor or compiler  
+#      options to <MY_CFLAGS> and linker ones to <MY_LIBS>  
+#      (See Makefile.gtk+-2.0 for an example)  
+#    * to search sources in more directories, set to <SRCDIRS>  
+#    * to specify your favorite program name, set to <PROGRAM>  
+# 3. Type make to start building your program.  
+#  
+# Make Target:  
+# ------------  
+# The Makefile provides the following targets to make:  
+#   $ make           compile and link  
+#   $ make NODEP=yes compile and link without generating dependencies  
+#   $ make objs      compile only (no linking)  
+#   $ make tags      create tags for Emacs editor  
+#   $ make ctags     create ctags for VI editor  
+#   $ make clean     clean objects and the executable file  
+#   $ make distclean clean objects, the executable and dependencies  
+#   $ make help      get the usage of the makefile  
+#  
+#===========================================================================  
+   
+## Customizable Section: adapt those variables to suit your program.  
+##==========================================================================  
+   
+# The pre-processor and compiler options.  
+MY_CFLAGS =  
+   
+# The linker options.  
+MY_LIBS   =  
+   
+# The pre-processor options used by the cpp (man cpp for more).  
+CPPFLAGS  = -Wall  
+   
+# The options used in linking as well as in any direct use of ld.  
+LDFLAGS   =  
+   
+# The directories in which source files reside.  
+# If not specified, only the current directory will be serached.  
+SRCDIRS   =  
+   
+# The executable file name.  
+# If not specified, current directory name or `a.out' will be used.  
+PROGRAM   =  
+   
+## Implicit Section: change the following only when necessary.  
+##==========================================================================  
+   
+# The source file types (headers excluded).  
+# .c indicates C source files, and others C++ ones.  
+SRCEXTS = .c .C .cc .cpp .CPP .c++ .cxx .cp  
+   
+# The header file types.  
+HDREXTS = .h .H .hh .hpp .HPP .h++ .hxx .hp  
+   
+# The pre-processor and compiler options.  
+# Users can override those variables from the command line.  
+CFLAGS  = -g -O2  
+CXXFLAGS= -g -O2  
+   
+# The C program compiler.  
+#CC     = gcc  
+   
+# The C++ program compiler.  
+#CXX    = g++  
+   
+# Un-comment the following line to compile C programs as C++ ones.  
+#CC     = $(CXX)  
+   
+# The command used to delete file.  
+#RM     = rm -f  
+   
+ETAGS = etags  
+ETAGSFLAGS =  
+   
+CTAGS = ctags  
+CTAGSFLAGS =  
+   
+## Stable Section: usually no need to be changed. But you can add more.  
+##==========================================================================  
+SHELL   = /bin/sh  
+EMPTY   =  
+SPACE   = $(EMPTY) $(EMPTY)  
+ifeq ($(PROGRAM),)  
+  CUR_PATH_NAMES = $(subst /,$(SPACE),$(subst $(SPACE),_,$(CURDIR)))  
+  PROGRAM = $(word $(words $(CUR_PATH_NAMES)),$(CUR_PATH_NAMES))  
+  ifeq ($(PROGRAM),)  
+    PROGRAM = a.out  
+  endif  
+endif  
+ifeq ($(SRCDIRS),)  
+  SRCDIRS = .  
+endif  
+SOURCES = $(foreach d,$(SRCDIRS),$(wildcard $(addprefix $(d)/*,$(SRCEXTS))))  
+HEADERS = $(foreach d,$(SRCDIRS),$(wildcard $(addprefix $(d)/*,$(HDREXTS))))  
+SRC_CXX = $(filter-out %.c,$(SOURCES))  
+OBJS    = $(addsuffix .o, $(basename $(SOURCES)))  
+DEPS    = $(OBJS:.o=.d)  
+   
+## Define some useful variables.  
+DEP_OPT = $(shell if `$(CC) --version | grep "GCC" >/dev/null`; then \  
+                  echo "-MM -MP"; else echo "-M"; fi )  
+DEPEND      = $(CC)  $(DEP_OPT)  $(MY_CFLAGS) $(CFLAGS) $(CPPFLAGS)  
+DEPEND.d    = $(subst -g ,,$(DEPEND))  
+COMPILE.c   = $(CC)  $(MY_CFLAGS) $(CFLAGS)   $(CPPFLAGS) -c  
+COMPILE.cxx = $(CXX) $(MY_CFLAGS) $(CXXFLAGS) $(CPPFLAGS) -c  
+LINK.c      = $(CC)  $(MY_CFLAGS) $(CFLAGS)   $(CPPFLAGS) $(LDFLAGS)  
+LINK.cxx    = $(CXX) $(MY_CFLAGS) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS)  
+   
+.PHONY: all objs tags ctags clean distclean help show  
+   
+# Delete the default suffixes  
+.SUFFIXES:  
+   
+all: $(PROGRAM)  
+   
+# Rules for creating dependency files (.d).  
+#------------------------------------------  
+   
+%.d:%.c  
+    @echo -n $(dir $<) > $@  
+    @$(DEPEND.d) $< >> $@  
+   
+%.d:%.C  
+    @echo -n $(dir $<) > $@  
+    @$(DEPEND.d) $< >> $@  
+   
+%.d:%.cc  
+    @echo -n $(dir $<) > $@  
+    @$(DEPEND.d) $< >> $@  
+   
+%.d:%.cpp  
+    @echo -n $(dir $<) > $@  
+    @$(DEPEND.d) $< >> $@  
+   
+%.d:%.CPP  
+    @echo -n $(dir $<) > $@  
+    @$(DEPEND.d) $< >> $@  
+   
+%.d:%.c++  
+    @echo -n $(dir $<) > $@  
+    @$(DEPEND.d) $< >> $@  
+   
+%.d:%.cp  
+    @echo -n $(dir $<) > $@  
+    @$(DEPEND.d) $< >> $@  
+   
+%.d:%.cxx  
+    @echo -n $(dir $<) > $@  
+    @$(DEPEND.d) $< >> $@  
+   
+# Rules for generating object files (.o).  
+#----------------------------------------  
+objs:$(OBJS)  
+   
+%.o:%.c  
+    $(COMPILE.c) $< -o $@  
+   
+%.o:%.C  
+    $(COMPILE.cxx) $< -o $@  
+   
+%.o:%.cc  
+    $(COMPILE.cxx) $< -o $@  
+   
+%.o:%.cpp  
+    $(COMPILE.cxx) $< -o $@  
+   
+%.o:%.CPP  
+    $(COMPILE.cxx) $< -o $@  
+   
+%.o:%.c++  
+    $(COMPILE.cxx) $< -o $@  
+   
+%.o:%.cp  
+    $(COMPILE.cxx) $< -o $@  
+   
+%.o:%.cxx  
+    $(COMPILE.cxx) $< -o $@  
+   
+# Rules for generating the tags.  
+#-------------------------------------  
+tags: $(HEADERS) $(SOURCES)  
+    $(ETAGS) $(ETAGSFLAGS) $(HEADERS) $(SOURCES)  
+   
+ctags: $(HEADERS) $(SOURCES)  
+    $(CTAGS) $(CTAGSFLAGS) $(HEADERS) $(SOURCES)  
+   
+# Rules for generating the executable.  
+#-------------------------------------  
+$(PROGRAM):$(OBJS)  
+ifeq ($(SRC_CXX),)              # C program  
+    $(LINK.c)   $(OBJS) $(MY_LIBS) -o $@  
+    @echo Type ./$@ to execute the program.  
+else                            # C++ program  
+    $(LINK.cxx) $(OBJS) $(MY_LIBS) -o $@  
+    @echo Type ./$@ to execute the program.  
+endif  
+   
+ifndef NODEP  
+ifneq ($(DEPS),)  
+  sinclude $(DEPS)  
+endif  
+endif  
+   
+clean:  
+    $(RM) $(OBJS) $(PROGRAM) $(PROGRAM).exe  
+   
+distclean: clean  
+    $(RM) $(DEPS) TAGS  
+   
+# Show help.  
+help:  
+    @echo 'Generic Makefile for C/C++ Programs (gcmakefile) version 0.5'  
+    @echo 'Copyright (C) 2007, 2008 whyglinux <whyglinux@hotmail.com>'  
+    @echo  
+    @echo 'Usage: make [TARGET]'  
+    @echo 'TARGETS:'  
+    @echo '  all       (=make) compile and link.'  
+    @echo '  NODEP=yes make without generating dependencies.'  
+    @echo '  objs      compile only (no linking).'  
+    @echo '  tags      create tags for Emacs editor.'  
+    @echo '  ctags     create ctags for VI editor.'  
+    @echo '  clean     clean objects and the executable file.'  
+    @echo '  distclean clean objects, the executable and dependencies.'  
+    @echo '  show      show variables (for debug use only).'  
+    @echo '  help      print this message.'  
+    @echo  
+    @echo 'Report bugs to <whyglinux AT gmail DOT com>.'  
+   
+# Show variables (for debug use only.)  
+show:  
+    @echo 'PROGRAM     :' $(PROGRAM)  
+    @echo 'SRCDIRS     :' $(SRCDIRS)  
+    @echo 'HEADERS     :' $(HEADERS)  
+    @echo 'SOURCES     :' $(SOURCES)  
+    @echo 'SRC_CXX     :' $(SRC_CXX)  
+    @echo 'OBJS        :' $(OBJS)  
+    @echo 'DEPS        :' $(DEPS)  
+    @echo 'DEPEND      :' $(DEPEND)  
+    @echo 'COMPILE.c   :' $(COMPILE.c)  
+    @echo 'COMPILE.cxx :' $(COMPILE.cxx)  
+    @echo 'link.c      :' $(LINK.c)  
+    @echo 'link.cxx    :' $(LINK.cxx)  
+   
+## End of the Makefile ##  Suggestions are welcome  ## All rights reserved ##  
+##############################################################
+```
+
+下面提供两个例子来具体说明上面 Makefile 的用法。 
+
+####例一　Hello World 程序
+
+这个程序的功能是输出 Hello, world! 这样一行文字。由 hello.h、hello.c、main.cxx 三个文件组成。前两个文件是 C 程序，后一个是 C++ 程序，因此这是一个 C 和 C++ 混编程序。
+
+```c
+/* File name: hello.h 
+ * C header file 
+ */  
+   
+#ifndef HELLO_H  
+#define HELLO_H  
+   
+#ifdef __cplusplus  
+extern "C" {  
+#endif  
+   
+  void print_hello();  
+#ifdef __cplusplus  
+}  
+   
+#endif  
+#endif  
+   
+   
+/* File name: hello.c 
+ * C source file. 
+ */  
+   
+#include "hello.h"  
+#include <stdio.h>  
+   
+void print_hello()  
+{  
+  puts( "Hello, world!" );  
+}  
+   
+   
+/* File name: main.cxx 
+ * C++ source file. 
+ */  
+   
+#include "hello.h"  
+   
+int main()  
+{  
+  print_hello();  
+  return 0;  
+}
+```
+
+
+建立一个新的目录，然后把这三个文件拷贝到目录中，也把 Makefile 文件拷贝到目录中。之后，对 Makefile 的相关项目进行如下设置： 
+
+```
+PROGRAM   := hello      # 设置运行程序名
+
+SRCDIRS   := .          # 源程序位于当前目录下
+
+SRCEXTS   := .c .cxx    # 源程序文件有 .c 和 .cxx 两种类型
+
+CFLAGS    := -g         # 为 C 目标程序包含 GDB 可用的调试信息
+
+CXXFLAGS  := -g         # 为 C++ 目标程序包含 GDB 可用的调试信息　
+```
+
+　　由于这个简单的程序只使用了 C 标准库的函数（puts），所以对于 CFLAGS 和 CXXFLAGS 没有过多的要求，LDFLAGS 和 CPPFLAGS 选项也无需设置。 
+
+　　经过上面的设置之后，执行 make 命令就可以编译程序了。如果没有错误出现的话，./hello  就可以运行程序了。
+
+　　如果修改了源程序的话，可以看到只有和修改有关的源文件被编译。也可以再为程序添加新的源文件，只要它们的扩展名是已经在 Makefile 中设置过的，那么就没有必要修改　Makefile。 
+
+ 
+
+####例二　GTK+ 版 Hello World 程序
+
+　　这个 GTK+ 2.0 版的 Hello World 程序可以从下面的网址上得到：http://www.gtk.org/tutorial/c58.html#SEC-HELLOWORLD。当然，要编译 GTK+ 程序，还需要你的系统上已经安装好了 GTK+。 
+　　跟第一个例子一样，单独创建一个新的目录，把上面网页中提供的程序保存为 main.c 文件。对 Makefile 做如下设置： 
+　　
+```
+PROGRAM   := hello      # 设置运行程序名
+
+SRCDIRS   := .          # 源程序位于当前目录下
+
+SRCEXTS   := .c         # 源程序文件只有 .c 一种类
+
+CFLAGS    := `pkg-config --cflags gtk+-2.0`  # CFLAGS
+
+LDFLAGS   := `pkg-config --libs gtk+-2.0`    # LDFLAGS
+```
+
+这是一个 C 程序，所以 CXXFLAGS 没有必要设置——即使被设置了也不会被使用。 
+编译和连接 GTK+ 库所需要的 CFLAGS 和 LDFLAGS 由 pkg-config 程序自动产生。 
+现在就可以运行 make 命令编译、./hello 执行这个 GTK+ 程序了

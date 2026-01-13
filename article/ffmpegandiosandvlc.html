@@ -7,59 +7,34 @@
 
 <link rel="shortcut icon" href="../vender/image/me.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="keywords" content="FFmpeg and iOS and VLC,C/C++,配置,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
 <meta name="description" content="FFmpeg and iOS and VLC" />
-<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+<meta name="COPYRIGHT" content="版权所有2010,http://private.zruibin.cn" />
 
-
-<script type="text/javascript" src="../vender/js/default.js"></script>
-<script type="text/javascript" src="../vender/js/article.default.js"></script>
-<link rel="stylesheet" href="../vender/css/default.css" />
-<link rel="stylesheet" href="../vender/css/article.default.css" />
-
-<script type="text/javascript">
-
-RBReady(changeFrame);
-
+<script type="text/javascript" charset="UTF-8">
+var sourcePrefix = "../";
 </script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/sea.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/seajs-css.js"></script>
 
 </head>
 
-<body>
+<body style="visibility: hidden;">
 
 
 <div id="navbar" >
     <div id="menu" class="container">
     <ul>
-
     <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
     <li><a href="../about.html" class="item">About Me</a></li>
     <li><a href="./index.html" class="item">Blog</a></li>
-    <li><a class="item">Tags</a>
-        <div class="subs">
-        
-<ul>
-
-<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
-<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
-<li><a href="./Tag_python.html">Python(1)</a></li>
-<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
-<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
-<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
-<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
-<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
-<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
-<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
-<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
-<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
-<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
-</ul>
-
-        </div> 
+    <li><a class="item" href="../article/tags.html">Tags</a>
+        &nbsp;
+        <div class="subs" id="tags"></div> 
     </li>
-    <li><a href="./Archives.html" class="item">Archives</a></li>
+    <li><a href="./archives.html" class="item">Archives</a></li>
 
     </ul>
     </div>
@@ -67,29 +42,26 @@ RBReady(changeFrame);
 <p></p>
 
 
-
-
-
 <div class="container" id="content">
 
 <div id='header'>
     <h2>FFmpeg and iOS and VLC</h2>
     <footer>
-        Date:&nbsp;<span id='create_time'>
+        Date:<span id='create_time'>
             2014-12-22 23:32
         </span>
-        &nbsp;&nbsp;
-        Tags:&nbsp; 
+        &nbsp;
+        Tags: 
 <span id='article_tags'>
          
-<a href='../article/Tag_cc++.html' class='article_tag'>C/C++</a>
+<a href='../article/tag_cc++.html' class='article_tag'>C/C++</a>
 
-<a href='../article/Tag_pei_zhi.html' class='article_tag'>配置</a>
+<a href='../article/tag_pei_zhi.html' class='article_tag'>配置</a>
 
 </span>
 
     </footer>
-    <hr>
+    <hr/>
 </div>
 
 <p><a href='http://blog.csdn.net/leixiaohua1020/article/details/15811977' target='blank'>http://blog.csdn.net/leixiaohua1020/article/details/15811977</a></p>
@@ -98,49 +70,49 @@ RBReady(changeFrame);
 <p>1、下载ffmpeg。</p>
 <p>下载网址：<a href="http://www.ffmpeg.org/download.html">http://www.ffmpeg.org/download.html</a></p>
 <p>2、解压缩</p>
-<div class="highlight"><pre><code><span class="n">tar</span> <span class="o">-</span><span class="n">zxvf</span> <span class="n">ffmpeg</span><span class="o">-</span><span class="mf">2.0.1</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+<div class="highlight"><pre><code><span></span><span class="n">tar</span><span class="w"> </span><span class="o">-</span><span class="n">zxvf</span><span class="w"> </span><span class="n">ffmpeg</span><span class="mf">-2.0.1</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
 </code></pre></div>
 <p>3、配置,生成Makefile</p>
-<div class="highlight"><pre><code><span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">shared</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">yasm</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span> <span class="p">(</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="err">为你要安装的目录</span><span class="p">)</span>
+<div class="highlight"><pre><code><span></span><span class="p">.</span><span class="o">/</span><span class="n">configure</span><span class="w"> </span><span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">shared</span><span class="w"> </span><span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">yasm</span><span class="w"> </span><span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg为你要安装的目录</span><span class="p">)</span>
 </code></pre></div>
 <p>如果执行结果不对，可以根据提示信息，并查看帮助，解决问题</p>
-<div class="highlight"><pre><code><span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">help</span>
+<div class="highlight"><pre><code><span></span><span class="p">.</span><span class="o">/</span><span class="n">configure</span><span class="w"> </span><span class="o">--</span><span class="n">help</span>
 </code></pre></div>
 <p>4、编译安装</p>
-<div class="highlight"><pre><code><span class="n">make</span>
-<span class="n">make</span> <span class="n">install</span>
+<div class="highlight"><pre><code><span></span><span class="n">make</span>
+<span class="n">make</span><span class="w"> </span><span class="n">install</span>
 </code></pre></div>
 <p>5、安装之后在/usr/local/ffmpeg会看到有三个目录</p>
-<div class="highlight"><pre><code><span class="n">bin</span> <span class="err">执行文件目录</span>
+<div class="highlight"><pre><code><span></span><span class="n">bin</span><span class="w"> </span><span class="n">执行文件目录</span>
 
-<span class="n">lib</span> <span class="err">静态，动态链接库目录</span>
+<span class="n">lib</span><span class="w"> </span><span class="n">静态</span><span class="err">，</span><span class="n">动态链接库目录</span>
 
-<span class="n">include</span> <span class="err">编程用到的头文件</span>
+<span class="n">include</span><span class="w"> </span><span class="n">编程用到的头文件</span>
 </code></pre></div>
 <p>为了防止执行程序找不到库文件，
 可以将/usr/local/ffmpeg/lib目录设置到LD_LIBRARY_PATH环境变量，
 或者查看/usr/local/ffmpeg/lib下所有的链接，并在/usr/lib下建立同样的链接。如下。</p>
-<div class="highlight"><pre><code><span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavcodec</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavcodec</span><span class="p">.</span><span class="n">so</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavdevice</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavdevice</span><span class="p">.</span><span class="n">so</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavfilter</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavfilter</span><span class="p">.</span><span class="n">so</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavformat</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavformat</span><span class="p">.</span><span class="n">so</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavutil</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavutil</span><span class="p">.</span><span class="n">so</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswresample</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswresample</span><span class="p">.</span><span class="n">so</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswscale</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswscale</span><span class="p">.</span><span class="n">so</span>
+<div class="highlight"><pre><code><span></span><span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavcodec</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavcodec</span><span class="p">.</span><span class="n">so</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavdevice</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavdevice</span><span class="p">.</span><span class="n">so</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavfilter</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavfilter</span><span class="p">.</span><span class="n">so</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavformat</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavformat</span><span class="p">.</span><span class="n">so</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavutil</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavutil</span><span class="p">.</span><span class="n">so</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswresample</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswresample</span><span class="p">.</span><span class="n">so</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswscale</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswscale</span><span class="p">.</span><span class="n">so</span>
 
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavcodec</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavcodec</span><span class="p">.</span><span class="n">so</span><span class="mf">.55</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavdevice</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavdevice</span><span class="p">.</span><span class="n">so</span><span class="mf">.55</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavfilter</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavfilter</span><span class="p">.</span><span class="n">so</span><span class="mf">.3</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavformat</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavformat</span><span class="p">.</span><span class="n">so</span><span class="mf">.55</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavutil</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavutil</span><span class="p">.</span><span class="n">so</span><span class="mf">.52</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswresample</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswresample</span><span class="p">.</span><span class="n">so</span><span class="mf">.0</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswscale</span><span class="p">.</span><span class="n">so</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswscale</span><span class="p">.</span><span class="n">so</span><span class="mf">.2</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavcodec</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavcodec</span><span class="p">.</span><span class="n">so</span><span class="mf">.55</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavdevice</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavdevice</span><span class="p">.</span><span class="n">so</span><span class="mf">.55</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavfilter</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavfilter</span><span class="p">.</span><span class="n">so</span><span class="mf">.3</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavformat</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavformat</span><span class="p">.</span><span class="n">so</span><span class="mf">.55</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavutil</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libavutil</span><span class="p">.</span><span class="n">so</span><span class="mf">.52</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswresample</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswresample</span><span class="p">.</span><span class="n">so</span><span class="mf">.0</span>
+<span class="n">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswscale</span><span class="p">.</span><span class="n">so</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libswscale</span><span class="p">.</span><span class="n">so</span><span class="mf">.2</span>
 </code></pre></div>
 <p>6、编译测试程序</p>
-<div class="highlight"><pre><code><span class="n">gcc</span> <span class="o">-</span><span class="n">o</span> <span class="n">ffmpegtest</span> <span class="n">ffmpegtest</span><span class="p">.</span><span class="n">c</span> <span class="o">-</span><span class="n">I</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">include</span> <span class="o">-</span><span class="n">L</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span> <span class="o">-</span><span class="n">lavformat</span> <span class="o">-</span><span class="n">lavcodec</span> <span class="o">-</span><span class="n">lavtuil</span>
+<div class="highlight"><pre><code><span></span><span class="n">gcc</span><span class="w"> </span><span class="o">-</span><span class="n">o</span><span class="w"> </span><span class="n">ffmpegtest</span><span class="w"> </span><span class="n">ffmpegtest</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="n">I</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">include</span><span class="w"> </span><span class="o">-</span><span class="n">L</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">lib</span><span class="w"> </span><span class="o">-</span><span class="n">lavformat</span><span class="w"> </span><span class="o">-</span><span class="n">lavcodec</span><span class="w"> </span><span class="o">-</span><span class="n">lavtuil</span>
 </code></pre></div>
 <p>7、执行程序</p>
-<div class="highlight"><pre><code><span class="p">.</span><span class="o">/</span><span class="n">ffmpegtest</span>
+<div class="highlight"><pre><code><span></span><span class="p">.</span><span class="o">/</span><span class="n">ffmpegtest</span>
 </code></pre></div>
 <p>或直接执行/usr/local/ffmpeg/lib目录下的./ffmpeg进行测试。</p>
 <hr>
@@ -160,66 +132,66 @@ RBReady(changeFrame);
 <p>　　1、拷贝gas-preprocessor.pl文件到 /usr/bin目录下。</p>
 <p>　　2、修改gas-preprocessor.pl文件的权限</p>
 <p>　　注:需要有读，写和执行的权限。具体操作为，首先在命令行下进入/usr/bin目录，然后执行chmod命令，如下图所示:</p>
-<p><img src="http://static.oschina.net/uploads/img/201504/22164924_E74A.png" alt="" style="cursor: pointer;"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201504/22164924_E74A.png" alt="" style="cursor: pointer;"></p>
 <p>　　3、切换build-ffmpeg.sh脚本的目录下，使用命令sh build-ffmpeg.sh 运行该脚本即可。</p>
 <p>　　注:  1) build-ffmpeg.sh脚本的父目录的名字不能包括空格，否则可能导致构建失败。</p>
 <p>　　　   2) build-ffmpeg.sh脚本中可以配置编译的FFMpeg版本，以及使用iOS SDK的版本，如下图所示:
-<img src="http://static.oschina.net/uploads/img/201504/22164924_CMc6.png" alt="" style="cursor: pointer;"></p>
+<img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201504/22164924_CMc6.png" alt="" style="cursor: pointer;"></p>
 <p>　　该脚本中默认采用的FFmpeg是2.0版本，使用iOS 7.0的SDK编译，c语言编译器采用clang，应用中可以根据实际项目需要选中不同的FFmpeg和iOS SDK版本。</p>
 <p>　　根据上面的步骤看来，编译工作也没有什么复杂的，为什么我会说踩了很多坑呢？这个问题我会一点点儿解释。</p>
 <h4>三、编译较早期版本的FFmpeg本库</h4>
 <p>　　第二部分中我们介绍了一个牛逼的脚本，一键编译，这给我们造成了一种错觉，FFmpeg编译不过如此吗！如果我们尝试一下把脚本中的VERSION变成0.7试试，运行脚本，发现编译报错。如下图所示:</p>
-<p><img src="http://static.oschina.net/uploads/img/201504/22164924_ky9C.png" alt="" style="cursor: pointer;"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201504/22164924_ky9C.png" alt="" style="cursor: pointer;"></p>
 <p>　　提示位置选项--disable-iconv，根据提示我们输入./configure查看所有可用选项。命令行下切换到实际的FFmpeg源码目录下，查看帮助如下图:
 　　
-　　<img src="http://static.oschina.net/uploads/img/201504/22164925_ZzNx.png" alt="" style="cursor: pointer;"></p>
+　　<img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201504/22164925_ZzNx.png" alt="" style="cursor: pointer;"></p>
 <p>　　我们可以看到很多选项，英语不难，就是有些选项描述的太简洁了，所以实际使用时如果不确定的话，我们可以去问问google。</p>
 <p>　　好了回过头来看看这个configure文件到底有什么作用呢？</p>
 <h5>1、裁剪</h5>
 <p>　　我们知道FFmpeg库是一个非常庞大的库，包括编码，解码以及流媒体的支持等，如果不做裁剪全部编译进来的话，最后生成的静态库会很大。实际使用中我们可能只想用到解码(例如播放器)，因此我们可以使用相关选项指定编译时禁用编码部分。当然我们还可以做进一步的裁剪，例如只打开部分常用格式的解码，禁用掉其他的解码，这样编译出来的静态库将会更小。</p>
 <p>要想裁剪，我们的先知道有哪些部分，使用下面的命令可以查看FFMpeg库支持的组件列表。</p>
-<div class="highlight"><pre><code><span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">decoders</span>          <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">decoders</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">encoders</span>          <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">encoders</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">hwaccels</span>          <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">hardware</span> <span class="n">accelerators</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">muxers</span>            <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">muxers</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">demuxers</span>          <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">demuxers</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">parsers</span>           <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">parsers</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">protocols</span>         <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">protocols</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">bsfs</span>              <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">bitstream</span> <span class="n">filters</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">indevs</span>            <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">input</span> <span class="n">devices</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">outdevs</span>           <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">output</span> <span class="n">devices</span>
-<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">filters</span>           <span class="n">show</span> <span class="n">all</span> <span class="n">available</span> <span class="n">filters</span>
+<div class="highlight"><pre><code><span></span><span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">decoders</span><span class="w">          </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">decoders</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">encoders</span><span class="w">          </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">encoders</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">hwaccels</span><span class="w">          </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">hardware</span><span class="w"> </span><span class="n">accelerators</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">muxers</span><span class="w">            </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">muxers</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">demuxers</span><span class="w">          </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">demuxers</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">parsers</span><span class="w">           </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">parsers</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">protocols</span><span class="w">         </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">protocols</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">bsfs</span><span class="w">              </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">bitstream</span><span class="w"> </span><span class="n">filters</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">indevs</span><span class="w">            </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="n">devices</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">outdevs</span><span class="w">           </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="n">devices</span>
+<span class="o">--</span><span class="n">list</span><span class="o">-</span><span class="n">filters</span><span class="w">           </span><span class="n">show</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">filters</span>
 </code></pre></div>
 <p>我们可以根据实际需要把不用的部分都禁用掉，这样编译快，包也会比较小，常用的裁剪选项如下:</p>
-<div class="highlight"><pre><code><span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">doc</span>            <span class="k">do</span> <span class="n">not</span> <span class="n">build</span> <span class="n">documentation</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffmpeg</span>         <span class="n">disable</span> <span class="n">ffmpeg</span> <span class="n">build</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffplay</span>         <span class="n">disable</span> <span class="n">ffplay</span> <span class="n">build</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffserver</span>       <span class="n">disable</span> <span class="n">ffserver</span> <span class="n">build</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">network</span>        <span class="n">disable</span> <span class="n">network</span> <span class="n">support</span> <span class="p">[</span><span class="n">no</span><span class="p">]</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">encoder</span><span class="o">=</span><span class="n">NAME</span>   <span class="n">disable</span> <span class="n">encoder</span> <span class="n">NAME</span>
-<span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">encoder</span><span class="o">=</span><span class="n">NAME</span>    <span class="n">enable</span> <span class="n">encoder</span> <span class="n">NAME</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">encoders</span>       <span class="n">disable</span> <span class="n">all</span> <span class="n">encoders</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">decoder</span><span class="o">=</span><span class="n">NAME</span>   <span class="n">disable</span> <span class="n">decoder</span> <span class="n">NAME</span>
-<span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">decoder</span><span class="o">=</span><span class="n">NAME</span>    <span class="n">enable</span> <span class="n">decoder</span> <span class="n">NAME</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">decoders</span>       <span class="n">disable</span> <span class="n">all</span> <span class="n">decoders</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">hwaccel</span><span class="o">=</span><span class="n">NAME</span>   <span class="n">disable</span> <span class="n">hwaccel</span>
+<div class="highlight"><pre><code><span></span><span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">doc</span><span class="w">            </span><span class="k">do</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">build</span><span class="w"> </span><span class="n">documentation</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffmpeg</span><span class="w">         </span><span class="n">disable</span><span class="w"> </span><span class="n">ffmpeg</span><span class="w"> </span><span class="n">build</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffplay</span><span class="w">         </span><span class="n">disable</span><span class="w"> </span><span class="n">ffplay</span><span class="w"> </span><span class="n">build</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffserver</span><span class="w">       </span><span class="n">disable</span><span class="w"> </span><span class="n">ffserver</span><span class="w"> </span><span class="n">build</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">network</span><span class="w">        </span><span class="n">disable</span><span class="w"> </span><span class="n">network</span><span class="w"> </span><span class="n">support</span><span class="w"> </span><span class="p">[</span><span class="n">no</span><span class="p">]</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">encoder</span><span class="o">=</span><span class="n">NAME</span><span class="w">   </span><span class="n">disable</span><span class="w"> </span><span class="n">encoder</span><span class="w"> </span><span class="n">NAME</span>
+<span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">encoder</span><span class="o">=</span><span class="n">NAME</span><span class="w">    </span><span class="n">enable</span><span class="w"> </span><span class="n">encoder</span><span class="w"> </span><span class="n">NAME</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">encoders</span><span class="w">       </span><span class="n">disable</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">encoders</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">decoder</span><span class="o">=</span><span class="n">NAME</span><span class="w">   </span><span class="n">disable</span><span class="w"> </span><span class="n">decoder</span><span class="w"> </span><span class="n">NAME</span>
+<span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">decoder</span><span class="o">=</span><span class="n">NAME</span><span class="w">    </span><span class="n">enable</span><span class="w"> </span><span class="n">decoder</span><span class="w"> </span><span class="n">NAME</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">decoders</span><span class="w">       </span><span class="n">disable</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">decoders</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">hwaccel</span><span class="o">=</span><span class="n">NAME</span><span class="w">   </span><span class="n">disable</span><span class="w"> </span><span class="n">hwaccel</span>
 </code></pre></div>
 <p>举个例子，如果我们需要做一款本地视频播放器，那么我们可以使用如下配置:</p>
-<p><img src="http://static.oschina.net/uploads/img/201504/22164925_srXm.png" alt="" style="cursor: pointer;"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201504/22164925_srXm.png" alt="" style="cursor: pointer;"></p>
 <p>　　当然你还可以根据帮助列表进行更细粒度的裁剪，例如只支持哪几种格式的解码等等。</p>
 <h5>2、指定编译环境</h5>
 <p>　　FFMpeg作为一个跨平台的库，不同的平台，不同的人的计算机上编译器的路径都可能不尽相同，所以我们需要为编译脚本指定编译器的路径。同事我们还可以指定其他编译选项，如是否交叉编译，目标平台系统，CPU架构，需要依赖的其他库的路径已经指定是否禁用汇编优化等。</p>
-<div class="highlight"><pre><code><span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">cross</span><span class="o">-</span><span class="n">compile</span>   <span class="n">assume</span> <span class="n">a</span> <span class="n">cross</span><span class="o">-</span><span class="n">compiler</span> <span class="n">is</span> <span class="n">used</span>
-<span class="o">--</span><span class="n">sysroot</span><span class="o">=</span><span class="n">PATH</span>           <span class="n">root</span> <span class="n">of</span> <span class="n">cross</span><span class="o">-</span><span class="n">build</span> <span class="n">tree</span>
-<span class="o">--</span><span class="n">sysinclude</span><span class="o">=</span><span class="n">PATH</span>        <span class="n">location</span> <span class="n">of</span> <span class="n">cross</span><span class="o">-</span><span class="n">build</span> <span class="n">system</span> <span class="n">headers</span>
-<span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">os</span><span class="o">=</span><span class="n">OS</span>           <span class="n">compiler</span> <span class="n">targets</span> <span class="n">OS</span> <span class="p">[]</span>
-<span class="o">--</span><span class="n">cc</span><span class="o">=</span><span class="n">CC</span>                  <span class="n">use</span> <span class="n">C</span> <span class="n">compiler</span> <span class="n">CC</span> <span class="p">[</span><span class="n">gcc</span><span class="p">]</span>
-<span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">cflags</span><span class="o">=</span><span class="n">ECFLAGS</span>   <span class="n">add</span> <span class="n">ECFLAGS</span> <span class="n">to</span> <span class="n">CFLAGS</span> <span class="p">[]</span>
-<span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">ldflags</span><span class="o">=</span><span class="n">ELDFLAGS</span> <span class="n">add</span> <span class="n">ELDFLAGS</span> <span class="n">to</span> <span class="n">LDFLAGS</span> <span class="p">[]</span>
-<span class="o">--</span><span class="n">arch</span><span class="o">=</span><span class="n">ARCH</span>              <span class="n">select</span> <span class="n">architecture</span> <span class="p">[]</span>
-<span class="o">--</span><span class="n">cpu</span><span class="o">=</span><span class="n">CPU</span>                <span class="n">select</span> <span class="n">the</span> <span class="n">minimum</span> <span class="n">required</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">affects</span>
-                         <span class="n">instruction</span> <span class="n">selection</span><span class="p">,</span> <span class="n">may</span> <span class="n">crash</span> <span class="n">on</span> <span class="n">older</span> <span class="n">CPUs</span><span class="p">)</span>
-<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">asm</span>            <span class="n">disable</span> <span class="n">all</span> <span class="n">assembler</span> <span class="n">optimizations</span>
+<div class="highlight"><pre><code><span></span><span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">cross</span><span class="o">-</span><span class="n">compile</span><span class="w">   </span><span class="n">assume</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">cross</span><span class="o">-</span><span class="n">compiler</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">used</span>
+<span class="o">--</span><span class="n">sysroot</span><span class="o">=</span><span class="n">PATH</span><span class="w">           </span><span class="n">root</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">cross</span><span class="o">-</span><span class="n">build</span><span class="w"> </span><span class="n">tree</span>
+<span class="o">--</span><span class="n">sysinclude</span><span class="o">=</span><span class="n">PATH</span><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">cross</span><span class="o">-</span><span class="n">build</span><span class="w"> </span><span class="n">system</span><span class="w"> </span><span class="n">headers</span>
+<span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">os</span><span class="o">=</span><span class="n">OS</span><span class="w">           </span><span class="n">compiler</span><span class="w"> </span><span class="n">targets</span><span class="w"> </span><span class="n">OS</span><span class="w"> </span><span class="p">[]</span>
+<span class="o">--</span><span class="n">cc</span><span class="o">=</span><span class="n">CC</span><span class="w">                  </span><span class="n">use</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="n">compiler</span><span class="w"> </span><span class="n">CC</span><span class="w"> </span><span class="p">[</span><span class="n">gcc</span><span class="p">]</span>
+<span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">cflags</span><span class="o">=</span><span class="n">ECFLAGS</span><span class="w">   </span><span class="n">add</span><span class="w"> </span><span class="n">ECFLAGS</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">CFLAGS</span><span class="w"> </span><span class="p">[]</span>
+<span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">ldflags</span><span class="o">=</span><span class="n">ELDFLAGS</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="n">ELDFLAGS</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">LDFLAGS</span><span class="w"> </span><span class="p">[]</span>
+<span class="o">--</span><span class="n">arch</span><span class="o">=</span><span class="n">ARCH</span><span class="w">              </span><span class="n">select</span><span class="w"> </span><span class="n">architecture</span><span class="w"> </span><span class="p">[]</span>
+<span class="o">--</span><span class="n">cpu</span><span class="o">=</span><span class="n">CPU</span><span class="w">                </span><span class="n">select</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">CPU</span><span class="w"> </span><span class="p">(</span><span class="n">affects</span>
+<span class="w">                         </span><span class="n">instruction</span><span class="w"> </span><span class="n">selection</span><span class="p">,</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">crash</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">older</span><span class="w"> </span><span class="n">CPUs</span><span class="p">)</span>
+<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="k">asm</span><span class="w">            </span><span class="n">disable</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">assembler</span><span class="w"> </span><span class="n">optimizations</span>
 </code></pre></div>
 <p>sysroot即iOS SDK的路径，注意编译真机版本的库时需要使用iPhoneOS.platform中SDK的路径，编译模拟器版本的库使用iPhoneSimulator.platform中SDK的路径。target-os填写darwin(苹果系统的内核)，arch可以根据具体的情况添加i386(模拟器)，armv6，armv7等。cpu根据具体类型可填写cortex-a8，cortox-a9，i386等。　　　</p>
 <h5>3、指定静态库的安装路径</h5>
@@ -228,7 +200,7 @@ RBReady(changeFrame);
 <h4>四、FFmpeg0.7版本库一键编译脚本</h4>
 <p>　　通过第三部分的介绍，相信我们应该对FFmpeg的配置都有了一个初步的认识，我们再回到第三部分开始时我们运行build-ffmpeg.sh的碰到的问题，经过查看configure的帮助，我们发现0.7这个版本的FFmpeg库却是没有"--disable-iconv"选项。这个牛逼的脚本是针对当前较新的FFmpeg库写的，在低版本中没有一些配置选项也是正常。</p>
 <p>　　下面给出经过修改后的脚本，脚本中对原先的脚本进行了精简，去掉了下载部分的代码。</p>
-<div class="highlight"><pre><code><span class="cp">#!/bin/sh</span>
+<div class="highlight"><pre><code><span></span><span class="cp">#!/bin/sh</span>
 
 <span class="cp">########################################################################</span>
 <span class="cp">##################### copyright by smileEvday ##########################</span>
@@ -236,50 +208,50 @@ RBReady(changeFrame);
 <span class="cp">########################################################################</span>
 
 <span class="cp"># FFMpeg，SDK版本号</span>
-<span class="n">VERSION</span><span class="o">=</span><span class="s">&quot;0.7.4&quot;</span><span class="n">SDKVERSION</span><span class="o">=</span><span class="s">&quot;6.1&quot;</span><span class="err">#最低支持的</span><span class="n">SDK</span><span class="err">版本号</span>
-<span class="n">MINSDKVERSION</span><span class="o">=</span><span class="s">&quot;5.0&quot;</span><span class="err">#</span> <span class="err">源文件路径</span>
-<span class="n">SRCDIR</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">pwd</span><span class="p">)</span>
-<span class="n">BUILDDIR</span><span class="o">=</span><span class="s">&quot;${SRCDIR}/build&quot;</span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="err">$</span><span class="n">BUILDDIR</span>
+<span class="n">VERSION</span><span class="o">=</span><span class="s">&quot;0.7.4&quot;</span><span class="n">SDKVERSION</span><span class="o">=</span><span class="s">&quot;6.1&quot;</span><span class="err">#</span><span class="n">最低支持的SDK版本号</span>
+<span class="n">MINSDKVERSION</span><span class="o">=</span><span class="s">&quot;5.0&quot;</span><span class="err">#</span><span class="w"> </span><span class="n">源文件路径</span>
+<span class="n">SRCDIR</span><span class="o">=</span><span class="n">$</span><span class="p">(</span><span class="n">pwd</span><span class="p">)</span>
+<span class="n">BUILDDIR</span><span class="o">=</span><span class="s">&quot;${SRCDIR}/build&quot;</span><span class="n">mkdir</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="n">$BUILDDIR</span>
 
 <span class="cp"># 获取xcode开发环境安装路径</span>
-<span class="n">DEVELOPER</span><span class="o">=</span><span class="err">`</span><span class="n">xcode</span><span class="o">-</span><span class="n">select</span> <span class="o">-</span><span class="n">print</span><span class="o">-</span><span class="n">path</span><span class="err">`</span>
+<span class="n">DEVELOPER</span><span class="o">=</span><span class="err">`</span><span class="n">xcode</span><span class="o">-</span><span class="n">select</span><span class="w"> </span><span class="o">-</span><span class="n">print</span><span class="o">-</span><span class="n">path</span><span class="err">`</span>
 
 <span class="cp"># 要编译的架构列表</span>
-<span class="n">ARCHS</span><span class="o">=</span><span class="s">&quot;armv7 armv7s i386&quot;</span><span class="k">for</span> <span class="n">ARCH</span> <span class="n">in</span> <span class="err">$</span><span class="p">{</span><span class="n">ARCHS</span><span class="p">}</span><span class="k">do</span>
-    <span class="k">if</span> <span class="p">[</span> <span class="s">&quot;${ARCH}&quot;</span> <span class="o">==</span> <span class="s">&quot;i386&quot;</span> <span class="p">];</span>
-    <span class="n">then</span>
-        <span class="n">PLATFORM</span><span class="o">=</span><span class="s">&quot;iPhoneSimulator&quot;</span>
-        <span class="n">EXTRA_CFLAGS</span><span class="o">=</span><span class="s">&quot;-arch i386&quot;</span>
-        <span class="n">EXTRA_LDFLAGS</span><span class="o">=</span><span class="s">&quot;-arch i386 -mfpu=neon&quot;</span>
-        <span class="n">EXTRA_CONFIG</span><span class="o">=</span><span class="s">&quot;--arch=i386 --cpu=i386&quot;</span>
-    <span class="k">else</span>
-        <span class="n">PLATFORM</span><span class="o">=</span><span class="s">&quot;iPhoneOS&quot;</span>
-        <span class="n">EXTRA_CFLAGS</span><span class="o">=</span><span class="s">&quot;-arch ${ARCH} -mfloat-abi=softfp&quot;</span>
-        <span class="n">EXTRA_LDFLAGS</span><span class="o">=</span><span class="s">&quot;-arch ${ARCH} -mfpu=neon -mfloat-abi=softfp&quot;</span>
-        <span class="n">EXTRA_CONFIG</span><span class="o">=</span><span class="s">&quot;--arch=arm --cpu=cortex-a9 --disable-armv5te&quot;</span>
-    <span class="n">fi</span>
+<span class="n">ARCHS</span><span class="o">=</span><span class="s">&quot;armv7 armv7s i386&quot;</span><span class="k">for</span><span class="w"> </span><span class="n">ARCH</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">$</span><span class="p">{</span><span class="n">ARCHS</span><span class="p">}</span><span class="k">do</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s">&quot;${ARCH}&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;i386&quot;</span><span class="w"> </span><span class="p">];</span>
+<span class="w">    </span><span class="n">then</span>
+<span class="w">        </span><span class="n">PLATFORM</span><span class="o">=</span><span class="s">&quot;iPhoneSimulator&quot;</span>
+<span class="w">        </span><span class="n">EXTRA_CFLAGS</span><span class="o">=</span><span class="s">&quot;-arch i386&quot;</span>
+<span class="w">        </span><span class="n">EXTRA_LDFLAGS</span><span class="o">=</span><span class="s">&quot;-arch i386 -mfpu=neon&quot;</span>
+<span class="w">        </span><span class="n">EXTRA_CONFIG</span><span class="o">=</span><span class="s">&quot;--arch=i386 --cpu=i386&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">PLATFORM</span><span class="o">=</span><span class="s">&quot;iPhoneOS&quot;</span>
+<span class="w">        </span><span class="n">EXTRA_CFLAGS</span><span class="o">=</span><span class="s">&quot;-arch ${ARCH} -mfloat-abi=softfp&quot;</span>
+<span class="w">        </span><span class="n">EXTRA_LDFLAGS</span><span class="o">=</span><span class="s">&quot;-arch ${ARCH} -mfpu=neon -mfloat-abi=softfp&quot;</span>
+<span class="w">        </span><span class="n">EXTRA_CONFIG</span><span class="o">=</span><span class="s">&quot;--arch=arm --cpu=cortex-a9 --disable-armv5te&quot;</span>
+<span class="w">    </span><span class="n">fi</span>
 
-    <span class="n">make</span> <span class="n">clean</span>
+<span class="w">    </span><span class="n">make</span><span class="w"> </span><span class="n">clean</span>
 
-    <span class="cp"># you can do any clip here </span>
-    <span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=</span><span class="s">&quot;${BUILDDIR}/${ARCH}&quot;</span>         <span class="err">\</span>                <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">doc</span>                         <span class="err">\</span>                <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffmpeg</span>                     <span class="err">\</span>                <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffplay</span>                     <span class="err">\</span>                <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffserver</span>                     <span class="err">\</span>                <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">cross</span><span class="o">-</span><span class="n">compile</span>                 <span class="err">\</span>                <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">pic</span>                         <span class="err">\</span>                <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">asm</span>                        <span class="err">\</span>                <span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">os</span><span class="o">=</span><span class="n">darwin</span>                     \
-                <span class="err">$</span><span class="p">{</span><span class="n">EXTRA_CONFIG</span><span class="p">}</span>                        <span class="err">\</span>                <span class="o">--</span><span class="n">cc</span><span class="o">=</span><span class="s">&quot;${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/usr/bin/gcc&quot;</span>                                         <span class="err">\</span>                <span class="o">--</span><span class="n">as</span><span class="o">=</span><span class="s">&quot;/usr/bin/gas-preprocessor.pl&quot;</span>                                                                                <span class="err">\</span>                <span class="o">--</span><span class="n">sysroot</span><span class="o">=</span><span class="s">&quot;${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/SDKs/${PLATFORM}${SDKVERSION}.sdk&quot;</span>                 <span class="err">\</span>                <span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">cflags</span><span class="o">=</span><span class="s">&quot;-miphoneos-version-min=${MINSDKVERSION} ${EXTRA_CFLAGS}&quot;</span>                                                        <span class="err">\</span>                <span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">ldflags</span><span class="o">=</span><span class="s">&quot;-miphoneos-version-min=${MINSDKVERSION} ${EXTRA_LDFLAGS} -isysroot ${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/SDKs/${PLATFORM}${SDKVERSION}.sdk&quot;</span>
+<span class="w">    </span><span class="cp"># you can do any clip here </span>
+<span class="w">    </span><span class="p">.</span><span class="o">/</span><span class="n">configure</span><span class="w"> </span><span class="o">--</span><span class="n">prefix</span><span class="o">=</span><span class="s">&quot;${BUILDDIR}/${ARCH}&quot;</span><span class="w">         </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">doc</span><span class="w">                         </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffmpeg</span><span class="w">                     </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffplay</span><span class="w">                     </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">ffserver</span><span class="w">                     </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">cross</span><span class="o">-</span><span class="n">compile</span><span class="w">                 </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">pic</span><span class="w">                         </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="k">asm</span><span class="w">                        </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">os</span><span class="o">=</span><span class="n">darwin</span><span class="w">                     </span>\
+<span class="w">                </span><span class="n">$</span><span class="p">{</span><span class="n">EXTRA_CONFIG</span><span class="p">}</span><span class="w">                        </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">cc</span><span class="o">=</span><span class="s">&quot;${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/usr/bin/gcc&quot;</span><span class="w">                                         </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">as</span><span class="o">=</span><span class="s">&quot;/usr/bin/gas-preprocessor.pl&quot;</span><span class="w">                                                                                </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">sysroot</span><span class="o">=</span><span class="s">&quot;${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/SDKs/${PLATFORM}${SDKVERSION}.sdk&quot;</span><span class="w">                 </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">cflags</span><span class="o">=</span><span class="s">&quot;-miphoneos-version-min=${MINSDKVERSION} ${EXTRA_CFLAGS}&quot;</span><span class="w">                                                        </span><span class="err">\</span><span class="w">                </span><span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">ldflags</span><span class="o">=</span><span class="s">&quot;-miphoneos-version-min=${MINSDKVERSION} ${EXTRA_LDFLAGS} -isysroot ${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/SDKs/${PLATFORM}${SDKVERSION}.sdk&quot;</span>
 
-    <span class="n">make</span> <span class="o">&amp;&amp;</span> <span class="n">make</span> <span class="n">install</span> <span class="o">&amp;&amp;</span> <span class="n">make</span> <span class="n">clean</span>
+<span class="w">    </span><span class="n">make</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">clean</span>
 
 <span class="n">done</span>
 
 <span class="cp">########################################################################################################################</span>
 <span class="cp">##################################################### 生成fat库 #########################################################</span>
 <span class="cp">########################################################################################################################</span>
-<span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="err">$</span><span class="p">{</span><span class="n">BUILDDIR</span><span class="p">}</span><span class="o">/</span><span class="n">universal</span><span class="o">/</span><span class="n">lib</span>
-<span class="n">cd</span> <span class="err">$</span><span class="p">{</span><span class="n">BUILDDIR</span><span class="p">}</span><span class="o">/</span><span class="n">armv7</span><span class="o">/</span><span class="n">libfor</span> <span class="n">file</span> <span class="n">in</span> <span class="o">*</span><span class="p">.</span><span class="n">adocd</span> <span class="err">$</span><span class="p">{</span><span class="n">SRCDIR</span><span class="p">}</span><span class="o">/</span><span class="n">build</span>
-<span class="n">xcrun</span> <span class="o">-</span><span class="n">sdk</span> <span class="n">iphoneos</span> <span class="n">lipo</span> <span class="o">-</span><span class="n">output</span> <span class="n">universal</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="err">$</span><span class="n">file</span>  <span class="o">-</span><span class="n">create</span> <span class="o">-</span><span class="n">arch</span> <span class="n">armv7</span> <span class="n">armv7</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="err">$</span><span class="n">file</span> <span class="o">-</span><span class="n">arch</span> <span class="n">armv7s</span> <span class="n">armv7s</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="err">$</span><span class="n">file</span> <span class="o">-</span><span class="n">arch</span> <span class="n">i386</span> <span class="n">i386</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="err">$</span><span class="n">file</span>
-<span class="n">echo</span> <span class="s">&quot;Universal $file created.&quot;</span><span class="n">done</span>
-<span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="err">$</span><span class="p">{</span><span class="n">BUILDDIR</span><span class="p">}</span><span class="o">/</span><span class="n">armv7</span><span class="o">/</span><span class="n">include</span> <span class="err">$</span><span class="p">{</span><span class="n">BUILDDIR</span><span class="p">}</span><span class="o">/</span><span class="n">universal</span><span class="o">/</span><span class="n">echo</span> <span class="s">&quot;Done.&quot;</span>
+<span class="n">mkdir</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="n">$</span><span class="p">{</span><span class="n">BUILDDIR</span><span class="p">}</span><span class="o">/</span><span class="n">universal</span><span class="o">/</span><span class="n">lib</span>
+<span class="n">cd</span><span class="w"> </span><span class="n">$</span><span class="p">{</span><span class="n">BUILDDIR</span><span class="p">}</span><span class="o">/</span><span class="n">armv7</span><span class="o">/</span><span class="n">libfor</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="n">adocd</span><span class="w"> </span><span class="n">$</span><span class="p">{</span><span class="n">SRCDIR</span><span class="p">}</span><span class="o">/</span><span class="n">build</span>
+<span class="n">xcrun</span><span class="w"> </span><span class="o">-</span><span class="n">sdk</span><span class="w"> </span><span class="n">iphoneos</span><span class="w"> </span><span class="n">lipo</span><span class="w"> </span><span class="o">-</span><span class="n">output</span><span class="w"> </span><span class="n">universal</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">$file</span><span class="w">  </span><span class="o">-</span><span class="n">create</span><span class="w"> </span><span class="o">-</span><span class="n">arch</span><span class="w"> </span><span class="n">armv7</span><span class="w"> </span><span class="n">armv7</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">$file</span><span class="w"> </span><span class="o">-</span><span class="n">arch</span><span class="w"> </span><span class="n">armv7s</span><span class="w"> </span><span class="n">armv7s</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">$file</span><span class="w"> </span><span class="o">-</span><span class="n">arch</span><span class="w"> </span><span class="n">i386</span><span class="w"> </span><span class="n">i386</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">$file</span>
+<span class="n">echo</span><span class="w"> </span><span class="s">&quot;Universal $file created.&quot;</span><span class="n">done</span>
+<span class="n">cp</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w"> </span><span class="n">$</span><span class="p">{</span><span class="n">BUILDDIR</span><span class="p">}</span><span class="o">/</span><span class="n">armv7</span><span class="o">/</span><span class="n">include</span><span class="w"> </span><span class="n">$</span><span class="p">{</span><span class="n">BUILDDIR</span><span class="p">}</span><span class="o">/</span><span class="n">universal</span><span class="o">/</span><span class="n">echo</span><span class="w"> </span><span class="s">&quot;Done.&quot;</span>
 </code></pre></div>
 <p>注：由于FFmpeg库比较陈旧，该脚本使用xcode4.6下，编译器为GCC，采用6.1的SDK进行编译。如果你的机器上装的同事安装了xcode4.x和xcode5的话，可以在命令行下使用如下命令切换当前的默认编译环境为xcode4.6即可:</p>
-<p><img src="http://static.oschina.net/uploads/img/201504/22164925_zFtD.png" alt="" style="cursor: pointer;"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201504/22164925_zFtD.png" alt="" style="cursor: pointer;"></p>
 <p>　　设置好xcode的编译环境以后，只需要将该脚本拷贝到FFMpeg源文件路径下运行即可一键生成armv7，armv7s，i386以及合成后的全平台库。</p>
 <h4>五、如何使用以及编译链接中可能遇到的问题</h4>
 <p>　　第四部分中我们对build-ffmpeg.sh的脚本进行了修改和精简后得到了build-ffmpeg0.7.sh，我们只需要运行该脚本就可以一键完成FFmpeg 0.7版本库的编译工作了。编译后我们得到的是lib目录(包含所有生成的静态库)以及include目录(包含相应的头文件)，使用时我们只需要将这些文件添加到工程中即可。</p>
@@ -290,7 +262,7 @@ RBReady(changeFrame);
 <p>　　time.h冲突的问题就是属于头文件冲突，系统的标准库中有time.h文件，FFmpeg应该是在1.1之后也加入了一个time.h文件，路径为libavutil/time.h。所以如果你使用的是FFmpeg1.1之后的版本，那么在使用中就可能会碰到头文件冲突的问题。解决这个问题，网上流传一个方法是修改FFmpeg库中time.h文件的名字，我觉得这太麻烦了，而且也容易出错。后来查看FFmpeg源码的时候偶然发现它自身内部引用这个time.h的时候都有带一层父目录，如#include "libavutil/time.h"。因此想是不是通过指定头文件搜索路径就可以解决这个问题。</p>
 <p>　　打开工程设置页面，搜索header search path如下图所示:
 　　
-　　<img src="http://static.oschina.net/uploads/img/201504/22164925_vPBX.png" alt="" style="cursor: pointer;"></p>
+　　<img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201504/22164925_vPBX.png" alt="" style="cursor: pointer;"></p>
 <p>　　如果你的FFmpeg库正好是放在当前的路径下，且为了偷懒设置了递归包含头文件的话，那么你很可能就会遇到time.h冲突的问题。因为xcode工程默认的设置是优先查找用户路径，编译时FFmpeg中libavutil下的time.h就会优先被链接，从而导致不会再链接系统time.h文件，最终导致编译失败。</p>
 <p>　　解决这个问题有两个办法:</p>
 <p>　　a、取消掉Header Search Paths中的递归引用。</p>
@@ -303,11 +275,11 @@ RBReady(changeFrame);
 <p>　　编译i386版本的FFmpeg库和armv版本库可能用到的参数不尽相同，例如我遇到这个问题，我的编译选项中有一项如下:</p>
 <p>　　--extra-cflags='-arch i386 -mfloat-abi=softfp -miphoneos-version-min=5.0'</p>
 <p>　　在我确认其他参数(如cpu，arch)都正确的情况下，依然提示我们“C compiler test failed.” 后面紧跟着一句查看config.log你可以得到更详细的信息，于是打开该文件，你可以在最开始的地方看到你的配置语句，如果是用脚本，这块儿会显示最终解释后(替换参数为真实值)的配置语句。然后紧跟着一堆具体的配置，通常哭啼的错误信息会在该文件的最末尾。我遇到的问题的信息如下:</p>
-<p><img src="http://static.oschina.net/uploads/img/201504/22164925_2Y9i.png" alt="" style="cursor: pointer;"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201504/22164925_2Y9i.png" alt="" style="cursor: pointer;"></p>
 <p>　　看到标红的这个区域了没有，提示“-mfloat-abi=softfp”选项不支持，删掉该选项后，在运行时配置就通过了。其他配置问题，都可以通过查看config.log来获取更详细的错误信息。</p>
 <h5>4、由于未导入libbz动态库的问题</h5>
 <p>　　如果导入FFmpeg库了，并且配置了头文件搜索路径，遇到"Undefined symbols for architecture armv7s: _BZ2_bzDecompressInit"，如下图所示:</p>
-<p><img src="http://static.oschina.net/uploads/img/201504/22164925_93eg.png" alt="" style="cursor: pointer;"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201504/22164925_93eg.png" alt="" style="cursor: pointer;"></p>
 <p>　　这个问题是由于没有导入“libbz2.1.0.dylib”库的原因，导入库即可解决该问题。</p>
 <h5>5、libavcodec/audioconvert.h头文件缺失问题</h5>
 <p>　　不知道为什么执行make install的时候libavcodec中的audioconvert.h怎么没有拷贝到include目录下的libavcodec中去，查看发现原来libavutil目录下已经有一个audioconvert.h了。解决这个问题只需要从FFmpeg库的libavcodec中拷贝audioconvert.h头文件到include的libavcodec目录中即可解决。</p>
@@ -316,7 +288,7 @@ RBReady(changeFrame);
 <p>　　说了这么多，当我们使用一个技术的时候，不应该仅仅停留在会用的层次，花点儿时间了解一下背后的原理会更让你对该技术有个更深的理解，多学，多看，多思考，最终会有有所收获的。</p>
 <h4>七、编译脚本及参考资料</h4>
 <h5>1、编译脚本　　</h5>
-<p>　　gas-preprocessor脚本地址: <a href='' target='blank'></a><a href="https://github.com/mansr/gas-preprocessor　　">https://github.com/mansr/gas-preprocessor　　</a></p>
+<p>　　gas-preprocessor脚本地址: <a href='' target='blank'></a><a href="https://github.com/mansr/gas-preprocessor">https://github.com/mansr/gas-preprocessor</a>　　</p>
 <p>　　FFmpeg 2.x一键化编译脚本: <a href='' target='blank'></a><a href="https://gist.github.com/m1entus/6983547">https://gist.github.com/m1entus/6983547</a></p>
 <p>　　FFmpeg0.7一键化编译脚本: <a href='' target='blank'></a><a href="https://gist.github.com/smileEvday/7565260">https://gist.github.com/smileEvday/7565260</a></p>
 <h5>2、参考资料</h5>
@@ -337,90 +309,34 @@ RBReady(changeFrame);
 <p><a href='http://www.cnblogs.com/luxiaoxun/p/3462153.html' target='blank'>http://www.cnblogs.com/luxiaoxun/p/3462153.html</a></p>
 
 
-<br>
-<br>
+<br/>
+<br/>
 <p></p>
 
 
 <!-- Share BEGIN -->
 <div id="share"></div>
-<script type="text/javascript" src="../vender/share/share.js"></script>
-<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
-<link rel="stylesheet" href="../vender/share/share.css">
 <!-- Share END -->
 
 
-<br><p></p>
+<br/>
 
 
 <!-- 评论 start -->
-<div class="commentBox" id="globeCommentBox">
-    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
-    <div>
-        <input type="text" name="nickname" placeholder="nickname">
-    </div>
-    <div>
-        <input type="text" name="email" placeholder="email">
-    </div>
-    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
-</div>
-<br>
 <div id="comment"></div>
-
-<link rel="stylesheet" href="../vender/comment/comment.css" />
-<script type="text/javascript" src="../vender/comment/toast.js"></script>
-<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
-<script type="text/javascript">
-    var articleUUID = "f2f36e779eb4c708bbec2c610f952e5c";
-    var pageIndex = 1;
-</script>
-<script type="text/javascript" src="../vender/comment/comment.js"></script>
 <!-- 评论 end -->
 
-
-</div>
-
-
-<div id='link' style='display:none;'>
-<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
-<h3>· Social</h3>
-<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
-<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
-<h3>· Links</h3>
-<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
-<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
-<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
-<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
-</div>
-<br>
-
-<div id="copyright" >
-        <p class="alignright">
-            COPYRIGHT &copy; 2010-2020
-            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
-        &nbsp; <br/><a href="https://beian.miit.gov.cn/">粤ICP备2021173035号</a>
-        </p>  
-</div>
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  if(window.location.host.indexOf("localhost") == -1){
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  }
-})();
-</script>
+<!-- CopyRight BEGIN -->
+<div id="copyright" ></div>
+<!-- CopyRight END -->
 
 
 </body>
 
-<!-- 语法高亮 -->
-<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
-<script src="../vender/js/highlight/highlight.pack.js"></script>
 <script>
-hljs.initHighlightingOnLoad();
-// console.log(hljs.listLanguages());
+var sourceFile = "FFmpeg and iOS and VLC.md";
 </script>
+
+<script charset="UTF-8" src="../vender/js/loaded.js"></script>
+
+</html>

@@ -1,0 +1,261 @@
+<!--BEGIN_DATA
+{
+    "create_date": "2014-10-30 15:49", 
+    "modify_date": "2015-10-13 17:53", 
+    "is_top": "0", 
+    "summary": "", 
+    "tags": "iOS", 
+    "file_name": "iOS GCD使用指南(swift).md"
+}
+END_DATA-->
+
+Grand Central Dispatch（GCD）是异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中，GCD就能生成必要的线程并计划执行任务。由于线程管理是作为系统的一部分来实现的，因此可统一管理，也可执行任务，这样就比以前的线程更有效率。
+
+###Dispatch Queue
+
+Dispatch Queue是用来执行任务的队列，是GCD中最基本的元素之一。
+Dispatch Queue分为两种：
+Serial Dispatch Queue，按添加进队列的顺序（先进先出）一个接一个的执行
+
+Concurrent Dispatch Queue，并发执行队列里的任务
+
+简而言之，Serial Dispatch Queue只使用了一个线程，Concurrent Dispatch Queue使用了多个线程（具体使用了多少个，由系统决定）。 
+
+可以通过两种方式来获得Dispatch Queue，第一种方式是自己创建一个：
+
+let myQueue: dispatch_queue_t = dispatch_queue_create("com.xxx", nil) 
+
+第一个参数是队列的名称，一般是使用倒序的全域名。虽然可以不给队列指定一个名称，但是有名称的队列可以让我们在遇到问题时更好调试；
+
+当第二个参数为nil时返回Serial Dispatch Queue，如上面那个例子，当指定为DISPATCH_QUEUE_CONCURRENT时返回Concurrent Dispatch Queue。
+
+
+需要注意一点，如果是在OS X 10.8或iOS 6以及之后版本中使用，Dispatch Queue将会由ARC自动管理，如果是在此之前的版本，需要自己手动释放，如下：
+
+``` 
+let myQueue: dispatch_queue_t = dispatch_queue_create("com.xxx", nil)
+dispatch_async(myQueue, { () -> Void in
+    println("in Block")
+})
+dispatch_release(myQueue) 
+```
+以上是通过手动创建的方式来获取Dispatch Queue，第二种方式是直接获取系统提供的Dispatch Queue。
+要获取的Dispatch Queue无非就是两种类型：
+Main Dispatch Queue
+
+####Global Dispatch Queue / Concurrent Dispatch Queue
+
+一般只在需要更新UI时我们才获取Main Dispatch Queue，其他情况下用Global Dispatch Queue就满足需求了：
+
+```
+//获取Main Dispatch Queue
+let mainQueue = dispatch_get_main_queue()
+//获取Global Dispatch Queue
+let globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+```
+得到的Global Dispatch Queue实际上是一个Concurrent Dispatch Queue，Main Dispatch Queue实际上就是Serial Dispatch Queue（并且只有一个）。
+
+获取Global Dispatch Queue的时候可以指定优先级，可以根据自己的实际情况来决定使用哪种优先级。
+
+一般情况下，我们通过第二种方式获取Dispatch Queue就行了。
+
+####dispatch_after
+
+dispatch_after能让我们添加进队列的任务延时执行，比如想让一个Block在10秒后执行： 
+
+```
+var time = dispatch_time(DISPATCH_TIME_NOW, (Int64)(10 * NSEC_PER_SEC))
+dispatch_after(time, globalQueue) { () -> Void in
+    println("在10秒后执行")
+} 
+```
+NSEC_PER_SEC表示的是秒数，它还提供了NSEC_PER_MSEC表示毫秒。
+
+上面这句dispatch_after的真正含义是在10秒后把任务添加进队列中，并不是表示在10秒后执行，大部分情况该函数能达到我们的预期，只有在对时间要求非常精准的情况下才可能会出现问题。
+
+获取一个dispatch_time_t类型的值可以通过两种方式来获取，以上是第一种方式，即通过dispatch_time函数，另一种是通过dispatch_walltime函数来获取，dispatch_walltime需要使用一个timespec的结构体来得到dispatch_time_t。通常dispatch_time用于计算相对时间，dispatch_walltime用于计算绝对时间，我写了一个把NSDate转成dispatch_time_t的Swift方法： 
+
+```
+func getDispatchTimeByDate(date: NSDate) -> dispatch_time_t {
+    let interval = date.timeIntervalSince1970
+    var second = 0.0
+    let subsecond = modf(interval, &second)
+    var time = timespec(tv_sec: __darwin_time_t(second), tv_nsec: (Int)(subsecond * (Double)(NSEC_PER_SEC)))
+    return dispatch_walltime(&time, 0)
+} 
+```
+这个方法接收一个NSDate对象，然后把NSDate转成dispatch_walltime需要的timespec结构体，最后再把dispatch_time_t返回，同样是在10秒后执行，之前的代码在调用部分需要修改成： 
+
+```
+var time = getDispatchTimeByDate(NSDate(timeIntervalSinceNow: 10))
+dispatch_after(time, globalQueue) { () -> Void in
+    println("在10秒后执行")
+}
+```
+这就是通过绝对时间来使用dispatch_after的例子。
+
+####dispatch_group
+
+可能经常会有这样一种情况：我们现在有3个Block要执行，我们不在乎它们执行的顺序，我们只希望在这3个Block执行完之后再执行某个操作。这个时候就需要使用dispatch_group了：
+
+```
+let globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+let group = dispatch_group_create()
+
+dispatch_group_async(group, globalQueue) { () -> Void in
+    println("1")
+}
+dispatch_group_async(group, globalQueue) { () -> Void in
+    println("2")
+}
+dispatch_group_async(group, globalQueue) { () -> Void in
+    println("3")
+}
+dispatch_group_notify(group, globalQueue) { () -> Void in
+    println("completed")
+}
+```
+输出的顺序与添加进队列的顺序无关，因为队列是Concurrent Dispatch Queue，但“completed”的输出一定是在最后的：
+ 
+```
+completed  
+```
+
+除了使用dispatch_group_notify函数可以得到最后执行完的通知外，还可以使用
+
+```
+let globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+let group = dispatch_group_create()
+
+dispatch_group_async(group, globalQueue) { () -> Void in
+    println("1")
+}
+dispatch_group_async(group, globalQueue) { () -> Void in
+    println("2")
+}
+dispatch_group_async(group, globalQueue) { () -> Void in
+    println("3")
+}
+//使用dispatch_group_wait函数
+dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
+println("completed")
+```
+需要注意的是，dispatch_group_wait实际上会使当前的线程处于等待的状态，也就是说如果是在主线程执行dispatch_group_wait，在上面的Block执行完之前，主线程会处于卡死的状态。可以注意到dispatch_group_wait的第二个参数是指定超时的时间，如果指定为DISPATCH_TIME_FOREVER（如上面这个例子）则表示会永久等待，直到上面的Block全部执行完，除此之外，还可以指定为具体的等待时间，根据dispatch_group_wait的返回值来判断是上面block执行完了还是等待超时了。
+
+最后，同之前创建dispatch_queue一样，如果是在OS X 10.8或iOS 6以及之后版本中使用，Dispatch Group将会由ARC自动管理，如果是在此之前的版本，需要自己手动释放。
+
+####dispatch_barrier_async
+
+dispatch_barrier_async就如同它的名字一样，在队列执行的任务中增加“栅栏”，在增加“栅栏”之前已经开始执行的block将会继续执行，当dispatch_barrier_async开始执行的时候其他的block处于等待状态，dispatch_barrier_async的任务执行完后，其后的block才会执行。我们简单的写个例子，假设这个例子有读文件和写文件的部分：
+
+```
+func writeFile() {
+    NSUserDefaults.standardUserDefaults().setInteger(7, forKey: "Integer_Key")
+}
+
+func readFile(){
+    print(NSUserDefaults.standardUserDefaults().integerForKey("Integer_Key"))
+} 
+```
+写文件只是在NSUserDefaults写入一个数字7，读只是将这个数字打印出来而已。我们要避免在写文件时候正好有线程来读取，就使用dispatch_barrier_async函数： 
+
+```
+NSUserDefaults.standardUserDefaults().setInteger(9, forKey: "Integer_Key")
+let globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+dispatch_async(globalQueue) {self.readFile()}
+dispatch_async(globalQueue) {self.readFile()}
+dispatch_async(globalQueue) {self.readFile()}
+dispatch_async(globalQueue) {self.readFile()}
+dispatch_barrier_async(globalQueue) {self.writeFile() ; self.readFile()}
+dispatch_async(globalQueue) {self.readFile()}
+dispatch_async(globalQueue) {self.readFile()}
+dispatch_async(globalQueue) {self.readFile()} 
+```
+我们先将一个9初始化到NSUserDefaults的Integer_Key中，然后在中间执行dispatch_barrier_async函数，由于这个队列是一个Concurrent Dispatch Queue，能同时并发多少线程是由系统决定的，如果添加dispatch_barrier_async的时候，其他的block（包括上面4个block）还没有开始执行，那么会先执行dispatch_barrier_async里的任务，其他block全部处于等待状态。如果添加dispatch_barrier_async的时候，已经有block在执行了，那么dispatch_barrier_async会等这些block执行完后再执行。
+
+
+####dispatch_apply
+
+dispatch_apply会将一个指定的block执行指定的次数。如果要对某个数组中的所有元素执行同样的block的时候，这个函数就显得很有用了，用法很简单，指定执行的次数以及Dispatch Queue，在block回调中会带一个索引，然后就可以根据这个索引来判断当前是对哪个元素进行操作： 
+
+```
+let globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+dispatch_apply(10, globalQueue) { (index) -> Void in
+    print(index)
+}
+print("completed") 
+```
+由于是Concurrent Dispatch Queue，不能保证哪个索引的元素是先执行的，但是“completed”一定是在最后打印，因为dispatch_apply函数是同步的，执行过程中会使线程在此处等待，所以一般的，我们应该在一个异步线程里使用dispatch_apply函数：
+
+```
+let globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+dispatch_async(globalQueue, { () -> Void in
+    dispatch_apply(10, globalQueue) { (index) -> Void in
+        print(index)
+    }
+    print("completed")
+})
+print("在dispatch_apply之前") 
+```
+
+####dispatch_suspend / dispatch_resume
+
+某些情况下，我们可能会想让Dispatch Queue暂时停止一下，然后在某个时刻恢复处理，这时就可以使用dispatch_suspend以及dispatch_resume函数： 
+
+```
+//暂停
+dispatch_suspend(globalQueue)
+//恢复
+dispatch_resume(globalQueue)
+```
+暂停时，如果已经有block正在执行，那么不会对该block的执行产生影响。dispatch_suspend只会对还未开始执行的block产生影响。
+
+####Dispatch Semaphore
+
+信号量在多线程开发中被广泛使用，当一个线程在进入一段关键代码之前，线程必须获取一个信号量，一旦该关键代码段完成了，那么该线程必须释放信号量。其它想进入该关键代码段的线程必须等待前面的线程释放信号量。
+
+信号量的具体做法是：当信号计数大于0时，每条进来的线程使计数减1，直到变为0，变为0后其他的线程将进不来，处于等待状态；执行完任务的线程释放信号，使计数加1，如此循环下去。
+
+下面这个例子中使用了10条线程，但是同时只执行一条，其他的线程处于等待状态：
+
+```
+let globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+let semaphore =  dispatch_semaphore_create(1)
+for i in 0 ... 9 {
+    dispatch_async(globalQueue, { () -> Void in
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        let time = dispatch_time(DISPATCH_TIME_NOW, (Int64)(2 * NSEC_PER_SEC))
+        dispatch_after(time, globalQueue) { () -> Void in
+            print("2秒后执行")
+            dispatch_semaphore_signal(semaphore)
+        }
+    })
+}
+```
+取得信号量的线程在2秒后释放了信息量，相当于是每2秒执行一次。
+
+通过上面的例子可以看到，在GCD中，用dispatch_semaphore_create函数能初始化一个信号量，同时需要指定信号量的初始值；使用dispatch_semaphore_wait函数分配信号量并使计数减1，为0时处于等待状态；使用dispatch_semaphore_signal函数释放信号量，并使计数加1。
+
+另外dispatch_semaphore_wait同样也支持超时，只需要给其第二个参数指定超时的时候即可，同Dispatch Group的dispatch_group_wait函数类似，可以通过返回值来判断。
+
+这个函数也需要注意，如果是在OS X 10.8或iOS 6以及之后版本中使用，Dispatch Semaphore将会由ARC自动管理，如果是在此之前的版本，需要自己手动释放。
+
+####dispatch_once
+
+dispatch_once函数通常用在单例模式上，它可以保证在程序运行期间某段代码只执行一次，如果我们要通过dispatch_once创建一个单例类，在Swift可以这样：
+
+```
+class SingletonObject {
+    class var sharedInstance : SingletonObject {
+        struct Static {
+            static var onceToken : dispatch_once_t = 0
+            static var instance : SingletonObject? = nil
+        }
+        dispatch_once(&Static.onceToken) {
+            Static.instance = SingletonObject()
+        }
+        return Static.instance!
+    }
+}
+```
+这样就能通过GCD的安全机制保证这段代码只执行一次。

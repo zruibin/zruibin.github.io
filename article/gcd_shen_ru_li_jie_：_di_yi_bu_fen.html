@@ -7,59 +7,34 @@
 
 <link rel="shortcut icon" href="../vender/image/me.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="keywords" content="GCD 深入理解：第一部分,iOS,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
 <meta name="description" content="GCD 深入理解：第一部分" />
-<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+<meta name="COPYRIGHT" content="版权所有2010,http://private.zruibin.cn" />
 
-
-<script type="text/javascript" src="../vender/js/default.js"></script>
-<script type="text/javascript" src="../vender/js/article.default.js"></script>
-<link rel="stylesheet" href="../vender/css/default.css" />
-<link rel="stylesheet" href="../vender/css/article.default.css" />
-
-<script type="text/javascript">
-
-RBReady(changeFrame);
-
+<script type="text/javascript" charset="UTF-8">
+var sourcePrefix = "../";
 </script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/sea.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/seajs-css.js"></script>
 
 </head>
 
-<body>
+<body style="visibility: hidden;">
 
 
 <div id="navbar" >
     <div id="menu" class="container">
     <ul>
-
     <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
     <li><a href="../about.html" class="item">About Me</a></li>
     <li><a href="./index.html" class="item">Blog</a></li>
-    <li><a class="item">Tags</a>
-        <div class="subs">
-        
-<ul>
-
-<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
-<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
-<li><a href="./Tag_python.html">Python(1)</a></li>
-<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
-<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
-<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
-<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
-<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
-<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
-<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
-<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
-<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
-<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
-</ul>
-
-        </div> 
+    <li><a class="item" href="../article/tags.html">Tags</a>
+        &nbsp;
+        <div class="subs" id="tags"></div> 
     </li>
-    <li><a href="./Archives.html" class="item">Archives</a></li>
+    <li><a href="./archives.html" class="item">Archives</a></li>
 
     </ul>
     </div>
@@ -67,27 +42,24 @@ RBReady(changeFrame);
 <p></p>
 
 
-
-
-
 <div class="container" id="content">
 
 <div id='header'>
     <h2>GCD 深入理解：第一部分</h2>
     <footer>
-        Date:&nbsp;<span id='create_time'>
+        Date:<span id='create_time'>
             2015-10-18 14:04
         </span>
-        &nbsp;&nbsp;
-        Tags:&nbsp; 
+        &nbsp;
+        Tags: 
 <span id='article_tags'>
          
-<a href='../article/Tag_ios.html' class='article_tag'>iOS</a>
+<a href='../article/tag_ios.html' class='article_tag'>iOS</a>
 
 </span>
 
     </footer>
-    <hr>
+    <hr/>
 </div>
 
 <h1>GCD 深入理解：第一部分</h1>
@@ -112,8 +84,8 @@ RBReady(changeFrame);
 <p>这些术语描述当任务相对于其它任务被执行，任务串行执行就是每次只有一个任务被执行，任务并发执行就是在同一时间可以有多个任务被执行。</p>
 <p>虽然这些术语被广泛使用，本教程中你可以将任务设定为一个 Objective-C 的 Block 。不明白什么是 Block ？看看 <a href="http://www.raywenderlich.com/9328/creating-a-diner-app-using-blocks-part-1">iOS 5 教程中的如何使用 Block</a> 。实际上，你也可以在 GCD 上使用函数指针，但在大多数场景中，这实际上更难于使用。Block 就是更加容易些！</p>
 <h4>Synchronous vs. Asynchronous 同步 vs. 异步</h4>
-<p>在 GCD 中，这些术语描述当一个函数相对于另一个任务完成，此任务是该函数要求 GCD 执行的。一个<em>同步</em>函数只在完成了它预定的任务后才返回。</p>
-<p>一个<em>异步</em>函数，刚好相反，会立即返回，预定的任务会完成但不会等它完成。因此，一个异步函数不会阻塞当前线程去执行下一个函数。</p>
+<p>在 GCD 中，这些术语描述当一个函数相对于另一个任务完成，此任务是该函数要求 GCD 执行的。一个_同步_函数只在完成了它预定的任务后才返回。</p>
+<p>一个_异步_函数，刚好相反，会立即返回，预定的任务会完成但不会等它完成。因此，一个异步函数不会阻塞当前线程去执行下一个函数。</p>
 <p>注意——当你读到同步函数“阻塞（Block）”当前线程，或函数是一个“阻塞”函数或阻塞操作时，不要被搞糊涂了！动词“阻塞”描述了函数如何影响它所在的线程而与名词“代码块（Block）”没有关系。代码块描述了用 Objective-C 编写的一个匿名函数，它能定义一个任务并被提交到 GCD 。</p>
 <p>译者注：中文不会有这个问题，“阻塞”和“代码块”是两个词。</p>
 <h4>Critical Section 临界区</h4>
@@ -129,29 +101,29 @@ RBReady(changeFrame);
 <h3>Concurrency vs Parallelism 并发与并行</h3>
 <p>并发和并行通常被一起提到，所以值得花些时间解释它们之间的区别。</p>
 <p>并发代码的不同部分可以“同步”执行。然而，该怎样发生或是否发生都取决于系统。多核设备通过并行来同时执行多个线程；然而，为了使单核设备也能实现这一点，它们必须先运行一个线程，执行一个上下文切换，然后运行另一个线程或进程。这通常发生地足够快以致给我们并发执行地错觉，如下图所示：</p>
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2014/01/Concurrency_vs_Parallelism.png" alt="Concurrency_vs_Parallelism"></p>
-<p>虽然你可以编写代码在 GCD 下并发执行，但 GCD 会决定有多少并行的需求。并行<em>要求</em>并发，但并发并不能<em>保证</em>并行。</p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://cdn1.raywenderlich.com/wp-content/uploads/2014/01/Concurrency_vs_Parallelism.png" alt="Concurrency_vs_Parallelism"></p>
+<p>虽然你可以编写代码在 GCD 下并发执行，但 GCD 会决定有多少并行的需求。并行_要求_并发，但并发并不能_保证_并行。</p>
 <p>更深入的观点是并发实际上是关于<em>构造</em>。当你在脑海中用 GCD 编写代码，你组织你的代码来暴露能同时运行的多个工作片段，以及不能同时运行的那些。如果你想深入此主题，看看 <a href="http://vimeo.com/49718712">这个由Rob Pike做的精彩的讲座</a> 。</p>
 <h3>Queues 队列</h3>
 <p>GCD 提供有 <code>dispatch queues</code> 来处理代码块，这些队列管理你提供给 GCD 的任务并用 FIFO 顺序执行这些任务。这就保证了第一个被添加到队列里的任务会是队列中第一个开始的任务，而第二个被添加的任务将第二个开始，如此直到队列的终点。</p>
-<p>所有的调度队列（dispatch queues）自身都是线程安全的，你能从多个线程并行的访问它们。当你了解了调度队列如何为你自己代码的不同部分提供线程安全后，GCD的优点就是显而易见的。关于这一点的关键是选择正确<em>类型</em>的调度队列和正确的<em>调度函数</em>来提交你的工作。</p>
+<p>所有的调度队列（dispatch queues）自身都是线程安全的，你能从多个线程并行的访问它们。当你了解了调度队列如何为你自己代码的不同部分提供线程安全后，GCD的优点就是显而易见的。关于这一点的关键是选择正确_类型_的调度队列和正确的_调度函数_来提交你的工作。</p>
 <p>在本节你会看到两种调度队列，都是由 GCD 提供的，然后看一些描述如何用调度函数添加工作到队列的例子。</p>
 <h4>Serial Queues 串行队列</h4>
 <p>串行队列中的任务一次执行一个，每个任务只在前一个任务完成时才开始。而且，你不知道在一个 Block 结束和下一个开始之间的时间长度，如下图所示：</p>
-<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2014/01/Serial-Queue-480x272.png" alt="Serial-Queue"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://cdn4.raywenderlich.com/wp-content/uploads/2014/01/Serial-Queue-480x272.png" alt="Serial-Queue"></p>
 <p>这些任务的执行时机受到 GCD 的控制；唯一能确保的事情是 GCD 一次只执行一个任务，并且按照我们添加到队列的顺序来执行。</p>
 <p>由于在串行队列中不会有两个任务并发运行，因此不会出现同时访问临界区的风险；相对于这些任务来说，这就从竞态条件下保护了临界区。所以如果访问临界区的唯一方式是通过提交到调度队列的任务，那么你就不需要担心临界区的安全问题了。</p>
 <h4>Concurrent Queues 并发队列</h4>
 <p>在并发队列中的任务能得到的保证是它们会按照被添加的顺序开始执行，但这就是全部的保证了。任务可能以任意顺序完成，你不会知道何时开始运行下一个任务，或者任意时刻有多少 Block 在运行。再说一遍，这完全取决于 GCD 。</p>
 <p>下图展示了一个示例任务执行计划，GCD 管理着四个并发任务：</p>
-<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Concurrent-Queue-480x272.png" alt="Concurrent-Queue"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Concurrent-Queue-480x272.png" alt="Concurrent-Queue"></p>
 <p>注意 Block 1,2 和 3 都立马开始运行，一个接一个。在 Block 0 开始后，Block 1等待了好一会儿才开始。同样， Block 3 在 Block 2 之后才开始，但它先于 Block 2 完成。</p>
 <p>何时开始一个 Block 完全取决于 GCD 。如果一个 Block 的执行时间与另一个重叠，也是由 GCD 来决定是否将其运行在另一个不同的核心上，如果那个核心可用，否则就用上下文切换的方式来执行不同的 Block 。</p>
 <p>有趣的是， GCD 提供给你至少五个特定的队列，可根据队列类型选择使用。</p>
 <h4>Queue Types 队列类型</h4>
 <p>首先，系统提供给你一个叫做 <code>主队列（main queue）</code> 的特殊队列。和其它串行队列一样，这个队列中的任务一次只能执行一个。然而，它能保证所有的任务都在主线程执行，而主线程是唯一可用于更新 UI 的线程。这个队列就是用于发生消息给 <code>UIView</code> 或发送通知的。</p>
 <p>系统同时提供给你好几个并发队列。它们叫做 <code>全局调度队列（Global Dispatch Queues）</code> 。目前的四个全局队列有着不同的优先级：<code>background</code>、<code>low</code>、<code>default</code> 以及 <code>high</code>。要知道，Apple 的 API 也会使用这些队列，所以你添加的任何任务都不会是这些队列中唯一的任务。</p>
-<p>最后，你也可以创建自己的串行队列或并发队列。这就是说，至少有<em>五个</em>队列任你处置：主队列、四个全局调度队列，再加上任何你自己创建的队列。</p>
+<p>最后，你也可以创建自己的串行队列或并发队列。这就是说，至少有_五个_队列任你处置：主队列、四个全局调度队列，再加上任何你自己创建的队列。</p>
 <p>以上是调度队列的大框架！</p>
 <p>GCD 的“艺术”归结为选择合适的队列来调度函数以提交你的工作。体验这一点的最好方式是走一遍下边的列子，我们沿途会提供一些一般性的建议。</p>
 <h2>入门</h2>
@@ -159,7 +131,7 @@ RBReady(changeFrame);
 <p>GooglyPuff 是一个没有优化，线程不安全的应用，它使用 Core Image 的人脸检测 API 来覆盖一对曲棍球眼睛到被检测到的人脸上。对于基本的图像，可以从相机胶卷选择，或用预设好的URL从互联网下载。</p>
 <p><a href="http://cdn4.raywenderlich.com/wp-content/uploads/2014/01/GooglyPuff_Start_1.zip">点击此处下载项目</a></p>
 <p>完成项目下载之后，将其解压到某个方便的目录，再用 Xcode 打开它并编译运行。这个应用看起来如下图所示：</p>
-<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Workflow1.png" alt="Workflow"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Workflow1.png" alt="Workflow"></p>
 <p>注意当你选择 <code>Le Internet</code> 选项下载图片时，一个 <code>UIAlertView</code> 过早地弹出。你将在本系列教程地第二部分修复这个问题。</p>
 <p>这个项目中有四个有趣的类：</p>
 <ul>
@@ -174,24 +146,24 @@ RBReady(changeFrame);
 <p>在重载 <code>UIViewController 的 viewDidLoad</code> 时容易加入太多杂乱的工作（too much clutter），这通常会引起视图控制器出现前更长的等待。如果可能，最好是卸下一些工作放到后台，如果它们不是绝对必须要运行在加载时间里。</p>
 <p>这听起来像是 <code>dispatch_async</code> 能做的事情！</p>
 <p>打开 <code>PhotoDetailViewController</code> 并用下面的实现替换 <code>viewDidLoad</code> ：</p>
-<div class="highlight"><pre><code><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
-<span class="p">{</span>   
-    <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-    <span class="n">NSAssert</span><span class="p">(</span><span class="n">_image</span><span class="p">,</span> <span class="s">@&quot;Image not set; required to use view controller&quot;</span><span class="p">);</span>
-    <span class="nb">self</span><span class="p">.</span><span class="n">photoImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">_image</span><span class="p">;</span>
+<div class="highlight"><pre><code><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+<span class="p">{</span><span class="w">   </span>
+<span class="w">    </span><span class="p">[</span><span class="nb">super</span><span class="w"> </span><span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="w">    </span><span class="n">NSAssert</span><span class="p">(</span><span class="n">_image</span><span class="p">,</span><span class="w"> </span><span class="s">@&quot;Image not set; required to use view controller&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">self</span><span class="p">.</span><span class="n">photoImageView</span><span class="p">.</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_image</span><span class="p">;</span>
 
-    <span class="c1">//Resize if neccessary to ensure it&#39;s not pixelated</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">_image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">&lt;=</span> <span class="nb">self</span><span class="p">.</span><span class="n">photoImageView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">&amp;&amp;</span>
-        <span class="n">_image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">&lt;=</span> <span class="nb">self</span><span class="p">.</span><span class="n">photoImageView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">photoImageView</span> <span class="nl">setContentMode</span><span class="p">:</span><span class="n">UIViewContentModeCenter</span><span class="p">];</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="c1">//Resize if neccessary to ensure it&#39;s not pixelated</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nb">self</span><span class="p">.</span><span class="n">photoImageView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">        </span><span class="n">_image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nb">self</span><span class="p">.</span><span class="n">photoImageView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">photoImageView</span><span class="w"> </span><span class="n">setContentMode</span><span class="o">:</span><span class="n">UIViewContentModeCenter</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
 
-    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span> <span class="c1">// 1</span>
-        <span class="bp">UIImage</span> <span class="o">*</span><span class="n">overlayImage</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">faceOverlayImageFromImage</span><span class="p">:</span><span class="n">_image</span><span class="p">];</span>
-        <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span> <span class="c1">// 2</span>
-            <span class="p">[</span><span class="nb">self</span> <span class="nl">fadeInNewImage</span><span class="p">:</span><span class="n">overlayImage</span><span class="p">];</span> <span class="c1">// 3</span>
-        <span class="p">});</span>
-    <span class="p">});</span>
+<span class="w">    </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w"> </span><span class="c1">// 1</span>
+<span class="w">        </span><span class="bp">UIImage</span><span class="w"> </span><span class="o">*</span><span class="n">overlayImage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">faceOverlayImageFromImage</span><span class="o">:</span><span class="n">_image</span><span class="p">];</span>
+<span class="w">        </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w"> </span><span class="c1">// 2</span>
+<span class="w">            </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">fadeInNewImage</span><span class="o">:</span><span class="n">overlayImage</span><span class="p">];</span><span class="w"> </span><span class="c1">// 3</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">});</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>下面来说明上面的新代码所做的事：</p>
@@ -214,18 +186,18 @@ RBReady(changeFrame);
 <p>如果用户的 <code>PhotoManager</code> 里还没有任何照片，那么显示一个提示会是个好主意！然而，你同样要考虑用户的眼睛会如何在主屏幕上浏览：如果你太快的显示一个提示，他们的眼睛还徘徊在视图的其它部分上，他们很可能会错过它。</p>
 <p>显示提示之前延迟一秒钟就足够捕捉到用户的注意，他们此时已经第一次看过了应用。</p>
 <p>添加如下代码到到 PhotoCollectionViewController.m 中 showOrHideNavPrompt 的废止实现里：</p>
-<div class="highlight"><pre><code><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showOrHideNavPrompt</span>
+<div class="highlight"><pre><code><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showOrHideNavPrompt</span>
 <span class="p">{</span>
-    <span class="n">NSUInteger</span> <span class="n">count</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PhotoManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">photos</span><span class="p">].</span><span class="n">count</span><span class="p">;</span>
-    <span class="kt">double</span> <span class="n">delayInSeconds</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
-    <span class="kt">dispatch_time_t</span> <span class="n">popTime</span> <span class="o">=</span> <span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="p">(</span><span class="kt">int64_t</span><span class="p">)(</span><span class="n">delayInSeconds</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">));</span> <span class="c1">// 1 </span>
-    <span class="n">dispatch_after</span><span class="p">(</span><span class="n">popTime</span><span class="p">,</span> <span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span> <span class="c1">// 2 </span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
-            <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationItem</span> <span class="nl">setPrompt</span><span class="p">:</span><span class="s">@&quot;Add photos with faces to Googlyify them!&quot;</span><span class="p">];</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationItem</span> <span class="nl">setPrompt</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
+<span class="w">    </span><span class="n">NSUInteger</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">PhotoManager</span><span class="w"> </span><span class="n">sharedManager</span><span class="p">]</span><span class="w"> </span><span class="n">photos</span><span class="p">].</span><span class="n">count</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">delayInSeconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">dispatch_time_t</span><span class="w"> </span><span class="n">popTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">int64_t</span><span class="p">)(</span><span class="n">delayInSeconds</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">NSEC_PER_SEC</span><span class="p">));</span><span class="w"> </span><span class="c1">// 1 </span>
+<span class="w">    </span><span class="n">dispatch_after</span><span class="p">(</span><span class="n">popTime</span><span class="p">,</span><span class="w"> </span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span><span class="w"> </span><span class="o">^</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span><span class="w"> </span><span class="c1">// 2 </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationItem</span><span class="w"> </span><span class="n">setPrompt</span><span class="o">:</span><span class="s">@&quot;Add photos with faces to Googlyify them!&quot;</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationItem</span><span class="w"> </span><span class="n">setPrompt</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">});</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>showOrHideNavPrompt 在 viewDidLoad 中执行，以及 UICollectionView 被重新加载的任何时候。按照注释数字顺序看看：</p>
@@ -246,102 +218,102 @@ RBReady(changeFrame);
 <p>一个常见的担忧是它们常常不是线程安全的。这个担忧十分合理，基于它们的用途：单例常常被多个控制器同时访问。</p>
 <p>单例的线程担忧范围从初始化开始，到信息的读和写。<code>PhotoManager</code> 类被实现为单例——它在目前的状态下就会被这些问题所困扰。要看看事情如何很快地失去控制，你将在单例实例上创建一个控制好的竞态条件。</p>
 <p>导航到 <code>PhotoManager.m</code> 并找到 <code>sharedManager</code> ；它看起来如下：</p>
-<div class="highlight"><pre><code><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span>    
+<div class="highlight"><pre><code><span></span><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span><span class="w">    </span>
 <span class="p">{</span>
-    <span class="k">static</span> <span class="n">PhotoManager</span> <span class="o">*</span><span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">sharedPhotoManager</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PhotoManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-        <span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">sharedPhotoManager</span><span class="p">;</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">PhotoManager</span><span class="w"> </span><span class="o">*</span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nil</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">sharedPhotoManager</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">PhotoManager</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">init</span><span class="p">];</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSMutableArray</span><span class="w"> </span><span class="n">array</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sharedPhotoManager</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>当前状态下，代码相当简单；你创建了一个单例并初始化一个叫做 <code>photosArray</code> 的 <code>NSMutableArray</code> 属性。</p>
 <p>然而，<code>if</code> 条件分支不是<a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1#Terminology">线程安全</a>的；如果你多次调用这个方法，有一个可能性是在某个线程（就叫它线程A）上进入 <code>if</code> 语句块并可能在 <code>sharedPhotoManager</code> 被分配内存前发生一个上下文切换。然后另一个线程（线程B）可能进入 <code>if</code> ，分配单例实例的内存，然后退出。</p>
 <p>当系统上下文切换回线程A，你会分配另外一个单例实例的内存，然后退出。在那个时间点，你有了两个单例的实例——很明显这不是你想要的（译者注：这还能叫单例吗？）！</p>
 <p>要强制这个（竞态）条件发生，替换 <code>PhotoManager.m</code> 中的 <code>sharedManager</code> 为下面的实现：</p>
-<div class="highlight"><pre><code><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span>  
+<div class="highlight"><pre><code><span></span><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span><span class="w">  </span>
 <span class="p">{</span>
-    <span class="k">static</span> <span class="n">PhotoManager</span> <span class="o">*</span><span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">sharedPhotoManager</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">2</span><span class="p">];</span>
-        <span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PhotoManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Singleton has memory address at: %@&quot;</span><span class="p">,</span> <span class="n">sharedPhotoManager</span><span class="p">);</span>
-        <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">2</span><span class="p">];</span>
-        <span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">sharedPhotoManager</span><span class="p">;</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">PhotoManager</span><span class="w"> </span><span class="o">*</span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nil</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">sharedPhotoManager</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">[</span><span class="bp">NSThread</span><span class="w"> </span><span class="n">sleepForTimeInterval</span><span class="o">:</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">PhotoManager</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">init</span><span class="p">];</span>
+<span class="w">        </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Singleton has memory address at: %@&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sharedPhotoManager</span><span class="p">);</span>
+<span class="w">        </span><span class="p">[</span><span class="bp">NSThread</span><span class="w"> </span><span class="n">sleepForTimeInterval</span><span class="o">:</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSMutableArray</span><span class="w"> </span><span class="n">array</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sharedPhotoManager</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>上面的代码中你用 <code>NSThread 的 sleepForTimeInterval:</code> 类方法来强制发生一个上下文切换。</p>
 <p>打开 <code>AppDelegate.m</code> 并添加如下代码到 <code>application:didFinishLaunchingWithOptions:</code> 的最开始处：</p>
-<div class="highlight"><pre><code><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
-    <span class="p">[</span><span class="n">PhotoManager</span> <span class="n">sharedManager</span><span class="p">];</span>
+<div class="highlight"><pre><code><span></span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
+<span class="w">    </span><span class="p">[</span><span class="n">PhotoManager</span><span class="w"> </span><span class="n">sharedManager</span><span class="p">];</span>
 <span class="p">});</span>
 
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
-    <span class="p">[</span><span class="n">PhotoManager</span> <span class="n">sharedManager</span><span class="p">];</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
+<span class="w">    </span><span class="p">[</span><span class="n">PhotoManager</span><span class="w"> </span><span class="n">sharedManager</span><span class="p">];</span>
 <span class="p">});</span>
 </code></pre></div>
 <p>这里创建了多个异步并发调用来实例化单例，然后引发上面描述的竞态条件。</p>
 <p>编译并运行项目；查看控制台输出，你会看到多个单例被实例化，如下所示：</p>
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2014/01/NSLog-Race-Condition-700x90.png" alt="NSLog-Race-Condition"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://cdn2.raywenderlich.com/wp-content/uploads/2014/01/NSLog-Race-Condition-700x90.png" alt="NSLog-Race-Condition"></p>
 <p>注意到这里有好几行显示着不同地址的单例实例。这明显违背了单例的目的，对吧？:]</p>
 <p>这个输出向你展示了临界区被执行多次，而它只应该执行一次。现在，固然是你自己强制这样的状况发生，但你可以想像一下这个状况会怎样在无意间发生。</p>
 <blockquote><p>注意：基于其它你无法控制的系统事件，NSLog 的数量有时会显示多个。线程问题极其难以调试，因为它们往往难以重现。</p>
 </blockquote>
 <p>要纠正这个状况，实例化代码应该只执行一次，并阻塞其它实例在 <code>if</code> 条件的临界区运行。这刚好就是 <code>dispatch_once</code> 能做的事。</p>
 <p>在单例初始化方法中用 <code>dispatch_once</code> 取代 <code>if</code> 条件判断，如下所示：</p>
-<div class="highlight"><pre><code><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span>
+<div class="highlight"><pre><code><span></span><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span>
 <span class="p">{</span>
-    <span class="k">static</span> <span class="n">PhotoManager</span> <span class="o">*</span><span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
-    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-        <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">2</span><span class="p">];</span>
-        <span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PhotoManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Singleton has memory address at: %@&quot;</span><span class="p">,</span> <span class="n">sharedPhotoManager</span><span class="p">);</span>
-        <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">2</span><span class="p">];</span>
-        <span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
-    <span class="p">});</span>
-    <span class="k">return</span> <span class="n">sharedPhotoManager</span><span class="p">;</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">PhotoManager</span><span class="w"> </span><span class="o">*</span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nil</span><span class="p">;</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">dispatch_once_t</span><span class="w"> </span><span class="n">onceToken</span><span class="p">;</span>
+<span class="w">    </span><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
+<span class="w">        </span><span class="p">[</span><span class="bp">NSThread</span><span class="w"> </span><span class="n">sleepForTimeInterval</span><span class="o">:</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">PhotoManager</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">init</span><span class="p">];</span>
+<span class="w">        </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Singleton has memory address at: %@&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sharedPhotoManager</span><span class="p">);</span>
+<span class="w">        </span><span class="p">[</span><span class="bp">NSThread</span><span class="w"> </span><span class="n">sleepForTimeInterval</span><span class="o">:</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSMutableArray</span><span class="w"> </span><span class="n">array</span><span class="p">];</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sharedPhotoManager</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>编译并运行你的应用；查看控制台输出，你会看到有且仅有一个单例的实例——这就是你对单例的期望！:]</p>
 <p>现在你已经明白了防止竞态条件的重要性，从 <code>AppDelegate.m</code> 中移除 <code>dispatch_async</code> 语句，并用下面的实现替换 <code>PhotoManager</code> 单例的初始化：</p>
-<div class="highlight"><pre><code><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span>
+<div class="highlight"><pre><code><span></span><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span>
 <span class="p">{</span>
-    <span class="k">static</span> <span class="n">PhotoManager</span> <span class="o">*</span><span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
-    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-        <span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PhotoManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-        <span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
-    <span class="p">});</span>
-    <span class="k">return</span> <span class="n">sharedPhotoManager</span><span class="p">;</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">PhotoManager</span><span class="w"> </span><span class="o">*</span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nil</span><span class="p">;</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">dispatch_once_t</span><span class="w"> </span><span class="n">onceToken</span><span class="p">;</span>
+<span class="w">    </span><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">PhotoManager</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">init</span><span class="p">];</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSMutableArray</span><span class="w"> </span><span class="n">array</span><span class="p">];</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sharedPhotoManager</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><code>dispatch_once()</code> 以线程安全的方式执行且仅执行其代码块一次。试图访问临界区（即传递给 <code>dispatch_once</code> 的代码）的不同的线程会在临界区已有一个线程的情况下被阻塞，直到临界区完成为止。</p>
-<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Highlander_dispatch_once-480x274.png" alt="Highlander_dispatch_once"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Highlander_dispatch_once-480x274.png" alt="Highlander_dispatch_once"></p>
 <p>需要记住的是，这只是让访问共享实例线程安全。它绝对没有让类本身线程安全。类中可能还有其它竞态条件，例如任何操纵内部数据的情况。这些需要用其它方式来保证线程安全，例如同步访问数据，你将在下面几个小节看到。</p>
 <h2>处理读者与写者问题</h2>
 <p>线程安全实例不是处理单例时的唯一问题。如果单例属性表示一个可变对象，那么你就需要考虑是否那个对象自身线程安全。</p>
 <p>如果问题中的这个对象是一个 Foundation 容器类，那么答案是——“很可能不安全”！Apple 维护一个<a href="https://developer.apple.com/library/mac/documentation/cocoa/conceptual/multithreading/ThreadSafetySummary/ThreadSafetySummary.html">有用且有些心寒的列表</a>，众多的 Foundation 类都不是线程安全的。 <code>NSMutableArray</code>，已用于你的单例，正在那个列表里休息。</p>
 <p>虽然许多线程可以同时读取 <code>NSMutableArray</code> 的一个实例而不会产生问题，但当一个线程正在读取时让另外一个线程修改数组就是不安全的。你的单例在目前的状况下不能预防这种情况的发生。</p>
 <p>要分析这个问题，看看 <code>PhotoManager.m</code> 中的 <code>addPhoto:</code>，转载如下：</p>
-<div class="highlight"><pre><code><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addPhoto:</span><span class="p">(</span><span class="n">Photo</span> <span class="o">*</span><span class="p">)</span><span class="nv">photo</span>
+<div class="highlight"><pre><code><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addPhoto:</span><span class="p">(</span><span class="n">Photo</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">photo</span>
 <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">photo</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">[</span><span class="n">_photosArray</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">photo</span><span class="p">];</span>
-        <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
-            <span class="p">[</span><span class="nb">self</span> <span class="n">postContentAddedNotification</span><span class="p">];</span>
-        <span class="p">});</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">photo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">[</span><span class="n">_photosArray</span><span class="w"> </span><span class="n">addObject</span><span class="o">:</span><span class="n">photo</span><span class="p">];</span>
+<span class="w">        </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
+<span class="w">            </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">postContentAddedNotification</span><span class="p">];</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>这是一个<code>写</code>方法，它修改一个私有可变数组对象。</p>
 <p>现在看看 <code>photos</code> ，转载如下：</p>
-<div class="highlight"><pre><code><span class="p">-</span> <span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">photos</span>
+<div class="highlight"><pre><code><span></span><span class="p">-</span> <span class="p">(</span><span class="bp">NSArray</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nf">photos</span>
 <span class="p">{</span>
-  <span class="k">return</span> <span class="p">[</span><span class="bp">NSArray</span> <span class="nl">arrayWithArray</span><span class="p">:</span><span class="n">_photosArray</span><span class="p">];</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">[</span><span class="bp">NSArray</span><span class="w"> </span><span class="n">arrayWithArray</span><span class="o">:</span><span class="n">_photosArray</span><span class="p">];</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>这是所谓的<code>读</code>方法，它读取可变数组。它为调用者生成一个不可变的拷贝，防止调用者不当地改变数组，但这不能提供任何保护来对抗当一个线程调用读方法 <code>photos</code> 的同时另一个线程调用写方法 <code>addPhoto:</code> 。</p>
@@ -349,7 +321,7 @@ RBReady(changeFrame);
 <p>Dispatch barriers 是一组函数，在并发队列上工作时扮演一个串行式的瓶颈。使用 GCD 的障碍（barrier）API 确保提交的 Block 在那个特定时间上是指定队列上唯一被执行的条目。这就意味着所有的先于调度障碍提交到队列的条目必能在这个 Block 执行前完成。</p>
 <p>当这个 Block 的时机到达，调度障碍执行这个 Block 并确保在那个时间里队列不会执行任何其它 Block 。一旦完成，队列就返回到它默认的实现状态。 GCD 提供了同步和异步两种障碍函数。</p>
 <p>下图显示了障碍函数对多个异步队列的影响：</p>
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2014/01/Dispatch-Barrier-480x272.png" alt="Dispatch-Barrier"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://cdn1.raywenderlich.com/wp-content/uploads/2014/01/Dispatch-Barrier-480x272.png" alt="Dispatch-Barrier"></p>
 <p>注意到正常部分的操作就如同一个正常的并发队列。但当障碍执行时，它本质上就如同一个串行队列。也就是，障碍是唯一在执行的事物。在障碍完成后，队列回到一个正常并发队列的样子。</p>
 <p>下面是你何时会——和不会——使用障碍函数的情况：</p>
 <ul>
@@ -359,22 +331,22 @@ RBReady(changeFrame);
 </ul>
 <p>由于上面唯一像样的选择是自定义并发队列，你将创建一个你自己的队列去处理你的障碍函数并分开读和写函数。且这个并发队列将允许多个多操作同时进行。</p>
 <p>打开 <code>PhotoManager.m</code>，添加如下私有属性到类扩展中：</p>
-<div class="highlight"><pre><code><span class="k">@interface</span> <span class="nc">PhotoManager</span> <span class="p">()</span>
-<span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span><span class="k">strong</span><span class="p">,</span><span class="k">readonly</span><span class="p">)</span> <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">photosArray</span><span class="p">;</span>
-<span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="kt">dispatch_queue_t</span> <span class="n">concurrentPhotoQueue</span><span class="p">;</span> <span class="c1">///&lt; Add this</span>
+<div class="highlight"><pre><code><span></span><span class="k">@interface</span> <span class="nc">PhotoManager</span><span class="w"> </span><span class="p">()</span>
+<span class="k">@property</span><span class="w"> </span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span><span class="k">strong</span><span class="p">,</span><span class="k">readonly</span><span class="p">)</span><span class="w"> </span><span class="bp">NSMutableArray</span><span class="w"> </span><span class="o">*</span><span class="n">photosArray</span><span class="p">;</span>
+<span class="k">@property</span><span class="w"> </span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span><span class="w"> </span><span class="k">strong</span><span class="p">)</span><span class="w"> </span><span class="n">dispatch_queue_t</span><span class="w"> </span><span class="n">concurrentPhotoQueue</span><span class="p">;</span><span class="w"> </span><span class="c1">///&lt; Add this</span>
 <span class="k">@end</span>
 </code></pre></div>
 <p>找到 <code>addPhoto:</code> 并用下面的实现替换它：</p>
-<div class="highlight"><pre><code><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addPhoto:</span><span class="p">(</span><span class="n">Photo</span> <span class="o">*</span><span class="p">)</span><span class="nv">photo</span>
+<div class="highlight"><pre><code><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addPhoto:</span><span class="p">(</span><span class="n">Photo</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">photo</span>
 <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">photo</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 1</span>
-        <span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">concurrentPhotoQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span> <span class="c1">// 2 </span>
-            <span class="p">[</span><span class="n">_photosArray</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">photo</span><span class="p">];</span> <span class="c1">// 3</span>
-            <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span> <span class="c1">// 4</span>
-                <span class="p">[</span><span class="nb">self</span> <span class="n">postContentAddedNotification</span><span class="p">];</span> 
-            <span class="p">});</span>
-        <span class="p">});</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">photo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 1</span>
+<span class="w">        </span><span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">concurrentPhotoQueue</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w"> </span><span class="c1">// 2 </span>
+<span class="w">            </span><span class="p">[</span><span class="n">_photosArray</span><span class="w"> </span><span class="n">addObject</span><span class="o">:</span><span class="n">photo</span><span class="p">];</span><span class="w"> </span><span class="c1">// 3</span>
+<span class="w">            </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w"> </span><span class="c1">// 4</span>
+<span class="w">                </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">postContentAddedNotification</span><span class="p">];</span><span class="w"> </span>
+<span class="w">            </span><span class="p">});</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>你新写的函数是这样工作的：</p>
@@ -396,13 +368,13 @@ RBReady(changeFrame);
 <li>并发队列：这才是做同步工作的好选择，不论是通过调度障碍，或者需要等待一个任务完成才能执行进一步处理的情况。</li>
 </ul>
 <p>继续在 <code>PhotoManager.m</code> 上工作，用下面的实现替换 <code>photos</code> ：</p>
-<div class="highlight"><pre><code><span class="p">-</span> <span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">photos</span>
+<div class="highlight"><pre><code><span></span><span class="p">-</span> <span class="p">(</span><span class="bp">NSArray</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nf">photos</span>
 <span class="p">{</span>
-    <span class="k">__block</span> <span class="bp">NSArray</span> <span class="o">*</span><span class="n">array</span><span class="p">;</span> <span class="c1">// 1</span>
-    <span class="n">dispatch_sync</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">concurrentPhotoQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span> <span class="c1">// 2</span>
-        <span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSArray</span> <span class="nl">arrayWithArray</span><span class="p">:</span><span class="n">_photosArray</span><span class="p">];</span> <span class="c1">// 3</span>
-    <span class="p">});</span>
-    <span class="k">return</span> <span class="n">array</span><span class="p">;</span>
+<span class="w">    </span><span class="k">__block</span><span class="w"> </span><span class="bp">NSArray</span><span class="w"> </span><span class="o">*</span><span class="n">array</span><span class="p">;</span><span class="w"> </span><span class="c1">// 1</span>
+<span class="w">    </span><span class="n">dispatch_sync</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">concurrentPhotoQueue</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">{</span><span class="w"> </span><span class="c1">// 2</span>
+<span class="w">        </span><span class="n">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSArray</span><span class="w"> </span><span class="n">arrayWithArray</span><span class="o">:</span><span class="n">_photosArray</span><span class="p">];</span><span class="w"> </span><span class="c1">// 3</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">array</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>这就是你的读函数。按顺序看看编过号的注释，有这些：</p>
@@ -412,20 +384,20 @@ RBReady(changeFrame);
 <li>将相片数组存储在 <code>array</code> 内并返回它。</li>
 </ol>
 <p>最后，你需要实例化你的 <code>concurrentPhotoQueue</code> 属性。修改 <code>sharedManager</code> 以便像下面这样初始化队列：</p>
-<div class="highlight"><pre><code><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span>
+<div class="highlight"><pre><code><span></span><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedManager</span>
 <span class="p">{</span>
-    <span class="k">static</span> <span class="n">PhotoManager</span> <span class="o">*</span><span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
-    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-        <span class="n">sharedPhotoManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PhotoManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-        <span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">PhotoManager</span><span class="w"> </span><span class="o">*</span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nil</span><span class="p">;</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">dispatch_once_t</span><span class="w"> </span><span class="n">onceToken</span><span class="p">;</span>
+<span class="w">    </span><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">PhotoManager</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">init</span><span class="p">];</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_photosArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSMutableArray</span><span class="w"> </span><span class="n">array</span><span class="p">];</span>
 
-        <span class="c1">// ADD THIS:</span>
-        <span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_concurrentPhotoQueue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.selander.GooglyPuff.photoQueue&quot;</span><span class="p">,</span>
-                                                    <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span> 
-    <span class="p">});</span>
+<span class="w">        </span><span class="c1">// ADD THIS:</span>
+<span class="w">        </span><span class="n">sharedPhotoManager</span><span class="o">-&gt;</span><span class="n">_concurrentPhotoQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.selander.GooglyPuff.photoQueue&quot;</span><span class="p">,</span>
+<span class="w">                                                    </span><span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="p">});</span>
 
-    <span class="k">return</span> <span class="n">sharedPhotoManager</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sharedPhotoManager</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>这里使用 <code>dispatch_queue_create</code> 初始化 <code>concurrentPhotoQueue</code> 为一个并发队列。第一个参数是反向DNS样式命名惯例；确保它是描述性的，将有助于调试。第二个参数指定你的队列是串行还是并发。</p>
@@ -436,20 +408,20 @@ RBReady(changeFrame);
 <p>依然没有 100% 地掌握 GCD 的要领？确保你可以使用 GCD 函数轻松地创建简单的例子，使用断点和 <code>NSLog</code> 语句保证自己明白当下发生的情况。</p>
 <p>我在下面提供了两个 GIF动画来帮助你巩固对 <code>dispatch_async</code> 和 <code>dispatch_sync</code> 的理解。包含在每个 GIF 中的代码可以提供视觉辅助；仔细注意 GIF 左边显示代码断点的每一步，以及右边相关队列的状态。</p>
 <h3>dispatch_sync 回顾</h3>
-<div class="highlight"><pre><code><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+<div class="highlight"><pre><code><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
 <span class="p">{</span>
-  <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="w">  </span><span class="p">[</span><span class="nb">super</span><span class="w"> </span><span class="n">viewDidLoad</span><span class="p">];</span>
 
-  <span class="n">dispatch_sync</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+<span class="w">  </span><span class="n">dispatch_sync</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
 
-      <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;First Log&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;First Log&quot;</span><span class="p">);</span>
 
-  <span class="p">});</span>
+<span class="w">  </span><span class="p">});</span>
 
-  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Second Log&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Second Log&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2014/01/dispatch_sync_in_action.gif" alt="dispatch_sync_in_action"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://cdn1.raywenderlich.com/wp-content/uploads/2014/01/dispatch_sync_in_action.gif" alt="dispatch_sync_in_action"></p>
 <p>下面是图中几个步骤的说明：</p>
 <ol>
 <li>主队列一路按顺序执行任务——接着是一个实例化 <code>UIViewController</code> 的任务，其中包含了 <code>viewDidLoad</code> 。</li>
@@ -463,20 +435,20 @@ RBReady(changeFrame);
 </ol>
 <p><code>dispatch_sync</code> 添加任务到一个队列并等待直到任务完成。<code>dispatch_async</code> 做类似的事情，但不同之处是它不会等待任务的完成，而是立即继续“调用线程”的其它任务。</p>
 <h3>dispatch_async 回顾</h3>
-<div class="highlight"><pre><code><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+<div class="highlight"><pre><code><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
 <span class="p">{</span>
-  <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="w">  </span><span class="p">[</span><span class="nb">super</span><span class="w"> </span><span class="n">viewDidLoad</span><span class="p">];</span>
 
-  <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+<span class="w">  </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
 
-      <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;First Log&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;First Log&quot;</span><span class="p">);</span>
 
-  <span class="p">});</span>
+<span class="w">  </span><span class="p">});</span>
 
-  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Second Log&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Second Log&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2014/01/dispatch_async_in_action.gif" alt="dispatch_async_in_action"></p>
+<p><img src="../vender/image/img_loading.gif" data-src="http://cdn1.raywenderlich.com/wp-content/uploads/2014/01/dispatch_async_in_action.gif" alt="dispatch_async_in_action"></p>
 <ol>
 <li>主队列一路按顺序执行任务——接着是一个实例化 <code>UIViewController</code> 的任务，其中包含了 <code>viewDidLoad</code> 。</li>
 <li><code>viewDidLoad</code> 在主线程执行。</li>
@@ -495,90 +467,34 @@ RBReady(changeFrame);
 <p>在教程的下一部分，你将更加深入到 GCD 的 API 中，做一些更 Cool 的东西。</p>
 
 
-<br>
-<br>
+<br/>
+<br/>
 <p></p>
 
 
 <!-- Share BEGIN -->
 <div id="share"></div>
-<script type="text/javascript" src="../vender/share/share.js"></script>
-<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
-<link rel="stylesheet" href="../vender/share/share.css">
 <!-- Share END -->
 
 
-<br><p></p>
+<br/>
 
 
 <!-- 评论 start -->
-<div class="commentBox" id="globeCommentBox">
-    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
-    <div>
-        <input type="text" name="nickname" placeholder="nickname">
-    </div>
-    <div>
-        <input type="text" name="email" placeholder="email">
-    </div>
-    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
-</div>
-<br>
 <div id="comment"></div>
-
-<link rel="stylesheet" href="../vender/comment/comment.css" />
-<script type="text/javascript" src="../vender/comment/toast.js"></script>
-<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
-<script type="text/javascript">
-    var articleUUID = "4fd1e2957c5c136e161abc7e421afd32";
-    var pageIndex = 1;
-</script>
-<script type="text/javascript" src="../vender/comment/comment.js"></script>
 <!-- 评论 end -->
 
-
-</div>
-
-
-<div id='link' style='display:none;'>
-<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
-<h3>· Social</h3>
-<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
-<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
-<h3>· Links</h3>
-<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
-<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
-<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
-<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
-</div>
-<br>
-
-<div id="copyright" >
-        <p class="alignright">
-            COPYRIGHT &copy; 2010-2020
-            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
-        &nbsp; <br/><a href="https://beian.miit.gov.cn/">粤ICP备2021173035号</a>
-        </p>  
-</div>
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  if(window.location.host.indexOf("localhost") == -1){
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  }
-})();
-</script>
+<!-- CopyRight BEGIN -->
+<div id="copyright" ></div>
+<!-- CopyRight END -->
 
 
 </body>
 
-<!-- 语法高亮 -->
-<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
-<script src="../vender/js/highlight/highlight.pack.js"></script>
 <script>
-hljs.initHighlightingOnLoad();
-// console.log(hljs.listLanguages());
+var sourceFile = "GCD 深入理解：第一部分.md";
 </script>
+
+<script charset="UTF-8" src="../vender/js/loaded.js"></script>
+
+</html>

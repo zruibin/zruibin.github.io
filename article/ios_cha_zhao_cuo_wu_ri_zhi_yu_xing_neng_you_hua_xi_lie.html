@@ -7,59 +7,34 @@
 
 <link rel="shortcut icon" href="../vender/image/me.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="keywords" content="iOS查找错误日志与性能优化系列,iOS,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
 <meta name="description" content="iOS查找错误日志与性能优化系列" />
-<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+<meta name="COPYRIGHT" content="版权所有2010,http://private.zruibin.cn" />
 
-
-<script type="text/javascript" src="../vender/js/default.js"></script>
-<script type="text/javascript" src="../vender/js/article.default.js"></script>
-<link rel="stylesheet" href="../vender/css/default.css" />
-<link rel="stylesheet" href="../vender/css/article.default.css" />
-
-<script type="text/javascript">
-
-RBReady(changeFrame);
-
+<script type="text/javascript" charset="UTF-8">
+var sourcePrefix = "../";
 </script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/sea.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/seajs-css.js"></script>
 
 </head>
 
-<body>
+<body style="visibility: hidden;">
 
 
 <div id="navbar" >
     <div id="menu" class="container">
     <ul>
-
     <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
     <li><a href="../about.html" class="item">About Me</a></li>
     <li><a href="./index.html" class="item">Blog</a></li>
-    <li><a class="item">Tags</a>
-        <div class="subs">
-        
-<ul>
-
-<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
-<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
-<li><a href="./Tag_python.html">Python(1)</a></li>
-<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
-<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
-<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
-<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
-<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
-<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
-<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
-<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
-<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
-<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
-</ul>
-
-        </div> 
+    <li><a class="item" href="../article/tags.html">Tags</a>
+        &nbsp;
+        <div class="subs" id="tags"></div> 
     </li>
-    <li><a href="./Archives.html" class="item">Archives</a></li>
+    <li><a href="./archives.html" class="item">Archives</a></li>
 
     </ul>
     </div>
@@ -67,37 +42,34 @@ RBReady(changeFrame);
 <p></p>
 
 
-
-
-
 <div class="container" id="content">
 
 <div id='header'>
     <h2>iOS查找错误日志与性能优化系列</h2>
     <footer>
-        Date:&nbsp;<span id='create_time'>
+        Date:<span id='create_time'>
             2014-10-31 12:04
         </span>
-        &nbsp;&nbsp;
-        Tags:&nbsp; 
+        &nbsp;
+        Tags: 
 <span id='article_tags'>
          
-<a href='../article/Tag_ios.html' class='article_tag'>iOS</a>
+<a href='../article/tag_ios.html' class='article_tag'>iOS</a>
 
 </span>
 
     </footer>
-    <hr>
+    <hr/>
 </div>
 
 <h3>第一种方法：</h3>
-<div class="highlight"><pre><code><span class="n">dwarfdump</span> <span class="o">--</span><span class="n">uuid</span> <span class="n">xx</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">dSYM</span>     <span class="err">用来得到</span><span class="n">app</span><span class="err">的</span><span class="n">UUID</span><span class="err">。</span>
+<div class="highlight"><pre><code><span></span><span class="n">dwarfdump</span><span class="w"> </span><span class="o">--</span><span class="n">uuid</span><span class="w"> </span><span class="n">xx</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">dSYM</span><span class="w">     </span><span class="n">用来得到app的UUID</span><span class="err">。</span>
 
-<span class="n">dwarfdump</span> <span class="o">--</span><span class="n">lookup</span> <span class="mh">0x9d70</span> <span class="o">-</span><span class="n">arch</span> <span class="n">armv7</span> <span class="n">xx</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">dSYM</span>  <span class="err">使错误的日志能看懂，把相应的内存地址对应到正确的地方。</span>
+<span class="n">dwarfdump</span><span class="w"> </span><span class="o">--</span><span class="n">lookup</span><span class="w"> </span><span class="mh">0x9d70</span><span class="w"> </span><span class="o">-</span><span class="n">arch</span><span class="w"> </span><span class="n">armv7</span><span class="w"> </span><span class="n">xx</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">dSYM</span><span class="w">  </span><span class="n">使错误的日志能看懂</span><span class="err">，</span><span class="n">把相应的内存地址对应到正确的地方</span><span class="err">。</span>
 </code></pre></div>
 <p>如果一开始dwarfdump命令不能用的话，要先装Command Line Tools,这个在设置里面能下载（cmd+“，”打开设置）。另外还必须在进入.DSYM所在文件夹。</p>
 <h3>第二种方法：</h3>
-<div class="highlight"><pre><code><span class="n">atos</span> <span class="o">-</span><span class="n">o</span> <span class="n">YourApp</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">dSYM</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Resources</span><span class="o">/</span><span class="n">DWARF</span><span class="o">/</span><span class="n">YourApp</span> <span class="mh">0x00062867</span>
+<div class="highlight"><pre><code><span></span><span class="n">atos</span><span class="w"> </span><span class="o">-</span><span class="n">o</span><span class="w"> </span><span class="n">YourApp</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">dSYM</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Resources</span><span class="o">/</span><span class="n">DWARF</span><span class="o">/</span><span class="n">YourApp</span><span class="w"> </span><span class="mh">0x00062867</span>
 </code></pre></div>
 <p>在XCODE编译项目之后,会在app旁看见一个同名的dSYM文件.
 他是一个编译的中转文件,简单说就是debug的symbols包含在这个文件中.</p>
@@ -105,57 +77,57 @@ RBReady(changeFrame);
 <p>有一篇详细的blog讲了这个过程</p>
 <p><a href="http://www.anoshkin.net/blog/2008/09/09/iphone-crash-logs/">http://www.anoshkin.net/blog/2008/09/09/iphone-crash-logs/</a></p>
 <p>将类似</p>
-<div class="highlight"><pre><code><span class="n">Thread</span> <span class="mi">0</span> <span class="nl">Crashed</span><span class="p">:</span>
-<span class="mi">0</span> <span class="n">libobjc</span><span class="p">.</span><span class="n">A</span><span class="p">.</span><span class="n">dylib</span> <span class="mi">0</span><span class="err">×</span><span class="mi">300</span><span class="n">c87ec</span> <span class="mi">0</span><span class="err">×</span><span class="mi">300</span><span class="n">bb000</span> <span class="o">+</span> <span class="mi">55276</span>
-<span class="mi">1</span> <span class="n">MobileLines</span> <span class="mi">0</span><span class="err">×</span><span class="mo">00006434</span> <span class="mi">0</span><span class="err">×</span><span class="mi">1000</span> <span class="o">+</span> <span class="mi">21556</span>
-<span class="mi">2</span> <span class="n">MobileLines</span> <span class="mi">0</span><span class="err">×</span><span class="mo">000064</span><span class="n">c2</span> <span class="mi">0</span><span class="err">×</span><span class="mi">1000</span> <span class="o">+</span> <span class="mi">21698</span>
-<span class="mi">3</span> <span class="n">UIKit</span> <span class="mi">0</span><span class="err">×</span><span class="mi">30</span><span class="n">a740ac</span> <span class="mi">0</span><span class="err">×</span><span class="mi">30</span><span class="n">a54000</span> <span class="o">+</span> <span class="mi">131244</span>
+<div class="highlight"><pre><code><span></span><span class="n">Thread</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">Crashed</span><span class="o">:</span>
+<span class="mi">0</span><span class="w"> </span><span class="n">libobjc</span><span class="p">.</span><span class="n">A</span><span class="p">.</span><span class="n">dylib</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mi">300</span><span class="n">c87ec</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mi">300</span><span class="n">bb000</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">55276</span>
+<span class="mi">1</span><span class="w"> </span><span class="n">MobileLines</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mo">00006434</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mi">1000</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">21556</span>
+<span class="mi">2</span><span class="w"> </span><span class="n">MobileLines</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mo">000064</span><span class="n">c2</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mi">1000</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">21698</span>
+<span class="mi">3</span><span class="w"> </span><span class="n">UIKit</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mi">30</span><span class="n">a740ac</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mi">30</span><span class="n">a54000</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">131244</span>
 </code></pre></div>
 <p>的log信息转换成</p>
-<div class="highlight"><pre><code><span class="n">Thread</span> <span class="mi">0</span> <span class="nl">Crashed</span><span class="p">:</span>
-<span class="mi">0</span> <span class="n">libobjc</span><span class="p">.</span><span class="n">A</span><span class="p">.</span><span class="n">dylib</span> <span class="mi">0</span><span class="err">×</span><span class="mi">300</span><span class="n">c87ec</span> <span class="n">objc_msgSend</span> <span class="o">+</span> <span class="mi">20</span>
-<span class="mi">1</span> <span class="n">MobileLines</span> <span class="mi">0</span><span class="err">×</span><span class="mo">00006434</span> <span class="o">-</span><span class="p">[</span><span class="n">BoardView</span> <span class="nl">setSelectedPiece</span><span class="p">:]</span> <span class="p">(</span><span class="n">BoardView</span><span class="p">.</span><span class="nl">m</span><span class="p">:</span><span class="mi">321</span><span class="p">)</span>
-<span class="mi">2</span> <span class="n">MobileLines</span> <span class="mi">0</span><span class="err">×</span><span class="mo">000064</span><span class="n">c2</span> <span class="o">-</span><span class="p">[</span><span class="n">BoardView</span> <span class="nl">touchesBegan</span><span class="p">:</span><span class="nl">withEvent</span><span class="p">:]</span> <span class="p">(</span><span class="n">BoardView</span><span class="p">.</span><span class="nl">m</span><span class="p">:</span><span class="mi">349</span><span class="p">)</span>
-<span class="mi">3</span> <span class="n">UIKit</span> <span class="mi">0</span><span class="err">×</span><span class="mi">30</span><span class="n">a740ac</span> <span class="o">-</span><span class="p">[</span><span class="n">UIWindow</span> <span class="nl">sendEvent</span><span class="p">:]</span> <span class="o">+</span> <span class="mi">264</span>
+<div class="highlight"><pre><code><span></span><span class="n">Thread</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">Crashed</span><span class="o">:</span>
+<span class="mi">0</span><span class="w"> </span><span class="n">libobjc</span><span class="p">.</span><span class="n">A</span><span class="p">.</span><span class="n">dylib</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mi">300</span><span class="n">c87ec</span><span class="w"> </span><span class="n">objc_msgSend</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span>
+<span class="mi">1</span><span class="w"> </span><span class="n">MobileLines</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mo">00006434</span><span class="w"> </span><span class="o">-</span><span class="p">[</span><span class="n">BoardView</span><span class="w"> </span><span class="n">setSelectedPiece</span><span class="o">:</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="n">BoardView</span><span class="p">.</span><span class="n">m</span><span class="o">:</span><span class="mi">321</span><span class="p">)</span>
+<span class="mi">2</span><span class="w"> </span><span class="n">MobileLines</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mo">000064</span><span class="n">c2</span><span class="w"> </span><span class="o">-</span><span class="p">[</span><span class="n">BoardView</span><span class="w"> </span><span class="n">touchesBegan</span><span class="o">:</span><span class="n">withEvent</span><span class="o">:</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="n">BoardView</span><span class="p">.</span><span class="n">m</span><span class="o">:</span><span class="mi">349</span><span class="p">)</span>
+<span class="mi">3</span><span class="w"> </span><span class="n">UIKit</span><span class="w"> </span><span class="mi">0</span><span class="err">×</span><span class="mi">30</span><span class="n">a740ac</span><span class="w"> </span><span class="o">-</span><span class="p">[</span><span class="n">UIWindow</span><span class="w"> </span><span class="n">sendEvent</span><span class="o">:</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">264</span>
 </code></pre></div>
 <p>的有用信息.</p>
 <p>工具symbolicatecrash隐藏在/Developer/Platforms/iPhoneOS.platform/Developer /Library/Xcode/Plug-ins/iPhoneRemoteDevice.xcodeplugin/Contents/Resources/symbolicatecrash</p>
 <p>所以一般复制到/usr/local/bin/ 成为命令行直接调用</p>
-<div class="highlight"><pre><code><span class="err">$</span> <span class="n">sudo</span> <span class="n">cp</span> <span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">Platforms</span><span class="o">/</span><span class="n">iPhoneOS</span><span class="p">.</span><span class="n">platform</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Xcode</span><span class="o">/</span><span class="n">Plug</span><span class="o">-</span><span class="n">ins</span><span class="o">/</span><span class="n">iPhoneRemoteDevice</span><span class="p">.</span><span class="n">xcodeplugin</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Resources</span><span class="o">/</span><span class="n">symbolicatecrash</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span>
+<div class="highlight"><pre><code><span></span><span class="n">$</span><span class="w"> </span><span class="n">sudo</span><span class="w"> </span><span class="n">cp</span><span class="w"> </span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">Platforms</span><span class="o">/</span><span class="n">iPhoneOS</span><span class="p">.</span><span class="n">platform</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Xcode</span><span class="o">/</span><span class="n">Plug</span><span class="o">-</span><span class="n">ins</span><span class="o">/</span><span class="n">iPhoneRemoteDevice</span><span class="p">.</span><span class="n">xcodeplugin</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Resources</span><span class="o">/</span><span class="n">symbolicatecrash</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span>
 </code></pre></div>
-<div class="highlight"><pre><code><span class="n">export</span> <span class="n">DEVELOPER_DIR</span><span class="o">=</span><span class="s">&quot;/Applications/Xcode.app/Contents/Developer​&quot;</span>
-<span class="n">find</span> <span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">Xcode</span><span class="p">.</span><span class="n">app</span> <span class="o">-</span><span class="n">name</span> <span class="n">symbolicatecrash</span> <span class="o">-</span><span class="n">type</span> <span class="n">f</span>
+<div class="highlight"><pre><code><span></span><span class="n">export</span><span class="w"> </span><span class="n">DEVELOPER_DIR</span><span class="o">=</span><span class="s">&quot;/Applications/Xcode.app/Contents/Developer​&quot;</span>
+<span class="n">find</span><span class="w"> </span><span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">Xcode</span><span class="p">.</span><span class="n">app</span><span class="w"> </span><span class="o">-</span><span class="n">name</span><span class="w"> </span><span class="n">symbolicatecrash</span><span class="w"> </span><span class="o">-</span><span class="n">type</span><span class="w"> </span><span class="n">f</span>
 </code></pre></div>
 <p>这个时候运行</p>
-<div class="highlight"><pre><code><span class="err">$</span> <span class="n">symbolicatecrash</span> <span class="o">-</span><span class="n">h</span>
+<div class="highlight"><pre><code><span></span><span class="n">$</span><span class="w"> </span><span class="n">symbolicatecrash</span><span class="w"> </span><span class="o">-</span><span class="n">h</span>
 </code></pre></div>
 <p>就能看见帮助信息了.</p>
 <p>这个时候,问题又来了..每次编译后的dsym文件都要手动保存一次,很是麻烦.</p>
 <p>于是有人写了一个脚本,自动在编译后保存该文件.
 请参考:<a href='http://www.cimgf.com/2009/12/23/automatically-save-the-dsym-files/' target='blank'>http://www.cimgf.com/2009/12/23/automatically-save-the-dsym-files/</a></p>
 <p>脚本我复制过来在下面</p>
-<div class="highlight"><pre><code><span class="cp">#!/bin/sh</span>
+<div class="highlight"><pre><code><span></span><span class="cp">#!/bin/sh</span>
 
-<span class="k">if</span> <span class="p">[</span> <span class="s">&quot;$BUILD_STYLE&quot;</span> <span class="o">==</span> <span class="s">&quot;Debug&quot;</span> <span class="p">];</span> <span class="n">then</span>
-<span class="n">echo</span> <span class="err">“</span><span class="n">Skipping</span> <span class="n">debug</span><span class="err">”</span>
-<span class="n">exit</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s">&quot;$BUILD_STYLE&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Debug&quot;</span><span class="w"> </span><span class="p">];</span><span class="w"> </span><span class="n">then</span>
+<span class="n">echo</span><span class="w"> </span><span class="err">“</span><span class="n">Skipping</span><span class="w"> </span><span class="n">debug</span><span class="err">”</span>
+<span class="n">exit</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="n">fi</span>
 
-<span class="k">if</span> <span class="p">[</span> <span class="s">&quot;$EFFECTIVE_PLATFORM_NAME&quot;</span> <span class="o">==</span> <span class="s">&quot;-iphonesimulator&quot;</span> <span class="p">];</span> <span class="n">then</span>
-<span class="n">echo</span> <span class="err">“</span><span class="n">Skipping</span> <span class="n">simulator</span> <span class="n">build</span><span class="err">”</span>
-<span class="n">exit</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s">&quot;$EFFECTIVE_PLATFORM_NAME&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;-iphonesimulator&quot;</span><span class="w"> </span><span class="p">];</span><span class="w"> </span><span class="n">then</span>
+<span class="n">echo</span><span class="w"> </span><span class="err">“</span><span class="n">Skipping</span><span class="w"> </span><span class="n">simulator</span><span class="w"> </span><span class="n">build</span><span class="err">”</span>
+<span class="n">exit</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="n">fi</span>
 
-<span class="n">SRC_PATH</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">DWARF_DSYM_FOLDER_PATH</span><span class="p">}</span><span class="o">/</span><span class="err">$</span><span class="p">{</span><span class="n">DWARF_DSYM_FILE_NAME</span><span class="p">}</span>
-<span class="n">RELATIVE_DEST_PATH</span><span class="o">=</span><span class="n">dSYM</span><span class="o">/</span><span class="err">$</span><span class="p">{</span><span class="n">EXECUTABLE_NAME</span><span class="p">}.</span><span class="err">$</span><span class="p">(</span><span class="n">date</span> <span class="o">+%</span><span class="n">Y</span><span class="o">%</span><span class="n">m</span><span class="o">%</span><span class="n">d</span><span class="o">%</span><span class="n">H</span><span class="o">%</span><span class="n">M</span><span class="o">%</span><span class="n">S</span><span class="p">).</span><span class="n">app</span><span class="p">.</span><span class="n">dSYM</span>
-<span class="n">DEST_PATH</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">PROJECT_DIR</span><span class="p">}</span><span class="o">/</span><span class="err">$</span><span class="p">{</span><span class="n">RELATIVE_DEST_PATH</span><span class="p">}</span>
-<span class="n">echo</span> <span class="err">“</span><span class="n">moving</span> <span class="err">$</span><span class="p">{</span><span class="n">SRC_PATH</span><span class="p">}</span> <span class="n">to</span> <span class="err">$</span><span class="p">{</span><span class="n">DEST_PATH</span><span class="p">}</span><span class="err">”</span>
+<span class="n">SRC_PATH</span><span class="o">=</span><span class="n">$</span><span class="p">{</span><span class="n">DWARF_DSYM_FOLDER_PATH</span><span class="p">}</span><span class="o">/</span><span class="n">$</span><span class="p">{</span><span class="n">DWARF_DSYM_FILE_NAME</span><span class="p">}</span>
+<span class="n">RELATIVE_DEST_PATH</span><span class="o">=</span><span class="n">dSYM</span><span class="o">/</span><span class="n">$</span><span class="p">{</span><span class="n">EXECUTABLE_NAME</span><span class="p">}.</span><span class="n">$</span><span class="p">(</span><span class="n">date</span><span class="w"> </span><span class="o">+%</span><span class="n">Y</span><span class="o">%</span><span class="n">m</span><span class="o">%</span><span class="n">d</span><span class="o">%</span><span class="n">H</span><span class="o">%</span><span class="n">M</span><span class="o">%</span><span class="n">S</span><span class="p">).</span><span class="n">app</span><span class="p">.</span><span class="n">dSYM</span>
+<span class="n">DEST_PATH</span><span class="o">=</span><span class="n">$</span><span class="p">{</span><span class="n">PROJECT_DIR</span><span class="p">}</span><span class="o">/</span><span class="n">$</span><span class="p">{</span><span class="n">RELATIVE_DEST_PATH</span><span class="p">}</span>
+<span class="n">echo</span><span class="w"> </span><span class="err">“</span><span class="n">moving</span><span class="w"> </span><span class="n">$</span><span class="p">{</span><span class="n">SRC_PATH</span><span class="p">}</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">$</span><span class="p">{</span><span class="n">DEST_PATH</span><span class="p">}</span><span class="err">”</span>
 
-<span class="n">mv</span> <span class="err">“$</span><span class="p">{</span><span class="n">SRC_PATH</span><span class="p">}</span><span class="err">”</span> <span class="err">“$</span><span class="p">{</span><span class="n">DEST_PATH</span><span class="p">}</span><span class="err">”</span>
+<span class="n">mv</span><span class="w"> </span><span class="err">“</span><span class="n">$</span><span class="p">{</span><span class="n">SRC_PATH</span><span class="p">}</span><span class="err">”</span><span class="w"> </span><span class="err">“</span><span class="n">$</span><span class="p">{</span><span class="n">DEST_PATH</span><span class="p">}</span><span class="err">”</span>
 
-<span class="k">if</span> <span class="p">[</span> <span class="o">-</span><span class="n">f</span> <span class="s">&quot;.git/config&quot;</span> <span class="p">];</span> <span class="n">then</span>
-<span class="n">git</span> <span class="n">add</span> <span class="err">“$</span><span class="p">{</span><span class="n">RELATIVE_DEST_PATH</span><span class="p">}</span><span class="err">”</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="err">“</span><span class="n">Added</span> <span class="n">dSYM</span> <span class="n">file</span> <span class="k">for</span> <span class="err">$</span><span class="p">{</span><span class="n">BUILD_STYLE</span><span class="p">}</span> <span class="n">build</span><span class="err">”</span> <span class="err">“$</span><span class="p">{</span><span class="n">RELATIVE_DEST_PATH</span><span class="p">}</span><span class="err">”</span>
+<span class="k">if</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="o">-</span><span class="n">f</span><span class="w"> </span><span class="s">&quot;.git/config&quot;</span><span class="w"> </span><span class="p">];</span><span class="w"> </span><span class="n">then</span>
+<span class="n">git</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="err">“</span><span class="n">$</span><span class="p">{</span><span class="n">RELATIVE_DEST_PATH</span><span class="p">}</span><span class="err">”</span>
+<span class="n">git</span><span class="w"> </span><span class="n">commit</span><span class="w"> </span><span class="o">-</span><span class="n">m</span><span class="w"> </span><span class="err">“</span><span class="n">Added</span><span class="w"> </span><span class="n">dSYM</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">$</span><span class="p">{</span><span class="n">BUILD_STYLE</span><span class="p">}</span><span class="w"> </span><span class="n">build</span><span class="err">”</span><span class="w"> </span><span class="err">“</span><span class="n">$</span><span class="p">{</span><span class="n">RELATIVE_DEST_PATH</span><span class="p">}</span><span class="err">”</span>
 <span class="n">fi</span>
 </code></pre></div>
 <hr>
@@ -200,18 +172,18 @@ RBReady(changeFrame);
 <p>如何测试启动时间</p>
 <p>两种方法：一种使用NSLog，另外一种使用Time Profiler。</p>
 <p>使用NSLog</p>
-<div class="highlight"><pre><code><span class="n">CFAbsoluteTime</span> <span class="n">StartTime</span><span class="p">;</span>
+<div class="highlight"><pre><code><span></span><span class="n">CFAbsoluteTime</span><span class="w"> </span><span class="n">StartTime</span><span class="p">;</span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-     <span class="n">StartTime</span> <span class="o">=</span> <span class="n">CFAbsoluteTimeGetCurrent</span><span class="p">();</span>
-      <span class="c1">// ...</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">StartTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CFAbsoluteTimeGetCurrent</span><span class="p">();</span>
+<span class="w">      </span><span class="c1">// ...</span>
 <span class="p">}</span>
 
- <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">applicationDidFinishLaunching</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">app</span> <span class="p">{</span>
-      <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
-         <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;Launched in %f sec&quot;</span><span class="p">,</span> <span class="n">CFAbsoluteTimeGetCurrent</span><span class="p">()</span> <span class="o">-</span> <span class="n">StartTime</span><span class="p">);</span>
-      <span class="p">});</span>
-      <span class="c1">// ...</span>
+<span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">applicationDidFinishLaunching</span><span class="o">:</span><span class="p">(</span><span class="n">UIApplication</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">app</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
+<span class="w">         </span><span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;Launched in %f sec&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">CFAbsoluteTimeGetCurrent</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">StartTime</span><span class="p">);</span>
+<span class="w">      </span><span class="p">});</span>
+<span class="w">      </span><span class="c1">// ...</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>使用Time Profiler</p>
@@ -260,17 +232,17 @@ RBReady(changeFrame);
 <p>NSOperationQueue</p>
 <p>NSThread</p>
 <p>iOS 4.0后，易用的GCD技术被广泛使用。例如：</p>
-<div class="highlight"><pre><code><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<div class="highlight"><pre><code><span></span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
 
 <span class="o">^</span><span class="p">{</span>
 
-    <span class="c1">// do something in background</span>
+<span class="w">    </span><span class="c1">// do something in background</span>
 
-    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+<span class="w">    </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span><span class="w"> </span><span class="o">^</span><span class="p">{</span>
 
-        <span class="c1">// do something on main thread</span>
+<span class="w">        </span><span class="c1">// do something on main thread</span>
 
-    <span class="p">});</span>
+<span class="w">    </span><span class="p">});</span>
 
 <span class="p">});</span>
 </code></pre></div>
@@ -300,18 +272,18 @@ RBReady(changeFrame);
 <p>最简单的工具就是 NSDate，但精度不是太好。</p>
 <p>NSDate* tmpStartData = [[NSDate date] retain]; //You code here... double deltaTime = [[NSDate date] timeIntervalSinceDate:tmpStartData]; NSLog(@"&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;cost time = %f", deltaTime);
 或者将运行代码放到如下方法的 block 参数中，然后返回所运行的时间：</p>
-<div class="highlight"><pre><code><span class="cp">#import &lt;mach/mach_time.h&gt;  </span>
+<div class="highlight"><pre><code><span></span><span class="cp">#import &lt;mach/mach_time.h&gt;  </span>
 
 <span class="c1">// for mach_absolute_time() and friends      </span>
-<span class="n">CGFloat</span> <span class="nf">BNRTimeBlock</span> <span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">block</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span> <span class="p">{</span>       
-    <span class="kt">mach_timebase_info_data_t</span> <span class="n">info</span><span class="p">;</span>       
-    <span class="k">if</span> <span class="p">(</span><span class="n">mach_timebase_info</span><span class="p">(</span><span class="o">&amp;</span><span class="n">info</span><span class="p">)</span> <span class="o">!=</span> <span class="n">KERN_SUCCESS</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">;</span>          
-    <span class="kt">uint64_t</span> <span class="n">start</span> <span class="o">=</span> <span class="n">mach_absolute_time</span> <span class="p">();</span>       
-    <span class="n">block</span> <span class="p">();</span>       
-    <span class="kt">uint64_t</span> <span class="n">end</span> <span class="o">=</span> <span class="n">mach_absolute_time</span> <span class="p">();</span>       
-    <span class="kt">uint64_t</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>          
-    <span class="kt">uint64_t</span> <span class="n">nanos</span> <span class="o">=</span> <span class="n">elapsed</span> <span class="o">*</span> <span class="n">info</span><span class="p">.</span><span class="n">numer</span> <span class="o">/</span> <span class="n">info</span><span class="p">.</span><span class="n">denom</span><span class="p">;</span>       
-    <span class="k">return</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">nanos</span> <span class="o">/</span> <span class="n">NSEC_PER_SEC</span><span class="p">;</span>   
+<span class="n">CGFloat</span><span class="w"> </span><span class="nf">BNRTimeBlock</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">^</span><span class="n">block</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">       </span>
+<span class="w">    </span><span class="n">mach_timebase_info_data_t</span><span class="w"> </span><span class="n">info</span><span class="p">;</span><span class="w">       </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mach_timebase_info</span><span class="p">(</span><span class="o">&amp;</span><span class="n">info</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">KERN_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">;</span><span class="w">          </span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mach_absolute_time</span><span class="w"> </span><span class="p">();</span><span class="w">       </span>
+<span class="w">    </span><span class="n">block</span><span class="w"> </span><span class="p">();</span><span class="w">       </span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mach_absolute_time</span><span class="w"> </span><span class="p">();</span><span class="w">       </span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">elapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">;</span><span class="w">          </span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">nanos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">elapsed</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">numer</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">denom</span><span class="p">;</span><span class="w">       </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">nanos</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">NSEC_PER_SEC</span><span class="p">;</span><span class="w">   </span>
 <span class="p">}</span>
 </code></pre></div>
 <p>2，善用性能分析工具。</p>
@@ -325,13 +297,13 @@ RBReady(changeFrame);
 <p>5，对于 TableView，重用 cell；减少 cell 初始化的工作量，延迟装载；定制复杂 cell 时，使用 drawRect 自绘；Cache 尽可能多的东西，包括 cell 高度；尽可能让 cell 不透明；避免使用图像特性，比如 gradients。</p>
 <p>6，在线程中使用 autoreleasepool。</p>
 <p>7，将一些不太重要的任务放在 idle 时运行。</p>
-<div class="highlight"><pre><code><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">idleNotificationMethod</span> <span class="p">{</span>     
-     <span class="c1">// do something here </span>
- <span class="p">}</span>  
+<div class="highlight"><pre><code><span></span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">idleNotificationMethod</span><span class="w"> </span><span class="p">{</span><span class="w">     </span>
+<span class="w">     </span><span class="c1">// do something here </span>
+<span class="w"> </span><span class="p">}</span><span class="w">  </span>
 
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">registerForIdleNotification</span>  <span class="p">{</span>     
-    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="n">self</span> <span class="nl">selector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">idleNotificationMethod</span><span class="p">)</span> <span class="nl">name</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;IdleNotification&quot;</span> <span class="nl">object</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>         <span class="n">NSNotification</span> <span class="o">*</span><span class="n">notification</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSNotification</span> <span class="nl">notificationWithName</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;IdleNotification&quot;</span> <span class="nl">object</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>     
-    <span class="p">[[</span><span class="n">NSNotificationQueue</span> <span class="n">defaultQueue</span><span class="p">]</span> <span class="nl">enqueueNotification</span><span class="p">:</span><span class="n">notification</span>     <span class="nl">postingStyle</span><span class="p">:</span><span class="n">NSPostWhenIdle</span><span class="p">];</span> 
+<span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">registerForIdleNotification</span><span class="w">  </span><span class="p">{</span><span class="w">     </span>
+<span class="w">    </span><span class="p">[[</span><span class="n">NSNotificationCenter</span><span class="w"> </span><span class="n">defaultCenter</span><span class="p">]</span><span class="w"> </span><span class="n">addObserver</span><span class="o">:</span><span class="n">self</span><span class="w"> </span><span class="n">selector</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">idleNotificationMethod</span><span class="p">)</span><span class="w"> </span><span class="n">name</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;IdleNotification&quot;</span><span class="w"> </span><span class="n">object</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span><span class="w">         </span><span class="n">NSNotification</span><span class="w"> </span><span class="o">*</span><span class="n">notification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSNotification</span><span class="w"> </span><span class="n">notificationWithName</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;IdleNotification&quot;</span><span class="w"> </span><span class="n">object</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span><span class="w">     </span>
+<span class="w">    </span><span class="p">[[</span><span class="n">NSNotificationQueue</span><span class="w"> </span><span class="n">defaultQueue</span><span class="p">]</span><span class="w"> </span><span class="n">enqueueNotification</span><span class="o">:</span><span class="n">notification</span><span class="w">     </span><span class="n">postingStyle</span><span class="o">:</span><span class="n">NSPostWhenIdle</span><span class="p">];</span><span class="w"> </span>
 <span class="p">}</span>
 </code></pre></div>
 <p>8，不要在 viewWillAppear 中做费时的操作。</p>
@@ -358,90 +330,34 @@ RBReady(changeFrame);
 <p>在使用 sqlite_prepare会将SQL查询编译成字节码，要使用bind，重用那些已经prepared的语句。</p>
 
 
-<br>
-<br>
+<br/>
+<br/>
 <p></p>
 
 
 <!-- Share BEGIN -->
 <div id="share"></div>
-<script type="text/javascript" src="../vender/share/share.js"></script>
-<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
-<link rel="stylesheet" href="../vender/share/share.css">
 <!-- Share END -->
 
 
-<br><p></p>
+<br/>
 
 
 <!-- 评论 start -->
-<div class="commentBox" id="globeCommentBox">
-    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
-    <div>
-        <input type="text" name="nickname" placeholder="nickname">
-    </div>
-    <div>
-        <input type="text" name="email" placeholder="email">
-    </div>
-    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
-</div>
-<br>
 <div id="comment"></div>
-
-<link rel="stylesheet" href="../vender/comment/comment.css" />
-<script type="text/javascript" src="../vender/comment/toast.js"></script>
-<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
-<script type="text/javascript">
-    var articleUUID = "e090f9899003f5f3c15a25f3fc8cb110";
-    var pageIndex = 1;
-</script>
-<script type="text/javascript" src="../vender/comment/comment.js"></script>
 <!-- 评论 end -->
 
-
-</div>
-
-
-<div id='link' style='display:none;'>
-<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
-<h3>· Social</h3>
-<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
-<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
-<h3>· Links</h3>
-<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
-<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
-<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
-<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
-</div>
-<br>
-
-<div id="copyright" >
-        <p class="alignright">
-            COPYRIGHT &copy; 2010-2020
-            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
-        &nbsp; <br/><a href="https://beian.miit.gov.cn/">粤ICP备2021173035号</a>
-        </p>  
-</div>
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  if(window.location.host.indexOf("localhost") == -1){
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  }
-})();
-</script>
+<!-- CopyRight BEGIN -->
+<div id="copyright" ></div>
+<!-- CopyRight END -->
 
 
 </body>
 
-<!-- 语法高亮 -->
-<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
-<script src="../vender/js/highlight/highlight.pack.js"></script>
 <script>
-hljs.initHighlightingOnLoad();
-// console.log(hljs.listLanguages());
+var sourceFile = "iOS查找错误日志与性能优化系列.md";
 </script>
+
+<script charset="UTF-8" src="../vender/js/loaded.js"></script>
+
+</html>

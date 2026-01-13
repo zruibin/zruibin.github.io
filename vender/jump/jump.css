@@ -1,0 +1,90 @@
+/*
+ * jump.css
+ *
+ * Created by Ruibin.Chow on 2023/05/20.
+ * Copyright (c) 2023年 Ruibin.Chow All rights reserved.
+ */
+
+ #jump-icon {
+	position:fixed;
+	right:0%;
+	top:10%;
+}
+
+#jump-view {
+	background-color:#f8f8f8;
+	width:200px;
+	margin:0px;
+	padding:0px;
+	border:1px solid #eee;
+	position:fixed;
+	right:-200px;
+	top:10%;
+	font-size:14px;
+	z-index:1030;
+	word-wrap:break-word;
+	border-radius:4px;
+}
+
+#jump-head {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	background-color:#eee;
+	height:2em;
+	vertical-align: middle;
+	text-align: center;
+}
+
+#jump-close {
+	float: right;
+	margin-right: 0.4em;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	font-size: 20px;
+}
+
+#jump-title {
+	color: #333;
+	line-height: 1.8em;
+	font-size: 16px;
+	margin-right: -1.4em;
+}
+
+#jump-content {
+	word-wrap:break-word;
+	overflow-y:scroll;
+	max-height: calc(75vh - 100px);
+    overflow: auto;
+}
+
+.jump-link {
+	padding: 2px 10px;
+	margin: 2px 0px;
+}
+
+#jump-close:hover,
+#jump-close:active,
+.jump-link a:hover,
+.jump-link a:active {
+    color: var(--global-color);
+}
+
+@media(prefers-color-scheme: dark) {
+	#jump-title, 
+	#jump-close, 
+	.jump-link a {
+        color: #cecece;
+    }
+
+	#jump-view {
+		background-color:#262626;
+		border-width: 0px;
+	}
+	
+	#jump-head {
+		background-color:#262626;
+		border-bottom-style: solid;
+		border-bottom-color: #444444;
+		border-bottom-width: 1px;
+	}
+}

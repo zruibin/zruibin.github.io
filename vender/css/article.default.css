@@ -6,16 +6,6 @@
   * Copyright (c) 2015年 Ruibin.Chow. All rights reserved.
   */
 
-/*@font-face {
-    font-family: "FZShouJinShu S10S";
-    src: url("../../vender/font/FZShouJinShu-S10S.ttf");
-}
-
-@font-face {
-    font-family: "Segoe UI Light";
-    src: url("../../vender/font/Segoe-UI-Light.ttf");
-}*/
-
 body{ 
     color: #333333;
     /*background: url(../../vender/image/bg2.png) repeat;*/
@@ -23,19 +13,10 @@ body{
     margin: 0px;
 } 
 
-a { color: #666666;}
-
-a:link{
+a { 
     text-decoration:none;
-}
-a:visited{
-    text-decoration:none;
-}
-a:hover{
-    text-decoration:underline;
-}
-a:active{
-    text-decoration:none;
+    color: #666666; 
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 
 hr {
@@ -50,10 +31,17 @@ p {
 }
 
  table {
+    width: 100%;
     border-width: 0 0 1px 1px;
     border-spacing: 0;
     border-collapse: collapse;
     border-style: solid;
+    table-layout:fixed;
+    /*word-wrap:break-word;*/
+}
+
+thead {
+    background-color: #eee;
 }
  
 td, th {
@@ -61,6 +49,9 @@ td, th {
     padding: 4px;
     border-width: 1px 1px 0 0;
     border-style: solid;
+    word-break: break-all; 
+    word-wrap:break-word;
+    min-width: 60px;
 }
 
 /*代码样式*/
@@ -71,27 +62,40 @@ td, th {
     display: block;
     padding: 0px 4px;
     margin: 0 0 10px;
-    line-height: 25px;
+    line-height: 20px;
     word-break: break-all;
     word-wrap: break-word;
     white-space: pre;
     white-space: pre-wrap;
     background-color: #f8f8f8;
-    border: 1px solid #ccc;
     border: 1px solid rgba(0,0,0,0.15);
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+    /* box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px; */
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
  }
 
  pre { margin: 0px 0px;}
 
  .highlight *{
     font-size: 14px;
+    font-family: Consolas, Georgia, Helvetica, Arial, "Helvetica Neue";
  }
+
+.figcaption {
+    /*margin-top: calc(0.6em / 0.9);*/
+    padding: 0 1em;
+    font-size: 0.9em;
+    /*line-height: 1.5;*/
+    /*text-align: center;*/
+    color: #999999;
+    display: block;
+}
+
 
 /*MARK:让图片自适应屏幕的宽度*/
  .container img {
+    align-items: center;
     max-width: 100% !important; 
     height: auto!important; 
     width:expression(this.width > 800 ? "800px" : this.width)!important;
@@ -105,6 +109,7 @@ td, th {
     min-width:50px;
     max-width:800px;
     font-size: 16px;
+    word-wrap:break-word;
 }
 
 article h2 a, .summary a {
@@ -126,7 +131,7 @@ article h2 a, .summary a {
     margin: 0;
     text-decoration: none;
     text-align: center;
-    text-shadow: 1px 1px 0 #fff;
+    /* text-shadow: 1px 1px 0 #fff; */
     /*font:11px/normal sans-serif;*/
     font-size: 11px;
     color: #333;
@@ -191,24 +196,30 @@ article h2 a, .summary a {
 
 #navbar {
     background-color: #f8f8f8;
-    height: 50px;
+    min-height: 3em;
+    height: 3em;
     margin: 0px 0px;
-    border: 1px solid #eee;
+    border-bottom: .5px solid #eee;
+    border-top: .5px solid #eee;
     position: fixed;
     right: 0;
     left: 0;
     font-size: 16px;
     z-index: 1030;
-    min-height: 50px;
     top: 0px;
 }
 
 .item {
     padding: 15px 9.5px;
-    display:inline-block;
-    font-size: 15.5px;
+    font-size: 1em;
+    font-weight: bold !important;
     color: #333333;
-    /*float: right;*/
+}
+
+#menu {
+    height: inherit;
+    min-width: 320px;
+    white-space: nowrap;
 }
 
 #menu ul {
@@ -218,11 +229,7 @@ article h2 a, .summary a {
 }
 
 #menu ul li {
-    /*float:left; */
     display: inline-table;
-    margin: 0px;
-    *display:inline;
-    *zoom:1;
 }
 
 #menu ul li a, #menu ul li a:visited {
@@ -233,16 +240,10 @@ article h2 a, .summary a {
     /*border-width:1px 1px 0 0;*/
 }
 
-
-#menu ul li:hover .item { 
-    background:#e7e7e7; 
-}
-
-
 .subs {
-    background:#e7e7e7;
+    background-color:#e7e7e7;
     display:none;
-    margin: 0px 0px;
+    margin: -1em 0px;
     padding: 0px 0px;
     /*top:100%;*/
     /*position:fixed;*/
@@ -251,11 +252,10 @@ article h2 a, .summary a {
 
 ul li:hover .subs {
     display:block;
-    position:absolute; 
+    position:absolute;
 }
 
 .subs li {
-    background:#e7e7e7;/*rgba(231, 231, 231, 0.9);*/
     filter:Alpha(opacity=90);
     text-align: center;
     margin-top: 0px;
@@ -266,6 +266,8 @@ ul li:hover .subs {
     display:block;
     margin: 0px 0px;
 }
+
+.subs, .subs li { border-radius: 5px;}
 
 .subs li a {
     font-size:14px;
@@ -280,11 +282,6 @@ ul li:hover .subs {
     overflow: hidden;
     white-space: nowrap;
 }
-
-.subs li a:hover{
-    background-color: #f8f8f8;
-}
-
 
 /*底部数量*/
 
@@ -313,7 +310,7 @@ ul li:hover .subs {
     padding: 6.5px 12px;
     line-height: 1.3;
     text-decoration: none;
-    background-color: #fff;
+    background-color: var(--base-color-white);
     border: 1px solid #ddd;
     margin-left: -1px;
 }
@@ -337,17 +334,29 @@ ul li:hover .subs {
 
 
 blockquote {
-    background:#F5F5F5;
-    border-left:4px solid #999999;
-    margin:20px 20px 20px 0px;
-    padding:10px 10px;
-    font-size:15px;
+    background:#f5f5f5;
+    /* background-color: #fff9f9; */
+    border-left:3px solid var(--global-color);
+    border-radius: 2px;
+    margin:10px 10px 10px 0px;
+    padding:10px 6px;
     word-break: break-word;
-    font-weight: 100;
+    font-weight: 320; /*定义由粗到细的字符。400 等同于 normal，而 700 等同于 bold*/
+    color: #000;
+    font-size: 16px;
 }
 
 blockquote p {
     display:inline;
+}
+
+#content p:not(:first-child) {
+    /*text-indent: 2em;*/
+    text-align: justify;
+}
+
+#content h2:not(:first-child) {
+    /*text-align: center;*/
 }
 
 #content li, #content h3, #content h4, #content h5, blockquote, p {
@@ -355,6 +364,227 @@ blockquote p {
 }
 
 
+/*标签页*/
 
+.tag-cloud {
+    margin: 2em 0 3em;
+    text-align: center;
+    font-family: serif, Georgia, Helvetica, Arial, "Helvetica Neue";
+}
+
+.tag-cloud .tag-cloud-title {
+    display: inline-block;
+    font-size: 21px;
+    color: var(--global-color2);
+    border-bottom: 2px solid var(--global-color2);
+    margin-bottom: 30px;
+}
+
+.tag-cloud .tag-cloud-tags {
+    margin: 10px 0;
+}
+
+.tag-cloud .tag-cloud-tags a {
+    font-size: 16px !important;
+    color: #34495e !important ;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    margin: 8px 14px;
+    word-wrap: break-word;
+
+    transition-property: font-size,margin;
+    transition-duration: .2s;
+    -moz-transition-property: font-size,margin; 
+    -moz-transition-duration: .2s;
+    -webkit-transition-property: font-size,margin;
+    -webkit-transition-duration: .2s; 
+    -o-transition-property: font-size,margin;
+    -o-transition-duration: .2s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+.tag-cloud .tag-cloud-tags a:hover {
+    color: var(--global-color2) !important;
+    font-size: 19.5px !important;
+    margin: 2px 5px !important;
+}
+
+.tag-cloud .tag-cloud-tags a .tag-count {
+    display: inline-block;
+    position: relative;
+    top: -8px;
+    right: -2px;
+    color: var(--global-color2);
+    font-size: 12px;
+}
+
+/* Archives */
+
+#articleSize {
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.times ul, .times p {padding:0; margin:0;}
+
+.times {
+    margin-top: 80px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    min-width:50px;
+    max-width:800px;
+    font-size: 16px;
+}
+
+.times ul {
+    margin-top: 20px;
+    margin-left:25px;
+    border-left:2px solid rgba(221,221,221,0.6);
+}
+
+.times ul li {
+    margin-left:-12px;
+    line-height:20px;
+    font-weight:narmal; 
+    list-style:none;
+}
+
+.times ul li b {
+    width:6px;
+    height:6px;
+    background: var(--base-color-white);
+    /*border:2px solid ;*/
+    border-radius:6px;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px;
+    overflow:hidden;
+    display:inline-block;
+    float:left;
+    background-color: #bbb;
+    margin-left: 8px;
+    margin-right: 5px;
+    margin-top: 8px;
+}
+
+.times ul li span {padding-left:8px;font-size:12px;line-height:20px;color:#555; font-size: 16px; padding-top: 15px;}
+.times ul li:hover b {background-color: #333;}
+.times ul li:hover span {color:#333;}
+.times ul li p {padding-left:15px;font-size:18px;line-height:25px; margin-top: 20px; margin-left: 10px;}
+
+.times hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 12px;
+    border: 0;
+    border-top: 1px dashed #ddd;
+}
+
+.times ul li:hover hr {border-top: 1px dashed #333;}
+
+.times ul li p a {
+    font-size: 16px;
+    cursor: pointer;
+    color: #555;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.times ul li p a:hover, .times ul li p a:focus, .times ul li p a:active {
+    text-decoration: underline;
+    color: #333;
+    font-size: 16px;
+}
+
+p>code, li>code {
+    background-color: #f8f8f8;
+    padding: 1px 4px;
+    margin: 0px 4px;
+    border-radius: 2px;
+}
+
+#menu ul li:hover .item, 
+article h2 a:hover, 
+article h2 a:active,
+.subs li a:hover,
+p>code, li>code,
+#content a:hover, #content a:active,
+.container p a:hover, .container p a:active {
+    color: var(--global-color);
+}
+
+/*------------------------------------------------------------------------------*/
+
+@media(prefers-color-scheme: dark) {
+    img {
+        background-color: #919191;
+        /* filter: invert(110%) hue-rotate(180deg);
+        opacity: .8; */
+    }
+    #share img { background-color:transparent;}
+
+    body, #navbar, #pagelist>ul>li>a {
+        background-color: #333333;
+    }
+
+    #navbar, .subs, hr {
+        border-color: #444444;
+    }
+
+    .alignright, .item, article h2 a, .summary a, .summary p, 
+    .container, .subs, .subs li a,
+    #articleSize, .times ul li span, .times ul li p a,
+    #pagelist>ul>li>a, select, #pageSelector
+    {
+        color: #cecece;
+    }
+
+    .subs li, .subs li a {
+        border-radius: 5px;
+    }
+
+    .subs, .subs li a {
+        background-color: #6c6c6c;
+    }
+
+    .more, #pagelist>ul>li>a, select, #pageSelector {
+        background-color: #333333;
+        border: 1px solid #444444;
+    }
+    .more:hover, .more:focus, .more:active, #pagelist>ul>li>a:hover {
+        background-color: #565656;
+    }
+
+    #article_tags a, .tag-cloud .tag-cloud-tags a {
+        color: #999 !important;
+    }
+
+    .highlight {
+        background-color: #acacac;
+    }
+
+    blockquote {
+        background:#acacac;
+    }
+
+    .times ul li:hover b {background-color: var(--base-color-white);}
+    .times ul li:hover span {color: var(--base-color-white);}
+    .times ul li:hover hr {border-top: 1px dashed var(--base-color-white);}
+
+    .times ul li p a:hover, .times ul li p a:focus, .times ul li p a:active {
+        color: #acacac;
+    }
+
+    thead { 
+        background-color: #555; 
+    }
+
+    p>code, li>code {
+        background-color: #444444;
+    }
+}
 
 

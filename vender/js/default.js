@@ -13,7 +13,7 @@
 var RBReady = (function() { //这个函数返回whenReady()函数
     var funcs = []; //当获得事件时，要运行的函数
     var ready = false; //当触发事件处理程序时,切换为true
-    
+
     //当文档就绪时,调用事件处理程序
     function handler(e) {
         if(ready) return; //确保事件处理程序只完整运行一次
@@ -49,19 +49,76 @@ var RBReady = (function() { //这个函数返回whenReady()函数
     }
 })();
 
-//--------------------- test -----
-//  function t1() {
-//     console.log('t1');
-// }
-// function t2() {
-//     console.log('t2');
-// }
-// // t2-t1-t2
-// RBReady(t1);
-// t2();
-// RBReady(t2);
+//------------------------------------------------------------------------------------
 
+function getElementsByClassName(className, root, tagName) 
+{ //root：父节点，tagName：该节点的标签名。 这两个参数均可有可无
+    if (root) {
+        root = typeof root == "string" ? document.getElementById(root) : root;
+    } else {
+        root = document.body;
+    }
+    tagName = tagName || "*";
+    if (document.getElementsByClassName) {//如果浏览器支持getElementsByClassName，就直接的用
+        return root.getElementsByClassName(className);
+    } else {
+        var tag = root.getElementsByTagName(tagName);    //获取指定元素
+        var tagAll = []; //用于存储符合条件的元素
+        for (var i = 0; i < tag.length; i++) {//遍历获得的元素
+            for (var j = 0, n = tag[i].className.split(' ') ; j < n.length; j++) {//遍历此元素中所有class的值，如果包含指定的类名，就赋值给tagnameAll
+                if (n[j] == className) {
+                    tagAll.push(tag[i]);
+                    break;
+                }
+            }
+        }
+        return tagAll;
+    }
+}
 
+function getStyle(obj,styleName)
+{
+    if(obj.currentStyle){
+        return obj.currentStyle[styleName];
+    }else{
+        return getComputedStyle(obj,null)[styleName];
+    }
+}
+
+function getElementsClass(classnames)
+{ 
+    var classobj= new Array();//定义数组 
+    var classint=0;//定义数组的下标 
+    var tags=document.getElementsByTagName("*");//获取HTML的所有标签 
+    for(var i in tags) {//对标签进行遍历 
+        if(tags[i].nodeType==1){//判断节点类型 
+            if(tags[i].getAttribute("class") == classnames) {//判断和需要CLASS名字相同的，并组成一个数组 
+                classobj[classint]=tags[i]; 
+                classint++; 
+            } 
+        }
+    }
+    return classobj;//返回组成的数组 
+}
+
+function loadScript(url, callback) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    if (script.readyState) { // 处理IE
+        script.onreadystatechange = function () {
+            if (script.readyState === 'loaded' || script.readyState === 'complete') {
+                script.onreadystatechange = null;
+                callback();
+            }
+        }
+    } else {  // 处理其他浏览器的情况
+        script.onload = function () {
+            callback();
+        }
+    }
+    script.src = url;
+    document.body.appendChild(script);
+}
 
 function detectOS() {  
         var sUserAgent = navigator.userAgent;  
@@ -121,7 +178,7 @@ function isBigResolution()
 //返回顶部
 function scrollToTop() { 
     //把内容滚动指定的像素数（第一个参数是向右滚动的像素数，第二个参数是向下滚动的像素数） 
-    window.scrollBy(0,-100); 
+    window.scrollBy(0,-1000); 
     //延时递归调用，模拟滚动向上效果 
     scrolldelay = setTimeout('scrollToTop()', 10); 
     //获取scrollTop值，声明了DTD的标准网页取document.documentElement.scrollTop，
@@ -129,105 +186,39 @@ function scrollToTop() {
     var sTop=document.documentElement.scrollTop+document.body.scrollTop; 
     //判断当页面到达顶部，取消延时代码（否则页面滚动到顶部会无法再向下正常浏览页面） 
     if(sTop==0) clearTimeout(scrolldelay); 
-} 
-
-
-document.onreadystatechange = stateChange;//当页面加载状态改变的时候执行这个方法. 
-
-function stateChange() 
-{ 
-    // console.log(document.readyState);
-    // makeTheMask(1);
-    // document.write(document.readyState);
-    if(document.readyState == 'uninitialized') {//还未开始载入 
-        // console.log('uninitialized');
-    }
-
-    if(document.readyState == 'loading') {//载入中
-        // console.log('loading');
-    }
-
-    if(document.readyState == 'interactive') {//已加载，文档与用户可以开始交互 
-        // console.log('interactive');
-    }
-
-    if(document.readyState == 'complete') {//载入完成 
-        // console.log('Completed');
-        // makeTheMask(0);
-        // setTimeout(makeTheMask(0), 5000);
-
-        //防止网页被别站用 iframe嵌套
-        if (self != top) {
-            window.top.location.replace(self.location); //防止用iframe调用
-            console.log(self.location.href);
-        }
-        makeTheBackToTopView();
-        articleDefaultLoad();
-    }
-    
-} 
-
-
-function makeTheMask (isShow) {
-    var maskDiv =  '\
-        <div class="spinner"> \
-            <div class="double-bounce1"></div> \
-            <div class="double-bounce2"></div> \
-    </div> \
-    ';
-
-
-    var mask = document.getElementById('overlayMask');
-    if (isShow) {
-        if (!mask) {
-            var newElement = document.createElement("div");
-            newElement.setAttribute("class","overlayMask");
-            newElement.setAttribute("id","overlayMask"); 
-            newElement.innerHTML = maskDiv
-            document.body.appendChild(newElement);
-            // document.write(maskDiv);
-        }
-    } else {
-        mask.parentNode.removeChild(mask);
-    }
 }
 
-
 function makeTheBackToTopView () {
-    // console.log(document.documentElement.clientHeight);
-    // console.log(document.body.scrollHeight);
-    
     if (isMobile()) {
-        console.log('isMobile...');
         document.body.addEventListener("touchstart", function(){ }); //移动端中的hover处理
         return ;
     }
-    var maskDiv =  '\
-        <style type="text/css">.back-to-top:before { display: block; content: " "; margin-top: 2px; width: 0; height: 0; \
-                    border-width: 0 7px 8px 7px; border-color: transparent transparent #fff transparent; border-style: solid; \
-            }</style> \
-        <div class="back-to-top" style="position: fixed; bottom: 19px; right: 50px; z-index: 1050; width: 15px; height: 13px; padding: 5px;  \
-                    background: #222; color: #fff; cursor: pointer; -webkit-transform: translateZ(0);"  onclick="scrollToTop()"> \
-    </div> \
-    ';
-    var newElement = document.createElement("div");
-    newElement.innerHTML = maskDiv
-    document.body.appendChild(newElement);
+
+    var iconObj = document.createElement("i");
+    iconObj.className = "fa fa-arrow-up common-float-icon";
+    iconObj.addEventListener("click", scrollToTop, false);
+    iconObj.style.position = "fixed";
+    iconObj.style.right = "4%";
+    iconObj.style.bottom = "6%";
+    iconObj.style.display = "none";
+    document.body.appendChild(iconObj);
+
+    window.addEventListener("scroll", () => {
+        let seeHeight = document.documentElement.clientHeight;
+        let windowH = document.documentElement.scrollHeight || document.body.scrollHeight;
+        let currentY = document.documentElement.offsetTop || window.pageYOffset || document.body.offsetTop;
+        let precent = currentY / (windowH - seeHeight) * 100;
+        iconObj.style.display = precent > 1.0 ? "" : "none";
+    });
 }
 
 
 function changeDNS() {
     var url =  window.location.href;
-    console.log(url);
+    // console.log(url);
     if (url.indexOf("zruibin.cc") > 0) {
         window.location.href = "https://zruibin.cn";
     }
 }
 
 changeDNS();
-
-
-
-
-
-

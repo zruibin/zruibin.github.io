@@ -1,0 +1,38 @@
+/*
+ * copyright.css
+ *
+ * Created by Ruibin.Chow on 2023/06/08.
+ * Copyright (c) 2023年 Ruibin.Chow All rights reserved.
+ */
+
+#copyright {
+    z-index:2;
+    left:0px;  
+    bottom:0px;  
+    width: 100%; 
+    text-align: center;
+}
+
+.alignright { 
+    font-size: 14px; 
+    color: black;  
+}
+
+.alignright a { 
+    color: #666666; 
+    text-decoration: none;
+}
+
+.alignright a:hover, .alignright a:active { 
+    color: var(--global-color);
+}
+
+@media(prefers-color-scheme: dark) {
+    .alignright {
+        color: #cecece;
+    }
+
+    .alignright a {
+        color: #4094c7;
+    }
+}

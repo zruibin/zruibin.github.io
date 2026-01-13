@@ -1,0 +1,97 @@
+/*
+ * category.css
+ *
+ * Created by Ruibin.Chow on 2023/05/20.
+ * Copyright (c) 2023年 Ruibin.Chow All rights reserved.
+ */
+
+
+ #category-icon {
+	position:fixed;
+	left:0%;
+	top:10%;
+}
+
+#category-view {
+	background-color:#f8f8f8;
+	height: auto;
+	max-height:80%;
+	width:200px;
+	margin:0px;
+	padding:0px;
+	border:1px solid #eee;
+	border-radius:4px;
+	position:fixed;
+	left:-200px;;
+	top:10%;
+	font-size:14px;
+	z-index:1032;
+}
+
+#category-head {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	background-color:#eee;
+	height:2em;
+	vertical-align: middle;
+	text-align: center;
+}
+
+#category-title {
+	color: #333;
+	line-height: 1.8em;
+	font-size: 16px;
+	margin-right: 1.4em;
+}
+
+#category-close {
+	float: left;
+	margin-left: 0.4em;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	font-size: 20px;
+}
+
+#category-content {
+	overflow-y:scroll;
+	max-height: calc(75vh - 100px);
+    overflow: auto;
+}
+
+.category-link {
+	padding: 2px 10px;
+	margin: 2px 0px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	width:180px;
+	height:18px;
+	display:block;
+}
+
+#category-close:hover, 
+#category-close:active,
+.category-link a:hover,
+.category-link a:active {
+    color: var(--global-color);
+}
+
+@media(prefers-color-scheme: dark) {
+	#category-title, 
+	#category-close, 
+	.category-link a {
+        color: #cecece;
+    }
+
+	#category-view {
+		background-color:#262626;
+		border-width: 0px;
+	}
+	
+	#category-head {
+		background-color:#262626;
+		border-bottom-style: solid;
+		border-bottom-color: #444444;
+		border-bottom-width: 1px;
+	}
+}

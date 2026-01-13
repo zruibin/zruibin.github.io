@@ -1,0 +1,102 @@
+/*
+ * font.css
+ *
+ * Created by Ruibin.Chow on 2023/08/16.
+ * Copyright (c) 2023年 Ruibin.Chow All rights reserved.
+ */
+
+@font-face {
+  font-family: "Optima";
+  src: local("Optima"), url("./Optima/Optima.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Optima-Bold";
+  src: local("Optima Bold"), url("./Optima/Optima-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Consolas";
+  src: local("Consolas"), url("./Consolas.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "瘦金书";
+  src: url("./瘦金书简体.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SegoeUI";
+  src: local("Segoe UI"), url("./Segoe/segoeui.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SegoeUI-Bold";
+  src: local("Segoe UI Bold"), url("./Segoe/segoeuib.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SegoeWP";
+  src: local("Segoe WP"), url("./Segoe/SegoeWP.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SegoeWP-Light";
+  src: local("Segoe WP Light"), url("./Segoe/SegoeWP-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SegoeWP-Bold";
+  src: local("Segoe WP Bold"), url("./Segoe/SegoeWP-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SegoeWP-Black";
+  src: local("Segoe WP Black"), url("./Segoe/SegoeWP-Black.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SegoeWP-Semilight";
+  src: local("Segoe WP Semilight"), url("./Segoe/SegoeWP-Semilight.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SegoeWP-Semibold";
+  src: local("Segoe WP Semibold"), url("./Segoe/SegoeWP-Semibold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Caecilia-Light";
+  src: local("Caecilia LT Std 45 Light"), url("./Caecilia/Caecilia LT Std 45 Light") format("opentype");
+}
+
+@font-face {
+  font-family: "Caecilia-Light-Italic";
+  src: local("Caecilia LT Std 46 Light Italic"), url("./Caecilia/Caecilia LT Std 46 Light Italic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Caecilia-Roman";
+  src: local("Caecilia LT Std 55 Roman"), url("./Caecilia/Caecilia LT Std 55 Roman.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Caecilia-Bold";
+  src: local("Caecilia LT Std 75 Bold"), url("./Caecilia/Caecilia LT Std 75 Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Caecilia-Bold-Italic";
+  src: local("Caecilia LT Std 76 Bold Italic"), url("./Caecilia/Caecilia LT Std 76 Bold Italic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Caecilia-Heavy";
+  src: local("Caecilia LT Std 85 Heavy"), url("./Caecilia/Caecilia LT Std 85 Heavy.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Caecilia-Heavy-Italic";
+  src: local("Caecilia LT Std 86 Heavy Italic"), url("./Caecilia/Caecilia LT Std 86 Heavy Italic.otf") format("opentype");
+}
+

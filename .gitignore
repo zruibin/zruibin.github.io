@@ -15,8 +15,8 @@ profile
 DerivedData
 .idea/
 *.hmap
-build/
-/build/*
+app/
+/app/*
 # build.zip
 
 #svn文件夹忽略

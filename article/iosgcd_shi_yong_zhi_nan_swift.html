@@ -7,59 +7,34 @@
 
 <link rel="shortcut icon" href="../vender/image/me.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="keywords" content="iOS GCD使用指南(swift),iOS,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
 <meta name="description" content="" />
-<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+<meta name="COPYRIGHT" content="版权所有2010,http://private.zruibin.cn" />
 
-
-<script type="text/javascript" src="../vender/js/default.js"></script>
-<script type="text/javascript" src="../vender/js/article.default.js"></script>
-<link rel="stylesheet" href="../vender/css/default.css" />
-<link rel="stylesheet" href="../vender/css/article.default.css" />
-
-<script type="text/javascript">
-
-RBReady(changeFrame);
-
+<script type="text/javascript" charset="UTF-8">
+var sourcePrefix = "../";
 </script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/sea.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/seajs-css.js"></script>
 
 </head>
 
-<body>
+<body style="visibility: hidden;">
 
 
 <div id="navbar" >
     <div id="menu" class="container">
     <ul>
-
     <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
     <li><a href="../about.html" class="item">About Me</a></li>
     <li><a href="./index.html" class="item">Blog</a></li>
-    <li><a class="item">Tags</a>
-        <div class="subs">
-        
-<ul>
-
-<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
-<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
-<li><a href="./Tag_python.html">Python(1)</a></li>
-<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
-<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
-<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
-<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
-<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
-<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
-<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
-<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
-<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
-<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
-</ul>
-
-        </div> 
+    <li><a class="item" href="../article/tags.html">Tags</a>
+        &nbsp;
+        <div class="subs" id="tags"></div> 
     </li>
-    <li><a href="./Archives.html" class="item">Archives</a></li>
+    <li><a href="./archives.html" class="item">Archives</a></li>
 
     </ul>
     </div>
@@ -67,27 +42,24 @@ RBReady(changeFrame);
 <p></p>
 
 
-
-
-
 <div class="container" id="content">
 
 <div id='header'>
     <h2>iOS GCD使用指南(swift)</h2>
     <footer>
-        Date:&nbsp;<span id='create_time'>
+        Date:<span id='create_time'>
             2014-10-30 15:49
         </span>
-        &nbsp;&nbsp;
-        Tags:&nbsp; 
+        &nbsp;
+        Tags: 
 <span id='article_tags'>
          
-<a href='../article/Tag_ios.html' class='article_tag'>iOS</a>
+<a href='../article/tag_ios.html' class='article_tag'>iOS</a>
 
 </span>
 
     </footer>
-    <hr>
+    <hr/>
 </div>
 
 <p>Grand Central Dispatch（GCD）是异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中，GCD就能生成必要的线程并计划执行任务。由于线程管理是作为系统的一部分来实现的，因此可统一管理，也可执行任务，这样就比以前的线程更有效率。</p>
@@ -102,9 +74,9 @@ Serial Dispatch Queue，按添加进队列的顺序（先进先出）一个接�
 <p>第一个参数是队列的名称，一般是使用倒序的全域名。虽然可以不给队列指定一个名称，但是有名称的队列可以让我们在遇到问题时更好调试；</p>
 <p>当第二个参数为nil时返回Serial Dispatch Queue，如上面那个例子，当指定为DISPATCH_QUEUE_CONCURRENT时返回Concurrent Dispatch Queue。</p>
 <p>需要注意一点，如果是在OS X 10.8或iOS 6以及之后版本中使用，Dispatch Queue将会由ARC自动管理，如果是在此之前的版本，需要自己手动释放，如下：</p>
-<div class="highlight"><pre><code><span class="n">let</span> <span class="nl">myQueue</span><span class="p">:</span> <span class="kt">dispatch_queue_t</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.xxx&quot;</span><span class="p">,</span> <span class="n">nil</span><span class="p">)</span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">myQueue</span><span class="p">,</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;in Block&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><code><span></span><span class="n">let</span><span class="w"> </span><span class="n">myQueue</span><span class="o">:</span><span class="w"> </span><span class="n">dispatch_queue_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.xxx&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nil</span><span class="p">)</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">myQueue</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;in Block&quot;</span><span class="p">)</span>
 <span class="p">})</span>
 <span class="n">dispatch_release</span><span class="p">(</span><span class="n">myQueue</span><span class="p">)</span>
 </code></pre></div>
@@ -113,123 +85,123 @@ Serial Dispatch Queue，按添加进队列的顺序（先进先出）一个接�
 Main Dispatch Queue</p>
 <h4>Global Dispatch Queue / Concurrent Dispatch Queue</h4>
 <p>一般只在需要更新UI时我们才获取Main Dispatch Queue，其他情况下用Global Dispatch Queue就满足需求了：</p>
-<div class="highlight"><pre><code><span class="c1">//获取Main Dispatch Queue</span>
-<span class="n">let</span> <span class="n">mainQueue</span> <span class="o">=</span> <span class="n">dispatch_get_main_queue</span><span class="p">()</span>
+<div class="highlight"><pre><code><span></span><span class="c1">//获取Main Dispatch Queue</span>
+<span class="n">let</span><span class="w"> </span><span class="n">mainQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_main_queue</span><span class="p">()</span>
 <span class="c1">//获取Global Dispatch Queue</span>
-<span class="n">let</span> <span class="n">globalQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">globalQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
 <p>得到的Global Dispatch Queue实际上是一个Concurrent Dispatch Queue，Main Dispatch Queue实际上就是Serial Dispatch Queue（并且只有一个）。</p>
 <p>获取Global Dispatch Queue的时候可以指定优先级，可以根据自己的实际情况来决定使用哪种优先级。</p>
 <p>一般情况下，我们通过第二种方式获取Dispatch Queue就行了。</p>
 <h4>dispatch_after</h4>
 <p>dispatch_after能让我们添加进队列的任务延时执行，比如想让一个Block在10秒后执行：</p>
-<div class="highlight"><pre><code><span class="n">var</span> <span class="n">time</span> <span class="o">=</span> <span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="p">(</span><span class="n">Int64</span><span class="p">)(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">))</span>
-<span class="n">dispatch_after</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;在10秒后执行&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><code><span></span><span class="n">var</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">Int64</span><span class="p">)(</span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">NSEC_PER_SEC</span><span class="p">))</span>
+<span class="n">dispatch_after</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;在10秒后执行&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>NSEC_PER_SEC表示的是秒数，它还提供了NSEC_PER_MSEC表示毫秒。</p>
 <p>上面这句dispatch_after的真正含义是在10秒后把任务添加进队列中，并不是表示在10秒后执行，大部分情况该函数能达到我们的预期，只有在对时间要求非常精准的情况下才可能会出现问题。</p>
 <p>获取一个dispatch_time_t类型的值可以通过两种方式来获取，以上是第一种方式，即通过dispatch_time函数，另一种是通过dispatch_walltime函数来获取，dispatch_walltime需要使用一个timespec的结构体来得到dispatch_time_t。通常dispatch_time用于计算相对时间，dispatch_walltime用于计算绝对时间，我写了一个把NSDate转成dispatch_time_t的Swift方法：</p>
-<div class="highlight"><pre><code><span class="n">func</span> <span class="n">getDispatchTimeByDate</span><span class="p">(</span><span class="nl">date</span><span class="p">:</span> <span class="n">NSDate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">dispatch_time_t</span> <span class="p">{</span>
-    <span class="n">let</span> <span class="n">interval</span> <span class="o">=</span> <span class="n">date</span><span class="p">.</span><span class="n">timeIntervalSince1970</span>
-    <span class="n">var</span> <span class="n">second</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">let</span> <span class="n">subsecond</span> <span class="o">=</span> <span class="n">modf</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">second</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">time</span> <span class="o">=</span> <span class="n">timespec</span><span class="p">(</span><span class="nl">tv_sec</span><span class="p">:</span> <span class="kt">__darwin_time_t</span><span class="p">(</span><span class="n">second</span><span class="p">),</span> <span class="nl">tv_nsec</span><span class="p">:</span> <span class="p">(</span><span class="n">Int</span><span class="p">)(</span><span class="n">subsecond</span> <span class="o">*</span> <span class="p">(</span><span class="n">Double</span><span class="p">)(</span><span class="n">NSEC_PER_SEC</span><span class="p">)))</span>
-    <span class="k">return</span> <span class="n">dispatch_walltime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">time</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<div class="highlight"><pre><code><span></span><span class="n">func</span><span class="w"> </span><span class="nf">getDispatchTimeByDate</span><span class="p">(</span><span class="n">date</span><span class="o">:</span><span class="w"> </span><span class="n">NSDate</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">dispatch_time_t</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">.</span><span class="n">timeIntervalSince1970</span>
+<span class="w">    </span><span class="n">var</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">subsecond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modf</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">second</span><span class="p">)</span>
+<span class="w">    </span><span class="n">var</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timespec</span><span class="p">(</span><span class="n">tv_sec</span><span class="o">:</span><span class="w"> </span><span class="n">__darwin_time_t</span><span class="p">(</span><span class="n">second</span><span class="p">),</span><span class="w"> </span><span class="n">tv_nsec</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="n">Int</span><span class="p">)(</span><span class="n">subsecond</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">Double</span><span class="p">)(</span><span class="n">NSEC_PER_SEC</span><span class="p">)))</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dispatch_walltime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>这个方法接收一个NSDate对象，然后把NSDate转成dispatch_walltime需要的timespec结构体，最后再把dispatch_time_t返回，同样是在10秒后执行，之前的代码在调用部分需要修改成：</p>
-<div class="highlight"><pre><code><span class="n">var</span> <span class="n">time</span> <span class="o">=</span> <span class="n">getDispatchTimeByDate</span><span class="p">(</span><span class="n">NSDate</span><span class="p">(</span><span class="nl">timeIntervalSinceNow</span><span class="p">:</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">dispatch_after</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;在10秒后执行&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><code><span></span><span class="n">var</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getDispatchTimeByDate</span><span class="p">(</span><span class="n">NSDate</span><span class="p">(</span><span class="n">timeIntervalSinceNow</span><span class="o">:</span><span class="w"> </span><span class="mi">10</span><span class="p">))</span>
+<span class="n">dispatch_after</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;在10秒后执行&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>这就是通过绝对时间来使用dispatch_after的例子。</p>
 <h4>dispatch_group</h4>
 <p>可能经常会有这样一种情况：我们现在有3个Block要执行，我们不在乎它们执行的顺序，我们只希望在这3个Block执行完之后再执行某个操作。这个时候就需要使用dispatch_group了：</p>
-<div class="highlight"><pre><code><span class="n">let</span> <span class="n">globalQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">let</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">()</span>
+<div class="highlight"><pre><code><span></span><span class="n">let</span><span class="w"> </span><span class="n">globalQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_group_create</span><span class="p">()</span>
 
-<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">)</span>
+<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;2&quot;</span><span class="p">)</span>
+<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;2&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">)</span>
+<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-<span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;completed&quot;</span><span class="p">)</span>
+<span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;completed&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>输出的顺序与添加进队列的顺序无关，因为队列是Concurrent Dispatch Queue，但“completed”的输出一定是在最后的：</p>
-<div class="highlight"><pre><code><span class="n">completed</span>
+<div class="highlight"><pre><code><span></span><span class="n">completed</span>
 </code></pre></div>
 <p>除了使用dispatch_group_notify函数可以得到最后执行完的通知外，还可以使用</p>
-<div class="highlight"><pre><code><span class="n">let</span> <span class="n">globalQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">let</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">()</span>
+<div class="highlight"><pre><code><span></span><span class="n">let</span><span class="w"> </span><span class="n">globalQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_group_create</span><span class="p">()</span>
 
-<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">)</span>
+<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;2&quot;</span><span class="p">)</span>
+<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;2&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">)</span>
+<span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="c1">//使用dispatch_group_wait函数</span>
-<span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">)</span>
+<span class="n">dispatch_group_wait</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">DISPATCH_TIME_FOREVER</span><span class="p">)</span>
 <span class="n">println</span><span class="p">(</span><span class="s">&quot;completed&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>需要注意的是，dispatch_group_wait实际上会使当前的线程处于等待的状态，也就是说如果是在主线程执行dispatch_group_wait，在上面的Block执行完之前，主线程会处于卡死的状态。可以注意到dispatch_group_wait的第二个参数是指定超时的时间，如果指定为DISPATCH_TIME_FOREVER（如上面这个例子）则表示会永久等待，直到上面的Block全部执行完，除此之外，还可以指定为具体的等待时间，根据dispatch_group_wait的返回值来判断是上面block执行完了还是等待超时了。</p>
 <p>最后，同之前创建dispatch_queue一样，如果是在OS X 10.8或iOS 6以及之后版本中使用，Dispatch Group将会由ARC自动管理，如果是在此之前的版本，需要自己手动释放。</p>
 <h4>dispatch_barrier_async</h4>
 <p>dispatch_barrier_async就如同它的名字一样，在队列执行的任务中增加“栅栏”，在增加“栅栏”之前已经开始执行的block将会继续执行，当dispatch_barrier_async开始执行的时候其他的block处于等待状态，dispatch_barrier_async的任务执行完后，其后的block才会执行。我们简单的写个例子，假设这个例子有读文件和写文件的部分：</p>
-<div class="highlight"><pre><code><span class="n">func</span> <span class="nf">writeFile</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">setInteger</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="nl">forKey</span><span class="p">:</span> <span class="s">&quot;Integer_Key&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><code><span></span><span class="n">func</span><span class="w"> </span><span class="nf">writeFile</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">setInteger</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="n">forKey</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Integer_Key&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="n">func</span> <span class="nf">readFile</span><span class="p">(){</span>
-    <span class="n">print</span><span class="p">(</span><span class="n">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">integerForKey</span><span class="p">(</span><span class="s">&quot;Integer_Key&quot;</span><span class="p">))</span>
+<span class="n">func</span><span class="w"> </span><span class="nf">readFile</span><span class="p">(){</span>
+<span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="n">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">integerForKey</span><span class="p">(</span><span class="s">&quot;Integer_Key&quot;</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>写文件只是在NSUserDefaults写入一个数字7，读只是将这个数字打印出来而已。我们要避免在写文件时候正好有线程来读取，就使用dispatch_barrier_async函数：</p>
-<div class="highlight"><pre><code><span class="n">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">setInteger</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="nl">forKey</span><span class="p">:</span> <span class="s">&quot;Integer_Key&quot;</span><span class="p">)</span>
-<span class="n">let</span> <span class="n">globalQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
-<span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">writeFile</span><span class="p">()</span> <span class="p">;</span> <span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
+<div class="highlight"><pre><code><span></span><span class="n">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">setInteger</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="n">forKey</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Integer_Key&quot;</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">globalQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
+<span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">writeFile</span><span class="p">()</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="n">self</span><span class="p">.</span><span class="n">readFile</span><span class="p">()}</span>
 </code></pre></div>
 <p>我们先将一个9初始化到NSUserDefaults的Integer_Key中，然后在中间执行dispatch_barrier_async函数，由于这个队列是一个Concurrent Dispatch Queue，能同时并发多少线程是由系统决定的，如果添加dispatch_barrier_async的时候，其他的block（包括上面4个block）还没有开始执行，那么会先执行dispatch_barrier_async里的任务，其他block全部处于等待状态。如果添加dispatch_barrier_async的时候，已经有block在执行了，那么dispatch_barrier_async会等这些block执行完后再执行。</p>
 <h4>dispatch_apply</h4>
 <p>dispatch_apply会将一个指定的block执行指定的次数。如果要对某个数组中的所有元素执行同样的block的时候，这个函数就显得很有用了，用法很简单，指定执行的次数以及Dispatch Queue，在block回调中会带一个索引，然后就可以根据这个索引来判断当前是对哪个元素进行操作：</p>
-<div class="highlight"><pre><code><span class="n">let</span> <span class="n">globalQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">dispatch_apply</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">print</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+<div class="highlight"><pre><code><span></span><span class="n">let</span><span class="w"> </span><span class="n">globalQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">dispatch_apply</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="n">print</span><span class="p">(</span><span class="s">&quot;completed&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>由于是Concurrent Dispatch Queue，不能保证哪个索引的元素是先执行的，但是“completed”一定是在最后打印，因为dispatch_apply函数是同步的，执行过程中会使线程在此处等待，所以一般的，我们应该在一个异步线程里使用dispatch_apply函数：</p>
-<div class="highlight"><pre><code><span class="n">let</span> <span class="n">globalQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">,</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-    <span class="n">dispatch_apply</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-        <span class="n">print</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="n">print</span><span class="p">(</span><span class="s">&quot;completed&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><code><span></span><span class="n">let</span><span class="w"> </span><span class="n">globalQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">    </span><span class="n">dispatch_apply</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">        </span><span class="n">print</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s">&quot;completed&quot;</span><span class="p">)</span>
 <span class="p">})</span>
 <span class="n">print</span><span class="p">(</span><span class="s">&quot;在dispatch_apply之前&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h4>dispatch_suspend / dispatch_resume</h4>
 <p>某些情况下，我们可能会想让Dispatch Queue暂时停止一下，然后在某个时刻恢复处理，这时就可以使用dispatch_suspend以及dispatch_resume函数：</p>
-<div class="highlight"><pre><code><span class="c1">//暂停</span>
+<div class="highlight"><pre><code><span></span><span class="c1">//暂停</span>
 <span class="n">dispatch_suspend</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span>
 <span class="c1">//恢复</span>
 <span class="n">dispatch_resume</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">)</span>
@@ -239,17 +211,17 @@ Main Dispatch Queue</p>
 <p>信号量在多线程开发中被广泛使用，当一个线程在进入一段关键代码之前，线程必须获取一个信号量，一旦该关键代码段完成了，那么该线程必须释放信号量。其它想进入该关键代码段的线程必须等待前面的线程释放信号量。</p>
 <p>信号量的具体做法是：当信号计数大于0时，每条进来的线程使计数减1，直到变为0，变为0后其他的线程将进不来，处于等待状态；执行完任务的线程释放信号，使计数加1，如此循环下去。</p>
 <p>下面这个例子中使用了10条线程，但是同时只执行一条，其他的线程处于等待状态：</p>
-<div class="highlight"><pre><code><span class="n">let</span> <span class="n">globalQueue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">let</span> <span class="n">semaphore</span> <span class="o">=</span>  <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="mi">0</span> <span class="p">...</span> <span class="mi">9</span> <span class="p">{</span>
-    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">,</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-        <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">)</span>
-        <span class="n">let</span> <span class="n">time</span> <span class="o">=</span> <span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="p">(</span><span class="n">Int64</span><span class="p">)(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">))</span>
-        <span class="n">dispatch_after</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">globalQueue</span><span class="p">)</span> <span class="p">{</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="n">in</span>
-            <span class="n">print</span><span class="p">(</span><span class="s">&quot;2秒后执行&quot;</span><span class="p">)</span>
-            <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">})</span>
+<div class="highlight"><pre><code><span></span><span class="n">let</span><span class="w"> </span><span class="n">globalQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">semaphore</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">globalQueue</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">        </span><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span><span class="w"> </span><span class="n">DISPATCH_TIME_FOREVER</span><span class="p">)</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">Int64</span><span class="p">)(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">NSEC_PER_SEC</span><span class="p">))</span>
+<span class="w">        </span><span class="n">dispatch_after</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">globalQueue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">in</span>
+<span class="w">            </span><span class="n">print</span><span class="p">(</span><span class="s">&quot;2秒后执行&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>取得信号量的线程在2秒后释放了信息量，相当于是每2秒执行一次。</p>
@@ -258,106 +230,50 @@ Main Dispatch Queue</p>
 <p>这个函数也需要注意，如果是在OS X 10.8或iOS 6以及之后版本中使用，Dispatch Semaphore将会由ARC自动管理，如果是在此之前的版本，需要自己手动释放。</p>
 <h4>dispatch_once</h4>
 <p>dispatch_once函数通常用在单例模式上，它可以保证在程序运行期间某段代码只执行一次，如果我们要通过dispatch_once创建一个单例类，在Swift可以这样：</p>
-<div class="highlight"><pre><code><span class="n">class</span> <span class="n">SingletonObject</span> <span class="p">{</span>
-    <span class="n">class</span> <span class="n">var</span> <span class="nl">sharedInstance</span> <span class="p">:</span> <span class="n">SingletonObject</span> <span class="p">{</span>
-        <span class="k">struct</span> <span class="n">Static</span> <span class="p">{</span>
-            <span class="k">static</span> <span class="n">var</span> <span class="nl">onceToken</span> <span class="p">:</span> <span class="kt">dispatch_once_t</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">static</span> <span class="n">var</span> <span class="nl">instance</span> <span class="p">:</span> <span class="n">SingletonObject</span><span class="o">?</span> <span class="o">=</span> <span class="n">nil</span>
-        <span class="p">}</span>
-        <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Static</span><span class="p">.</span><span class="n">onceToken</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">Static</span><span class="p">.</span><span class="n">instance</span> <span class="o">=</span> <span class="n">SingletonObject</span><span class="p">()</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">Static</span><span class="p">.</span><span class="n">instance</span><span class="o">!</span>
-    <span class="p">}</span>
+<div class="highlight"><pre><code><span></span><span class="n">class</span><span class="w"> </span><span class="n">SingletonObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">class</span><span class="w"> </span><span class="n">var</span><span class="w"> </span><span class="n">sharedInstance</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">SingletonObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">Static</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">static</span><span class="w"> </span><span class="n">var</span><span class="w"> </span><span class="n">onceToken</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">dispatch_once_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="k">static</span><span class="w"> </span><span class="n">var</span><span class="w"> </span><span class="n">instance</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">SingletonObject</span><span class="o">?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nil</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Static</span><span class="p">.</span><span class="n">onceToken</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Static</span><span class="p">.</span><span class="n">instance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SingletonObject</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Static</span><span class="p">.</span><span class="n">instance</span><span class="o">!</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>这样就能通过GCD的安全机制保证这段代码只执行一次。</p>
 
 
-<br>
-<br>
+<br/>
+<br/>
 <p></p>
 
 
 <!-- Share BEGIN -->
 <div id="share"></div>
-<script type="text/javascript" src="../vender/share/share.js"></script>
-<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
-<link rel="stylesheet" href="../vender/share/share.css">
 <!-- Share END -->
 
 
-<br><p></p>
+<br/>
 
 
 <!-- 评论 start -->
-<div class="commentBox" id="globeCommentBox">
-    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
-    <div>
-        <input type="text" name="nickname" placeholder="nickname">
-    </div>
-    <div>
-        <input type="text" name="email" placeholder="email">
-    </div>
-    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
-</div>
-<br>
 <div id="comment"></div>
-
-<link rel="stylesheet" href="../vender/comment/comment.css" />
-<script type="text/javascript" src="../vender/comment/toast.js"></script>
-<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
-<script type="text/javascript">
-    var articleUUID = "3456b73255372290b87367f555d06199";
-    var pageIndex = 1;
-</script>
-<script type="text/javascript" src="../vender/comment/comment.js"></script>
 <!-- 评论 end -->
 
-
-</div>
-
-
-<div id='link' style='display:none;'>
-<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
-<h3>· Social</h3>
-<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
-<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
-<h3>· Links</h3>
-<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
-<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
-<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
-<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
-</div>
-<br>
-
-<div id="copyright" >
-        <p class="alignright">
-            COPYRIGHT &copy; 2010-2020
-            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
-        &nbsp; <br/><a href="https://beian.miit.gov.cn/">粤ICP备2021173035号</a>
-        </p>  
-</div>
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  if(window.location.host.indexOf("localhost") == -1){
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  }
-})();
-</script>
+<!-- CopyRight BEGIN -->
+<div id="copyright" ></div>
+<!-- CopyRight END -->
 
 
 </body>
 
-<!-- 语法高亮 -->
-<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
-<script src="../vender/js/highlight/highlight.pack.js"></script>
 <script>
-hljs.initHighlightingOnLoad();
-// console.log(hljs.listLanguages());
+var sourceFile = "iOS GCD使用指南(swift).md";
 </script>
+
+<script charset="UTF-8" src="../vender/js/loaded.js"></script>
+
+</html>

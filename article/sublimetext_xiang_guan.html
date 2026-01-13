@@ -7,59 +7,34 @@
 
 <link rel="shortcut icon" href="../vender/image/me.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="keywords" content="Sublime Text相关,配置,其它,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="keywords" content="Sublime Text相关,其它,配置,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
 <meta name="description" content="" />
-<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+<meta name="COPYRIGHT" content="版权所有2010,http://private.zruibin.cn" />
 
-
-<script type="text/javascript" src="../vender/js/default.js"></script>
-<script type="text/javascript" src="../vender/js/article.default.js"></script>
-<link rel="stylesheet" href="../vender/css/default.css" />
-<link rel="stylesheet" href="../vender/css/article.default.css" />
-
-<script type="text/javascript">
-
-RBReady(changeFrame);
-
+<script type="text/javascript" charset="UTF-8">
+var sourcePrefix = "../";
 </script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/sea.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/seajs-css.js"></script>
 
 </head>
 
-<body>
+<body style="visibility: hidden;">
 
 
 <div id="navbar" >
     <div id="menu" class="container">
     <ul>
-
     <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
     <li><a href="../about.html" class="item">About Me</a></li>
     <li><a href="./index.html" class="item">Blog</a></li>
-    <li><a class="item">Tags</a>
-        <div class="subs">
-        
-<ul>
-
-<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
-<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
-<li><a href="./Tag_python.html">Python(1)</a></li>
-<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
-<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
-<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
-<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
-<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
-<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
-<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
-<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
-<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
-<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
-</ul>
-
-        </div> 
+    <li><a class="item" href="../article/tags.html">Tags</a>
+        &nbsp;
+        <div class="subs" id="tags"></div> 
     </li>
-    <li><a href="./Archives.html" class="item">Archives</a></li>
+    <li><a href="./archives.html" class="item">Archives</a></li>
 
     </ul>
     </div>
@@ -67,55 +42,52 @@ RBReady(changeFrame);
 <p></p>
 
 
-
-
-
 <div class="container" id="content">
 
 <div id='header'>
     <h2>Sublime Text相关</h2>
     <footer>
-        Date:&nbsp;<span id='create_time'>
+        Date:<span id='create_time'>
             2014-10-27 13:56
         </span>
-        &nbsp;&nbsp;
-        Tags:&nbsp; 
+        &nbsp;
+        Tags: 
 <span id='article_tags'>
          
-<a href='../article/Tag_pei_zhi.html' class='article_tag'>配置</a>
+<a href='../article/tag_qi_ta.html' class='article_tag'>其它</a>
 
-<a href='../article/Tag_qi_ta.html' class='article_tag'>其它</a>
+<a href='../article/tag_pei_zhi.html' class='article_tag'>配置</a>
 
 </span>
 
     </footer>
-    <hr>
+    <hr/>
 </div>
 
 <h3>sublime text2怎么修改字体</h3>
 <p>选择Preferences下的Setings-User，将如下代码粘贴至大括号里面</p>
-<div class="highlight"><pre><code><span class="s">&quot;font_face&quot;</span><span class="o">:</span> <span class="s">&quot;Segoe UI Light&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><code><span></span><span class="s">&quot;font_face&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Segoe UI Light&quot;</span><span class="p">,</span>
 
-<span class="s">&quot;font_size&quot;</span><span class="o">:</span> <span class="mf">14.5</span>
+<span class="s">&quot;font_size&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">14.5</span>
 </code></pre></div>
 <p>第一行意思是修改字体和加不加粗，带上bold代表加粗，去掉代表正常字体，第二行意思是修改字体大小。</p>
 <p>然后保存即可，字体就会变了。</p>
 <p>sublime text2 配置tab为4个空格</p>
 <p>Preference-defalut:</p>
 <p>【将Tab键自动替换为4个空格】</p>
-<div class="highlight"><pre><code><span class="c1">// The number of spaces a tab is considered equal to</span>
+<div class="highlight"><pre><code><span></span><span class="c1">// The number of spaces a tab is considered equal to</span>
 
-<span class="err">“</span><span class="n">tab_size</span><span class="err">”</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="err">“</span><span class="n">tab_size</span><span class="err">”</span><span class="o">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
 
 <span class="c1">// Set to true to insert spaces when tab is pressed</span>
 
-<span class="err">“</span><span class="n">translate_tabs_to_spaces</span><span class="err">”</span><span class="o">:</span> <span class="nb">true</span><span class="p">,</span>
+<span class="err">“</span><span class="n">translate_tabs_to_spaces</span><span class="err">”</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
 </code></pre></div>
 <p style="color:red;">/Data/Packages 下各个目录中都有.sublime-build文件可以参考，User目录则为处定义的。另，cmd中第一个参数可以是全路径，也可以是命令行中的命令，如可以是D:/gwin_x86/bin/gcc.exe或gcc，命令行中必须有添加才行，否则为全路径！</p><p><br/><hr><br/></p>
 <p>1、安装包控制（Package Control）</p>
 <p>打开Sublime Text 2，按快捷键 ctrl+` 或者点击 Tools → Command Palette 调出控制台Console；
 将以下代码复制粘贴进命令行后回车：</p>
-<div class="highlight"><pre><code><span class="n">import</span> <span class="n">urllib2</span><span class="p">,</span><span class="n">os</span><span class="p">;</span><span class="n">pf</span><span class="o">=</span><span class="err">&#39;</span><span class="n">Package</span> <span class="n">Control</span><span class="p">.</span><span class="n">sublime</span><span class="o">-</span><span class="n">package</span><span class="err">&#39;</span><span class="p">;</span><span class="n">ipp</span><span class="o">=</span><span class="n">sublime</span><span class="p">.</span><span class="n">installed_packages_path</span><span class="p">();</span><span class="n">os</span><span class="p">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">if</span> <span class="n">not</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">else</span> <span class="n">None</span><span class="p">;</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">ipp</span><span class="p">,</span><span class="n">pf</span><span class="p">),</span><span class="err">&#39;</span><span class="n">wb</span><span class="err">&#39;</span><span class="p">).</span><span class="n">write</span><span class="p">(</span><span class="n">urllib2</span><span class="p">.</span><span class="n">urlopen</span><span class="p">(</span><span class="err">&#39;</span><span class="nl">http</span><span class="p">:</span><span class="c1">//sublime.wbond.net/&#39;+pf.replace(&#39; &#39;,&#39;%20&#39;)).read())</span>
+<div class="highlight"><pre><code><span></span><span class="n">import</span><span class="w"> </span><span class="n">urllib2</span><span class="p">,</span><span class="n">os</span><span class="p">;</span><span class="n">pf</span><span class="o">=</span><span class="err">&#39;</span><span class="n">Package</span><span class="w"> </span><span class="n">Control</span><span class="p">.</span><span class="n">sublime</span><span class="o">-</span><span class="n">package</span><span class="err">&#39;</span><span class="p">;</span><span class="n">ipp</span><span class="o">=</span><span class="n">sublime</span><span class="p">.</span><span class="n">installed_packages_path</span><span class="p">();</span><span class="n">os</span><span class="p">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">None</span><span class="p">;</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">ipp</span><span class="p">,</span><span class="n">pf</span><span class="p">),</span><span class="err">&#39;</span><span class="n">wb</span><span class="err">&#39;</span><span class="p">).</span><span class="n">write</span><span class="p">(</span><span class="n">urllib2</span><span class="p">.</span><span class="n">urlopen</span><span class="p">(</span><span class="err">&#39;</span><span class="n">http</span><span class="o">:</span><span class="c1">//sublime.wbond.net/&#39;+pf.replace(&#39; &#39;,&#39;%20&#39;)).read())</span>
 </code></pre></div>
 <p>重新启动Sublime Text 2，如果在Preferences → Package Settings 中看到 Package Control 这一项，就说明安装成功了。</p>
 <p>2、安装Alignment插件</p>
@@ -130,7 +102,7 @@ RBReady(changeFrame);
 <p>输入 install 调出 Package Control：Install Package 选项，并回车；</p>
 <p>输入 theme soda 选中后回车即可安装；</p>
 <p>安装完之后要激活主题，打开 Preferences → Global Settings – User，加上以下代码保存即可生效：</p>
-<div class="highlight"><pre><code><span class="s">&quot;theme&quot;</span><span class="o">:</span> <span class="s">&quot;Soda Light.sublime-theme&quot;</span> <span class="err">或者</span> <span class="s">&quot;theme&quot;</span> <span class="o">:</span> <span class="s">&quot;Soda Dark.sublime-theme&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="s">&quot;theme&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Soda Light.sublime-theme&quot;</span><span class="w"> </span><span class="n">或者</span><span class="w"> </span><span class="s">&quot;theme&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Soda Dark.sublime-theme&quot;</span>
 </code></pre></div>
 <p>4、安装cTags插件</p>
 <p>首先，从Ctags官网下载压缩包下来，解压到电脑的某个地方，比如“C:\Program Files\ctags”，然后把cTags添加到系统变量里去：</p>
@@ -170,73 +142,73 @@ Brogrammer
 安装方式按README来做即可
 
 
-<p><span style="color: rgb(255, 0, 0); font-size: 24px;">我的通用设置</span></p><div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;color_scheme&quot;</span><span class="o">:</span> <span class="s">&quot;Packages/Theme - Brogrammer/brogrammer.tmTheme&quot;</span><span class="p">,</span>
-    <span class="s">&quot;font_face&quot;</span><span class="o">:</span> <span class="s">&quot;Segoe UI Light&quot;</span><span class="p">,</span>
-    <span class="s">&quot;font_size&quot;</span><span class="o">:</span> <span class="mi">16</span><span class="p">,</span>
-    <span class="s">&quot;ignored_packages&quot;</span><span class="o">:</span>
-    <span class="p">[</span>
-        <span class="s">&quot;Vintage&quot;</span>
-    <span class="p">],</span>
-    <span class="s">&quot;tab_size&quot;</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="s">&quot;theme&quot;</span><span class="o">:</span> <span class="s">&quot;Brogrammer.sublime-theme&quot;</span><span class="p">,</span>
-    <span class="s">&quot;translate_tabs_to_spaces&quot;</span><span class="o">:</span> <span class="nb">true</span><span class="p">,</span>
-    <span class="s">&quot;bold_folder_labels&quot;</span><span class="o">:</span> <span class="nb">true</span><span class="p">,</span>
-    <span class="s">&quot;show_encoding&quot;</span><span class="o">:</span> <span class="nb">true</span><span class="p">,</span>
-    <span class="s">&quot;highlight_line&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<p><span style="color: rgb(255, 0, 0); font-size: 24px;">我的通用设置</span></p><div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;color_scheme&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Packages/Theme - Brogrammer/brogrammer.tmTheme&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;font_face&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Segoe UI Light&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;font_size&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;ignored_packages&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="p">[</span>
+<span class="w">        </span><span class="s">&quot;Vintage&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;tab_size&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;theme&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Brogrammer.sublime-theme&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;translate_tabs_to_spaces&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;bold_folder_labels&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;show_encoding&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;highlight_line&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 <span class="p">}</span>
 
 <span class="c1">// 字体大小</span>
-<span class="s">&quot;font_size&quot;</span><span class="o">:</span> <span class="mi">17</span>
+<span class="s">&quot;font_size&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">17</span>
 
 <span class="c1">// 高亮编辑中的那一行</span>
-<span class="s">&quot;highlight_line&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<span class="s">&quot;highlight_line&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 
 <span class="c1">// 焦点丢失后自动保存</span>
-<span class="s">&quot;save_on_focus_lost&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<span class="s">&quot;save_on_focus_lost&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 
 <span class="c1">// 显示当前文件的编码</span>
-<span class="s">&quot;show_encoding&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<span class="s">&quot;show_encoding&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 
 <span class="c1">// 保存的时候把无用的空格去掉</span>
-<span class="s">&quot;trim_trailing_white_space_on_save&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<span class="s">&quot;trim_trailing_white_space_on_save&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 
 <span class="c1">// Tab转换</span>
-<span class="s">&quot;tab_size&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
-<span class="s">&quot;translate_tabs_to_spaces&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<span class="s">&quot;tab_size&quot;</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="s">&quot;translate_tabs_to_spaces&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 
 <span class="c1">// 自动换行</span>
-<span class="s">&quot;word_wrap&quot;</span><span class="o">:</span> <span class="nb">false</span>
+<span class="s">&quot;word_wrap&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">false</span>
 
 <span class="c1">// 宽度指导线</span>
-<span class="s">&quot;rulers&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mi">80</span><span class="p">]</span>
+<span class="s">&quot;rulers&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mi">80</span><span class="p">]</span>
 
 <span class="c1">// 拼写检查</span>
-<span class="s">&quot;spell_check&quot;</span><span class="o">:</span> <span class="nb">false</span>
+<span class="s">&quot;spell_check&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">false</span>
 
 <span class="c1">// 要不要滚过头</span>
-<span class="s">&quot;scroll_past_end&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<span class="s">&quot;scroll_past_end&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 
 <span class="c1">// Vim模式</span>
-<span class="s">&quot;ignored_packages&quot;</span><span class="o">:</span> <span class="p">[</span>
-  <span class="s">&quot;Vintage&quot;</span>
+<span class="s">&quot;ignored_packages&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="s">&quot;Vintage&quot;</span>
 <span class="p">]</span>
 
 <span class="c1">// 显示Tab、空格</span>
-<span class="s">&quot;draw_white_space&quot;</span><span class="o">:</span> <span class="s">&quot;all&quot;</span>
+<span class="s">&quot;draw_white_space&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;all&quot;</span>
 
 <span class="c1">// 加粗文件夹名称</span>
-<span class="s">&quot;bold_folder_labels&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<span class="s">&quot;bold_folder_labels&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 
 <span class="c1">// 显示全路径</span>
-<span class="s">&quot;show_full_path&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<span class="s">&quot;show_full_path&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 </code></pre></div>
 <h3>自定义Build System</h3>
-<div class="highlight"><pre><code><span class="c1">//mac node </span>
+<div class="highlight"><pre><code><span></span><span class="c1">//mac node </span>
 <span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;/usr/local/bin/node&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">,</span> <span class="s">&quot;$file_base_name&quot;</span><span class="p">],</span>
-    <span class="s">&quot;working_dir&quot;</span><span class="o">:</span> <span class="s">&quot;${project_path:${folder}}&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;*.js&quot;</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;/usr/local/bin/node&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file_base_name&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;working_dir&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;${project_path:${folder}}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;*.js&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><br/><hr><br/></p>
@@ -260,31 +232,31 @@ Build systems use JSON. Here’s an example build system:
     "selector": "source.python"
 }
 ```
-<h2>Options<a href="http://sublimetext.info/docs/en/reference/build_systems.html#options" rel="nofollow">¶</a></h2><ul><li><p><span style="background-color: transparent; font-weight: bold;">cmd</span></p></li><li><p style="line-height: 1.4em; margin-top: 0px !important;">Array containing the command to run and its desired arguments.</p><p style="line-height: 1.4em; margin-top: 0px; margin-bottom: 0px; font-weight: bold; padding: 0px;">Note</p><p style="line-height: 1.4em; margin-top: 0px; margin-bottom: 0px; padding: 0px;">Under Windows, GUIs are supressed.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">file_regex</span></p></li><li><p>Optional. Regular expression to capture error output of&nbsp;<span style="background-color: transparent;">cmd</span>.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">line_regex</span></p></li><li><p>Optional. If the&nbsp;<span style="background-color: transparent;">file_regex</span>&nbsp;doesn’t match on the current line, but there’s a&nbsp;<span style="background-color: transparent;">line_regex</span>&nbsp;specified, and it does match the current line, then walk backwards through the buffer until a line matching the file regex is found: use these two matches to determine the file and line to go to.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">selector</span></p></li><li><p>Optional. Used when&nbsp;<strong>Tools | Build System | Automatic</strong>&nbsp;is set to&nbsp;<span style="background-color: transparent;">true</span>. Sublime Text uses this scope selector to find the appropriate build system for the active view.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">working_dir</span></p></li><li><p>Optional. Directory to change the current directory to before running&nbsp;<span style="background-color: transparent;">cmd</span>.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">encoding</span></p></li><li><p>Optional. Output encoding of&nbsp;<span style="background-color: transparent;">cmd</span>. Must be a valid python encoding. Defaults to&nbsp;<span style="background-color: transparent;">utf-8</span>.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">target</span></p></li><li><p>Optional. Sublime Text command to run. Defaults to&nbsp;<span style="background-color: transparent;">exec</span>&nbsp;(<span style="background-color: transparent;">Packages/Default/exec.py</span>).</p></li><li><p><span style="background-color: transparent; font-weight: bold;">env</span></p></li><li><p>Optional. Dictionary of environment variables to be merged with the current process’ that will be passed to&nbsp;<span style="background-color: transparent;">cmd</span>.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">shell</span></p></li><li><p>Optional. If&nbsp;<span style="background-color: transparent;">true</span>,&nbsp;<span style="background-color: transparent;">cmd</span>&nbsp;will be run through the shell (<span style="background-color: transparent;">cmd.exe</span>,&nbsp;<a href="http://sublimetext.info/docs/en/reference/build_systems.html#id1" rel="nofollow">``</a>bash``…).</p></li><li><p><span style="background-color: transparent; font-weight: bold;">path</span></p></li><li><p>Optional. This string will replace the current process’&nbsp;<span style="background-color: transparent;">PATH</span>&nbsp;before calling&nbsp;<span style="background-color: transparent;">cmd</span>. The old&nbsp;<span style="background-color: transparent;">PATH</span>&nbsp;value will be restored after that.</p></li></ul><h3>Capturing Error Output with&nbsp;<span style="background-color: transparent;">file_regex</span><a href="http://sublimetext.info/docs/en/reference/build_systems.html#capturing-error-output-with-file-regex" rel="nofollow"></a></h3><p style="line-height: 1.4em;">The&nbsp;<span style="background-color: transparent;">file_regex</span>&nbsp;option uses a Perl-style regular expression to capture up to four fields of error information from the build program’s output, namely:&nbsp;<em>file name</em>,&nbsp;<em>line number</em>,&nbsp;<em>column number</em>&nbsp;and&nbsp;<em>error message</em>. Use groups in the pattern to capture this information. The&nbsp;<em>file name</em>&nbsp;field and the&nbsp;<em>line number</em>&nbsp;field are required.</p><p style="line-height: 1.4em;">When error information is captured, you can navigate to error instances in your project’s files with&nbsp;<span style="background-color: transparent;">F4</span>&nbsp;and&nbsp;<span style="background-color: transparent;">Shift+F4</span>. If available, the captured&nbsp;<em>error message</em>&nbsp;will be displayed in the status bar.</p><h3>Platform-specific Options<a href="http://sublimetext.info/docs/en/reference/build_systems.html#platform-specific-options" rel="nofollow"></a></h3><p style="line-height: 1.4em;"><span style="background-color: transparent;">windows</span>,&nbsp;<span style="background-color: transparent;">osx</span>&nbsp;and&nbsp;<span style="background-color: transparent;">linux</span>&nbsp;are additional options which override any build system options for the corresponding platform only. Here’s an example:</p><div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;ant&quot;</span><span class="p">],</span>
-    <span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^ *</span><span class="se">\\</span><span class="s">[javac</span><span class="se">\\</span><span class="s">] (.+):([0-9]+):() (.*)$&quot;</span><span class="p">,</span>
-    <span class="s">&quot;working_dir&quot;</span><span class="o">:</span> <span class="s">&quot;${project_path:${folder}}&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.java&quot;</span><span class="p">,</span>
+<h2>Options<a href="http://sublimetext.info/docs/en/reference/build_systems.html#options" rel="nofollow">¶</a></h2><ul><li><p><span style="background-color: transparent; font-weight: bold;">cmd</span></p></li><li><p style="line-height: 1.4em; margin-top: 0px !important;">Array containing the command to run and its desired arguments.</p><p style="line-height: 1.4em; margin-top: 0px; margin-bottom: 0px; font-weight: bold; padding: 0px;">Note</p><p style="line-height: 1.4em; margin-top: 0px; margin-bottom: 0px; padding: 0px;">Under Windows, GUIs are supressed.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">file_regex</span></p></li><li><p>Optional. Regular expression to capture error output of&nbsp;<span style="background-color: transparent;">cmd</span>.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">line_regex</span></p></li><li><p>Optional. If the&nbsp;<span style="background-color: transparent;">file_regex</span>&nbsp;doesn’t match on the current line, but there’s a&nbsp;<span style="background-color: transparent;">line_regex</span>&nbsp;specified, and it does match the current line, then walk backwards through the buffer until a line matching the file regex is found: use these two matches to determine the file and line to go to.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">selector</span></p></li><li><p>Optional. Used when&nbsp;<strong>Tools | Build System | Automatic</strong>&nbsp;is set to&nbsp;<span style="background-color: transparent;">true</span>. Sublime Text uses this scope selector to find the appropriate build system for the active view.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">working_dir</span></p></li><li><p>Optional. Directory to change the current directory to before running&nbsp;<span style="background-color: transparent;">cmd</span>.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">encoding</span></p></li><li><p>Optional. Output encoding of&nbsp;<span style="background-color: transparent;">cmd</span>. Must be a valid python encoding. Defaults to&nbsp;<span style="background-color: transparent;">utf-8</span>.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">target</span></p></li><li><p>Optional. Sublime Text command to run. Defaults to&nbsp;<span style="background-color: transparent;">exec</span>&nbsp;(<span style="background-color: transparent;">Packages/Default/exec.py</span>).</p></li><li><p><span style="background-color: transparent; font-weight: bold;">env</span></p></li><li><p>Optional. Dictionary of environment variables to be merged with the current process’ that will be passed to&nbsp;<span style="background-color: transparent;">cmd</span>.</p></li><li><p><span style="background-color: transparent; font-weight: bold;">shell</span></p></li><li><p>Optional. If&nbsp;<span style="background-color: transparent;">true</span>,&nbsp;<span style="background-color: transparent;">cmd</span>&nbsp;will be run through the shell (<span style="background-color: transparent;">cmd.exe</span>,&nbsp;<a href="http://sublimetext.info/docs/en/reference/build_systems.html#id1" rel="nofollow">``</a>bash``…).</p></li><li><p><span style="background-color: transparent; font-weight: bold;">path</span></p></li><li><p>Optional. This string will replace the current process’&nbsp;<span style="background-color: transparent;">PATH</span>&nbsp;before calling&nbsp;<span style="background-color: transparent;">cmd</span>. The old&nbsp;<span style="background-color: transparent;">PATH</span>&nbsp;value will be restored after that.</p></li></ul><h3>Capturing Error Output with&nbsp;<span style="background-color: transparent;">file_regex</span><a href="http://sublimetext.info/docs/en/reference/build_systems.html#capturing-error-output-with-file-regex" rel="nofollow"></a></h3><p style="line-height: 1.4em;">The&nbsp;<span style="background-color: transparent;">file_regex</span>&nbsp;option uses a Perl-style regular expression to capture up to four fields of error information from the build program’s output, namely:&nbsp;<em>file name</em>,&nbsp;<em>line number</em>,&nbsp;<em>column number</em>&nbsp;and&nbsp;<em>error message</em>. Use groups in the pattern to capture this information. The&nbsp;<em>file name</em>&nbsp;field and the&nbsp;<em>line number</em>&nbsp;field are required.</p><p style="line-height: 1.4em;">When error information is captured, you can navigate to error instances in your project’s files with&nbsp;<span style="background-color: transparent;">F4</span>&nbsp;and&nbsp;<span style="background-color: transparent;">Shift+F4</span>. If available, the captured&nbsp;<em>error message</em>&nbsp;will be displayed in the status bar.</p><h3>Platform-specific Options<a href="http://sublimetext.info/docs/en/reference/build_systems.html#platform-specific-options" rel="nofollow"></a></h3><p style="line-height: 1.4em;"><span style="background-color: transparent;">windows</span>,&nbsp;<span style="background-color: transparent;">osx</span>&nbsp;and&nbsp;<span style="background-color: transparent;">linux</span>&nbsp;are additional options which override any build system options for the corresponding platform only. Here’s an example:</p><div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;ant&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;file_regex&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;^ *</span><span class="se">\\</span><span class="s">[javac</span><span class="se">\\</span><span class="s">] (.+):([0-9]+):() (.*)$&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;working_dir&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;${project_path:${folder}}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.java&quot;</span><span class="p">,</span>
 
-    <span class="s">&quot;windows&quot;</span><span class="o">:</span>
-    <span class="p">{</span>
-        <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;ant.bat&quot;</span><span class="p">]</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="s">&quot;windows&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;ant.bat&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>In this case, ant.bat will be executed under Windows, while for the other platforms ant will be used instead.</p>
 <h4>Variables</h4>
-<div class="highlight"><pre><code><span class="err">$</span><span class="n">file</span>                   <span class="n">The</span> <span class="n">full</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">current</span> <span class="n">file</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span> <span class="n">g</span><span class="p">.,</span> <span class="nl">C</span><span class="p">:</span><span class="err">\</span><span class="n">Files</span><span class="err">\</span><span class="n">Chapter1</span><span class="p">.</span><span class="n">txt</span><span class="p">.</span>
-<span class="err">$</span><span class="n">file_path</span>          <span class="n">The</span> <span class="n">directory</span> <span class="n">of</span> <span class="n">the</span> <span class="n">current</span> <span class="n">file</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span> <span class="n">g</span><span class="p">.,</span> <span class="nl">C</span><span class="p">:</span><span class="err">\</span><span class="n">Files</span><span class="p">.</span>
-<span class="err">$</span><span class="n">file_name</span>          <span class="n">The</span> <span class="n">name</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">the</span> <span class="n">current</span> <span class="n">file</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span> <span class="n">g</span><span class="p">.,</span> <span class="n">Chapter1</span><span class="p">.</span><span class="n">txt</span><span class="p">.</span>
-<span class="err">$</span><span class="n">file_extension</span>         <span class="n">The</span> <span class="n">extension</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">the</span> <span class="n">current</span> <span class="n">file</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span> <span class="n">g</span><span class="p">.,</span> <span class="n">txt</span><span class="p">.</span>
-<span class="err">$</span><span class="n">file_base_name</span>         <span class="n">The</span> <span class="n">name</span> <span class="n">only</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">the</span> <span class="n">current</span> <span class="n">file</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span> <span class="n">g</span><span class="p">.,</span> <span class="n">Document</span><span class="p">.</span>
-<span class="err">$</span><span class="n">packages</span>           <span class="n">The</span> <span class="n">full</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">Packages</span> <span class="n">folder</span><span class="p">.</span>
-<span class="err">$</span><span class="n">project</span>            <span class="n">The</span> <span class="n">full</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">current</span> <span class="n">project</span> <span class="n">file</span><span class="p">.</span>
-<span class="err">$</span><span class="n">project_path</span>           <span class="n">The</span> <span class="n">directory</span> <span class="n">of</span> <span class="n">the</span> <span class="n">current</span> <span class="n">project</span> <span class="n">file</span><span class="p">.</span>
-<span class="err">$</span><span class="n">project_name</span>           <span class="n">The</span> <span class="n">name</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">the</span> <span class="n">current</span> <span class="n">project</span> <span class="n">file</span><span class="p">.</span>
-<span class="err">$</span><span class="n">project_extension</span>  <span class="n">The</span> <span class="n">extension</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">the</span> <span class="n">current</span> <span class="n">project</span> <span class="n">file</span><span class="p">.</span>
-<span class="err">$</span><span class="n">project_base_name</span>  <span class="n">The</span> <span class="n">name</span> <span class="n">only</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">the</span> <span class="n">current</span> <span class="n">project</span> <span class="n">file</span><span class="p">.</span>
+<div class="highlight"><pre><code><span></span><span class="n">$file</span><span class="w">                   </span><span class="n">The</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="w"> </span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="n">C</span><span class="o">:</span><span class="err">\</span><span class="n">Files</span><span class="err">\</span><span class="n">Chapter1</span><span class="p">.</span><span class="n">txt</span><span class="p">.</span>
+<span class="n">$file_path</span><span class="w">          </span><span class="n">The</span><span class="w"> </span><span class="n">directory</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="w"> </span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="n">C</span><span class="o">:</span><span class="err">\</span><span class="n">Files</span><span class="p">.</span>
+<span class="n">$file_name</span><span class="w">          </span><span class="n">The</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">portion</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="w"> </span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="n">Chapter1</span><span class="p">.</span><span class="n">txt</span><span class="p">.</span>
+<span class="n">$file_extension</span><span class="w">         </span><span class="n">The</span><span class="w"> </span><span class="n">extension</span><span class="w"> </span><span class="n">portion</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="w"> </span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="n">txt</span><span class="p">.</span>
+<span class="n">$file_base_name</span><span class="w">         </span><span class="n">The</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">portion</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="w"> </span><span class="n">g</span><span class="p">.,</span><span class="w"> </span><span class="n">Document</span><span class="p">.</span>
+<span class="n">$packages</span><span class="w">           </span><span class="n">The</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">Packages</span><span class="w"> </span><span class="n">folder</span><span class="p">.</span>
+<span class="n">$project</span><span class="w">            </span><span class="n">The</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="n">file</span><span class="p">.</span>
+<span class="n">$project_path</span><span class="w">           </span><span class="n">The</span><span class="w"> </span><span class="n">directory</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="n">file</span><span class="p">.</span>
+<span class="n">$project_name</span><span class="w">           </span><span class="n">The</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">portion</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="n">file</span><span class="p">.</span>
+<span class="n">$project_extension</span><span class="w">  </span><span class="n">The</span><span class="w"> </span><span class="n">extension</span><span class="w"> </span><span class="n">portion</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="n">file</span><span class="p">.</span>
+<span class="n">$project_base_name</span><span class="w">  </span><span class="n">The</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">portion</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="n">file</span><span class="p">.</span>
 </code></pre></div>
 <p>Place Holders for Variables¶</p>
 <p>Snippet style formatting can be used with these variables, for example:</p>
@@ -308,11 +280,11 @@ This will emit the full path of the current file, replacing .php with .txt.</p>
 <p>Sublime populates its Tools/Build System menu based on the “.sublime-build” files stored in the Sublime “Packages” directory. Should one need to locate this, it can be found in “~/Library/Application Support/Sublime Text 2/Packages/User” (if using OS X) or the corresponding Packages/User directory on other platforms.</p>
 <p><img alt="" height="298" src="http://static.oschina.net/uploads/img/201410/27140448_RbDm.png" title="Screen Shot 2012-08-17 at 2.36.08 PM" width="510" style="cursor: pointer;"></p>
 <p>A basic “.sublime-build” file could be represented in key/value form as follows:</p>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;command&quot;</span><span class="p">,</span> <span class="s">&quot;argument&quot;</span><span class="p">,</span> <span class="s">&quot;--flag&quot;</span><span class="p">],</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;source.js&quot;</span><span class="p">],</span>
-    <span class="s">&quot;path&quot;</span><span class="o">:</span> <span class="s">&quot;/usr/local/bin&quot;</span><span class="p">,</span>
-    <span class="s">&quot;working_dir&quot;</span><span class="o">:</span> <span class="s">&quot;/projects/&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;command&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;argument&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--flag&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;source.js&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;path&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;/usr/local/bin&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;working_dir&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;/projects/&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Keys supported include:</p>
@@ -338,117 +310,117 @@ This will emit the full path of the current file, replacing .php with .txt.</p>
 <h1>!/bin/bash</h1>
 <p>git add . &amp;&amp; git commit -m 'deployment' &amp;&amp; git push &amp;&amp; git ftp init -u username  -p password - ftp://host.example.com/public_html
 deployment.sublime-build:</p>
-<div class="highlight"><pre><code><span class="p">{</span>
-  <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;deployment&quot;</span><span class="p">],</span>
-  <span class="s">&quot;working_dir&quot;</span><span class="o">:</span> <span class="s">&quot;${project_path:${folder}}&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">  </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;deployment&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="s">&quot;working_dir&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;${project_path:${folder}}&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>If you haven’t used git-ftp before, Alex Fluger has a solid article about using it that may be of interest.</p>
 <p>Targeting Platforms:</p>
 <p>Sublime build files also support specifying configuration data for specific platforms (namely, OS X, Windows and Linux). Targeting a platform can easily be done by specifying another element in our config with the name of the platform. e.g</p>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">...</span>
-    <span class="p">...</span>
-    <span class="s">&quot;windows&quot;</span><span class="o">:</span>
-    <span class="p">{</span>
-        <span class="s">&quot;cmd&quot;</span><span class="o">:</span>  <span class="p">...</span>
-    <span class="p">},</span>
-    <span class="s">&quot;osx&quot;</span><span class="o">:</span>
-    <span class="p">{</span>
-            <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">...</span>
-    <span class="p">},</span>
-    <span class="s">&quot;linux&quot;</span><span class="o">:</span>
-    <span class="p">{</span>
-            <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">...</span>
-    <span class="p">}</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">...</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="s">&quot;windows&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w">  </span><span class="p">...</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s">&quot;osx&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">            </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">...</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s">&quot;linux&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">            </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Build files for popular front-end tools</p>
 <p>To help you get started, I’ve written a collection of “.sublime-build” files for some of the front-end tools I’m aware web developers are using these days below.</p>
 <p>Most of these will function fine without the need to specify path, but if you run into an issue with paths, try including it to your config (e.g "path": "/usr/local/bin").</p>
 <h4>grunt:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;grunt&quot;</span><span class="p">,</span> <span class="s">&quot;--no-color&quot;</span><span class="p">],</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;source.js&quot;</span><span class="p">,</span> <span class="s">&quot;source.less&quot;</span><span class="p">,</span> <span class="s">&quot;source.json&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;grunt&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--no-color&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;source.js&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source.less&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source.json&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Node Build Script:</p>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;h5bp&quot;</span><span class="p">,</span> <span class="s">&quot;--no-color&quot;</span><span class="p">],</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;source.js&quot;</span><span class="p">,</span> <span class="s">&quot;source.less&quot;</span><span class="p">,</span> <span class="s">&quot;source.json&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;h5bp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--no-color&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;source.js&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source.less&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source.json&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>CoffeeScript:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;coffee&quot;</span><span class="p">,</span><span class="s">&quot;-c&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-    <span class="s">&quot;selector&quot;</span> <span class="o">:</span> <span class="s">&quot;source.coffee&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;coffee&quot;</span><span class="p">,</span><span class="s">&quot;-c&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.coffee&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>SASS:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;sass&quot;</span><span class="p">,</span> <span class="s">&quot;--watch&quot;</span><span class="p">,</span> <span class="s">&quot;.:.&quot;</span><span class="p">],</span>
-    <span class="s">&quot;working_dir&quot;</span><span class="o">:</span> <span class="s">&quot;$file_path&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;source.scss&quot;</span><span class="p">,</span> <span class="s">&quot;source.sass&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;sass&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--watch&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.:.&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;working_dir&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;$file_path&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;source.scss&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source.sass&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Whilst a more verbose version with automatic minification and watch config could be written:</p>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;sass&quot;</span><span class="p">,</span> <span class="s">&quot;--watch&quot;</span><span class="p">,</span> <span class="s">&quot;sass:stylesheets&quot;</span><span class="p">,</span> <span class="s">&quot;--style&quot;</span><span class="p">,</span> <span class="s">&quot;compressed&quot;</span><span class="p">],</span>
-    <span class="s">&quot;working_dir&quot;</span><span class="o">:</span> <span class="s">&quot;$project_path&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;source.scss&quot;</span><span class="p">,</span> <span class="s">&quot;source.sass&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;sass&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--watch&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sass:stylesheets&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--style&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;compressed&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;working_dir&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;$project_path&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;source.scss&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source.sass&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>LESS:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;lessc&quot;</span><span class="p">,</span> <span class="s">&quot;-x&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">,</span> <span class="s">&quot;$file_path/$file_base_name.css&quot;</span><span class="p">,</span> <span class="s">&quot;--verbose&quot;</span><span class="p">],</span>
-    <span class="s">&quot;shell&quot;</span> <span class="o">:</span> <span class="nb">true</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.css.less&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;lessc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file_path/$file_base_name.css&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--verbose&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;shell&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.css.less&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>Stylus:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;stylus&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-    <span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;.&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.stylus&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;stylus&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;file_regex&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.stylus&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>(a more comprehensive version of this can be found in the LESS-build-sublimeproject.)</p>
 <h4>Jade:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-   <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;cmd&quot;</span><span class="p">,</span> <span class="s">&quot;/c&quot;</span><span class="p">,</span> <span class="s">&quot;jade&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-   <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.jade&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">   </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;cmd&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/c&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;jade&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span>
+<span class="w">   </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.jade&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>r.js (RequireJS Optimizer):</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;node&quot;</span><span class="p">,</span> <span class="s">&quot;r.js&quot;</span><span class="p">,</span> <span class="s">&quot;-o&quot;</span><span class="p">,</span> <span class="s">&quot;app.build.js&quot;</span><span class="p">],</span>
-    <span class="s">&quot;working_dir&quot;</span><span class="o">:</span> <span class="s">&quot;$project_path&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.js&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;node&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;r.js&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;app.build.js&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;working_dir&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;$project_path&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.js&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>UglifyJS:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-   <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span> <span class="s">&quot;node&quot;</span><span class="p">,</span> <span class="s">&quot;uglifyjs&quot;</span><span class="p">,</span> <span class="s">&quot;-o&quot;</span><span class="p">,</span> <span class="s">&quot;${file_path}/${file_base_name}.min.js&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-   <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.js&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">   </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s">&quot;node&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;uglifyjs&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${file_path}/${file_base_name}.min.js&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span>
+<span class="w">   </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.js&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>Node (just passing in directly):</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-     <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;node&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-     <span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^[ ]*File </span><span class="se">\&quot;</span><span class="s">(...*?)</span><span class="se">\&quot;</span><span class="s">, line ([0-9]*)&quot;</span><span class="p">,</span>
-     <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.js&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">     </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;node&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span>
+<span class="w">     </span><span class="s">&quot;file_regex&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;^[ ]*File </span><span class="se">\&quot;</span><span class="s">(...*?)</span><span class="se">\&quot;</span><span class="s">, line ([0-9]*)&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.js&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>Pandoc (Markdown to HTML):</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;pandoc&quot;</span><span class="p">,</span> <span class="s">&quot;-S&quot;</span><span class="p">,</span> <span class="s">&quot;-s&quot;</span><span class="p">,</span> <span class="s">&quot;-f&quot;</span><span class="p">,</span> <span class="s">&quot;markdown&quot;</span><span class="p">,</span> <span class="s">&quot;-t&quot;</span><span class="p">,</span> <span class="s">&quot;html&quot;</span><span class="p">,</span> <span class="s">&quot;-o&quot;</span><span class="p">,</span> <span class="s">&quot;$file_base_name.html&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;text.html.markdown&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;pandoc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-S&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-f&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;markdown&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-t&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;html&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file_base_name.html&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;text.html.markdown&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>(and when it’s released, Yeoman):</p>
-<div class="highlight"><pre><code><span class="p">{</span>
-     <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;yeoman&quot;</span><span class="p">,</span> <span class="s">&quot;build&quot;</span><span class="p">,</span> <span class="s">&quot;--no-color&quot;</span><span class="p">],</span>
-     <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;source.js&quot;</span><span class="p">,</span> <span class="s">&quot;source.scss&quot;</span><span class="p">,</span> <span class="s">&quot;source.sass&quot;</span><span class="p">,</span> <span class="s">&quot;source.html&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">     </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;yeoman&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;build&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--no-color&quot;</span><span class="p">],</span>
+<span class="w">     </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;source.js&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source.scss&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source.sass&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;source.html&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>JSHint:</h4>
@@ -456,153 +428,97 @@ deployment.sublime-build:</p>
 <p>Build files for specific programming languages</p>
 <p>I also thought that while we were looking at build files, it would be useful to demonstrate how these can be used to build/compile with some popular programming languages. These may differ to those included with Sublime by default, but are useful for reference:</p>
 <h4>Ruby (using RVM):</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;~/.rvm/bin/rvm-auto-ruby&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-    <span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.ruby&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;~/.rvm/bin/rvm-auto-ruby&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;file_regex&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.ruby&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>Python:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;python&quot;</span><span class="p">,</span> <span class="s">&quot;-u&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-    <span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^[ ]*File </span><span class="se">\&quot;</span><span class="s">(...*?)</span><span class="se">\&quot;</span><span class="s">, line ([0-9]*)&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.python&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-u&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;file_regex&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;^[ ]*File </span><span class="se">\&quot;</span><span class="s">(...*?)</span><span class="se">\&quot;</span><span class="s">, line ([0-9]*)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.python&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>PHP:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;/usr/bin/php&quot;</span><span class="p">,</span> <span class="s">&quot;-l&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span> <span class="o">&lt;-</span> <span class="n">Couldn</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">just</span> <span class="n">use</span> <span class="s">&quot;php&quot;</span> <span class="o">?</span>
-    <span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^Parse error: .* in (.*?) on line ([0-9]*)&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.php&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;/usr/bin/php&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-l&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Couldn</span><span class="err">&#39;</span><span class="n">t</span><span class="w"> </span><span class="n">just</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="s">&quot;php&quot;</span><span class="w"> </span><span class="o">?</span>
+<span class="w">    </span><span class="s">&quot;file_regex&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;^Parse error: .* in (.*?) on line ([0-9]*)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.php&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>Java:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;javac&quot;</span><span class="p">,</span> <span class="s">&quot;$file_name&quot;</span><span class="p">,</span> <span class="s">&quot;&amp;&amp;&quot;</span><span class="p">,</span> <span class="s">&quot;java&quot;</span><span class="p">,</span> <span class="s">&quot;$file_base_name&quot;</span><span class="p">],</span>
-    <span class="s">&quot;working_dir&quot;</span><span class="o">:</span> <span class="s">&quot;${project_path:${folder}}&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.java&quot;</span><span class="p">,</span>
-    <span class="s">&quot;shell&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;javac&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file_name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&amp;&amp;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;java&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file_base_name&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;working_dir&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;${project_path:${folder}}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.java&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;shell&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>.Net (Windows):</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;%WINDIR%</span><span class="se">\\</span><span class="s">Microsoft.NET</span><span class="se">\\</span><span class="s">Framework</span><span class="se">\\</span><span class="s">v4.0.30319</span><span class="se">\\</span><span class="s">msbuild&quot;</span><span class="p">,</span> <span class="s">&quot;${project_base_name}.sln&quot;</span><span class="p">],</span>
-    <span class="s">&quot;shell&quot;</span><span class="o">:</span> <span class="nb">true</span><span class="p">,</span>
-    <span class="s">&quot;working_dir&quot;</span><span class="o">:</span> <span class="s">&quot;${project_path:${folder}}&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;%WINDIR%</span><span class="se">\\</span><span class="s">Microsoft.NET</span><span class="se">\\</span><span class="s">Framework</span><span class="se">\\</span><span class="s">v4.0.30319</span><span class="se">\\</span><span class="s">msbuild&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;${project_base_name}.sln&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;shell&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;working_dir&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;${project_path:${folder}}&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>C:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;make &amp;&amp; ./a.out&quot;</span><span class="p">],</span>
-    <span class="s">&quot;path&quot;</span><span class="o">:</span> <span class="s">&quot;/usr/bin:/usr/local/bin:...&quot;</span><span class="p">,</span>
-    <span class="s">&quot;shell&quot;</span><span class="o">:</span> <span class="nb">true</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;make &amp;&amp; ./a.out&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;path&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;/usr/bin:/usr/local/bin:...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;shell&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>C++ (via g++):</h4>
 <p>(Note that we’re also able to specify OS-specific configurations too, as in the below):</p>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;g++&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">,</span> <span class="s">&quot;-o&quot;</span><span class="p">,</span> <span class="s">&quot;$file_base_name&quot;</span><span class="p">,</span> <span class="s">&quot;-I/usr/local/include&quot;</span><span class="p">],</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.c++&quot;</span><span class="p">,</span>
-    <span class="s">&quot;windows&quot;</span><span class="o">:</span> <span class="p">{</span>
-       <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;cl&quot;</span><span class="p">,</span> <span class="s">&quot;/Fo${file_path}&quot;</span><span class="p">,</span> <span class="s">&quot;/O2&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">]</span>
-    <span class="p">}</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;g++&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file_base_name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-I/usr/local/include&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.c++&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;windows&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">       </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;cl&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/Fo${file_path}&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/O2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4>Haskell:</h4>
-<div class="highlight"><pre><code><span class="p">{</span>
-    <span class="s">&quot;cmd&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;runhaskell&quot;</span><span class="p">,</span> <span class="s">&quot;$file&quot;</span><span class="p">],</span>
-    <span class="s">&quot;file_regex&quot;</span><span class="o">:</span> <span class="s">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span><span class="p">,</span>
-    <span class="s">&quot;selector&quot;</span><span class="o">:</span> <span class="s">&quot;source.haskell&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;cmd&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;runhaskell&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$file&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="s">&quot;file_regex&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;selector&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;source.haskell&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Conclusions</p>
 <p>Sublime build systems are awesome and can help you avoid the need to manually switch between your editor and external build tools regularly. As you’ve hopefully now learned, putting together your own custom build systems is a straight-forward process and I’d recommend trying it out if Sublime happens to be your editor of choice.</p>
 
 
-<br>
-<br>
+<br/>
+<br/>
 <p></p>
 
 
 <!-- Share BEGIN -->
 <div id="share"></div>
-<script type="text/javascript" src="../vender/share/share.js"></script>
-<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
-<link rel="stylesheet" href="../vender/share/share.css">
 <!-- Share END -->
 
 
-<br><p></p>
+<br/>
 
 
 <!-- 评论 start -->
-<div class="commentBox" id="globeCommentBox">
-    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
-    <div>
-        <input type="text" name="nickname" placeholder="nickname">
-    </div>
-    <div>
-        <input type="text" name="email" placeholder="email">
-    </div>
-    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
-</div>
-<br>
 <div id="comment"></div>
-
-<link rel="stylesheet" href="../vender/comment/comment.css" />
-<script type="text/javascript" src="../vender/comment/toast.js"></script>
-<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
-<script type="text/javascript">
-    var articleUUID = "1d3301718e92e85d479c774a700b4798";
-    var pageIndex = 1;
-</script>
-<script type="text/javascript" src="../vender/comment/comment.js"></script>
 <!-- 评论 end -->
 
-
-</div>
-
-
-<div id='link' style='display:none;'>
-<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
-<h3>· Social</h3>
-<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
-<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
-<h3>· Links</h3>
-<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
-<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
-<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
-<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
-</div>
-<br>
-
-<div id="copyright" >
-        <p class="alignright">
-            COPYRIGHT &copy; 2010-2020
-            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
-        &nbsp; <br/><a href="https://beian.miit.gov.cn/">粤ICP备2021173035号</a>
-        </p>  
-</div>
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  if(window.location.host.indexOf("localhost") == -1){
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  }
-})();
-</script>
+<!-- CopyRight BEGIN -->
+<div id="copyright" ></div>
+<!-- CopyRight END -->
 
 
 </body>
 
-<!-- 语法高亮 -->
-<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
-<script src="../vender/js/highlight/highlight.pack.js"></script>
 <script>
-hljs.initHighlightingOnLoad();
-// console.log(hljs.listLanguages());
+var sourceFile = "Sublime Text相关.md";
 </script>
+
+<script charset="UTF-8" src="../vender/js/loaded.js"></script>
+
+</html>

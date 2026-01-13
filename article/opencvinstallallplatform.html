@@ -7,59 +7,34 @@
 
 <link rel="shortcut icon" href="../vender/image/me.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="keywords" content="OpenCV Install All Platform,C/C++,配置,Ruibin.Chow,zruibin,ruibin,RBCHOW" />
 <meta name="description" content="" />
-<meta name="COPYRIGHT" content="版权所有2010,https://www.zruibin.cn">
+<meta name="COPYRIGHT" content="版权所有2010,http://private.zruibin.cn" />
 
-
-<script type="text/javascript" src="../vender/js/default.js"></script>
-<script type="text/javascript" src="../vender/js/article.default.js"></script>
-<link rel="stylesheet" href="../vender/css/default.css" />
-<link rel="stylesheet" href="../vender/css/article.default.css" />
-
-<script type="text/javascript">
-
-RBReady(changeFrame);
-
+<script type="text/javascript" charset="UTF-8">
+var sourcePrefix = "../";
 </script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/sea.js"></script>
+<script type="text/javascript" charset="UTF-8" src="../vender/js/seajs/seajs-css.js"></script>
 
 </head>
 
-<body>
+<body style="visibility: hidden;">
 
 
 <div id="navbar" >
     <div id="menu" class="container">
     <ul>
-
     <!-- <li><a href="#" class="item">Ruibin.Chow</a></li> -->
     <li><a href="../about.html" class="item">About Me</a></li>
     <li><a href="./index.html" class="item">Blog</a></li>
-    <li><a class="item">Tags</a>
-        <div class="subs">
-        
-<ul>
-
-<li><a href="./Tag_cc++.html">C/C++(9)</a></li>
-<li><a href="./Tag_ios.html">iOS(11)</a></li><br/>
-<li><a href="./Tag_python.html">Python(1)</a></li>
-<li><a href="./Tag_lua.html">Lua(1)</a></li><br/>
-<li><a href="./Tag_jia_gou.html">架构(3)</a></li>
-<li><a href="./Tag_xi_tong.html">系统(1)</a></li><br/>
-<li><a href="./Tag_gong_ju.html">工具(1)</a></li>
-<li><a href="./Tag_pei_zhi.html">配置(8)</a></li><br/>
-<li><a href="./Tag_makefile.html">Makefile(3)</a></li>
-<li><a href="./Tag_she_ji_mo_shi.html">设计模式(5)</a></li><br/>
-<li><a href="./Tag_shu_ju_jie_gou.html">数据结构(2)</a></li>
-<li><a href="./Tag_qi_ta.html">其它(4)</a></li><br/>
-<li><a href="./Tag_ri_chang.html">日常(9)</a></li><br/>
-</ul>
-
-        </div> 
+    <li><a class="item" href="../article/tags.html">Tags</a>
+        &nbsp;
+        <div class="subs" id="tags"></div> 
     </li>
-    <li><a href="./Archives.html" class="item">Archives</a></li>
+    <li><a href="./archives.html" class="item">Archives</a></li>
 
     </ul>
     </div>
@@ -67,29 +42,26 @@ RBReady(changeFrame);
 <p></p>
 
 
-
-
-
 <div class="container" id="content">
 
 <div id='header'>
     <h2>OpenCV Install All Platform</h2>
     <footer>
-        Date:&nbsp;<span id='create_time'>
+        Date:<span id='create_time'>
             2014-10-20 13:24
         </span>
-        &nbsp;&nbsp;
-        Tags:&nbsp; 
+        &nbsp;
+        Tags: 
 <span id='article_tags'>
          
-<a href='../article/Tag_cc++.html' class='article_tag'>C/C++</a>
+<a href='../article/tag_cc++.html' class='article_tag'>C/C++</a>
 
-<a href='../article/Tag_pei_zhi.html' class='article_tag'>配置</a>
+<a href='../article/tag_pei_zhi.html' class='article_tag'>配置</a>
 
 </span>
 
     </footer>
-    <hr>
+    <hr/>
 </div>
 
 <p>首页 - OpenCV China ：图像处理,计算机视觉库,Image Processing, Computer Vision</p>
@@ -102,18 +74,18 @@ RBReady(changeFrame);
 把网页最下方的命令拷入terminal即可</li>
 <li>进入存放解压后的opencv文件夹，新建一个空的文件夹build，进入该文件夹，编译安装opencv，使用命令如下：</li>
 </ol>
-<div class="highlight"><pre><code><span class="n">mkdir</span> <span class="n">build</span>
-<span class="n">cd</span> <span class="n">build</span>
-<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s">&quot;Unix Makefiles&quot;</span> <span class="p">..</span>
+<div class="highlight"><pre><code><span></span><span class="n">mkdir</span><span class="w"> </span><span class="n">build</span>
+<span class="n">cd</span><span class="w"> </span><span class="n">build</span>
+<span class="n">cmake</span><span class="w"> </span><span class="o">-</span><span class="n">G</span><span class="w"> </span><span class="s">&quot;Unix Makefiles&quot;</span><span class="w"> </span><span class="p">..</span>
 
 <span class="c1">// cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. </span>
 
 <span class="n">make</span>
-<span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">install</span>
 </code></pre></div>
 <p>P.S:如果提示说"</p>
-<div class="highlight"><pre><code><span class="n">CMake</span> <span class="nl">Error</span><span class="p">:</span> <span class="n">CMake</span> <span class="n">was</span> <span class="n">unable</span> <span class="n">to</span> <span class="n">find</span> <span class="n">a</span> <span class="n">build</span> <span class="n">program</span> <span class="n">corresponding</span> <span class="n">to</span> <span class="s">&quot;Unix Makefiles&quot;</span><span class="p">.</span> 
-<span class="n">CMAKE_MAKE_PROGRAM</span> <span class="n">is</span> <span class="n">not</span> <span class="n">set</span><span class="p">.</span>  <span class="n">You</span> <span class="n">probably</span> <span class="n">need</span> <span class="n">to</span> <span class="n">select</span> <span class="n">a</span> <span class="n">different</span> <span class="n">build</span> <span class="n">tool</span><span class="p">.</span><span class="s">&quot;</span>
+<div class="highlight"><pre><code><span></span><span class="n">CMake</span><span class="w"> </span><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">CMake</span><span class="w"> </span><span class="n">was</span><span class="w"> </span><span class="n">unable</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">find</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">build</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">corresponding</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;Unix Makefiles&quot;</span><span class="p">.</span><span class="w"> </span>
+<span class="n">CMAKE_MAKE_PROGRAM</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">set</span><span class="p">.</span><span class="w">  </span><span class="n">You</span><span class="w"> </span><span class="n">probably</span><span class="w"> </span><span class="n">need</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">select</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">build</span><span class="w"> </span><span class="n">tool</span><span class="p">.</span><span class="s">&quot;</span>
 </code></pre></div>
 <p>等,那表示Cmake未安装完全,Xcode主页下载Command Line Tool.</p>
 <p>安装好的lib文件存放在“/usr/local/lib”文件夹，h文件存放在“/usr/local/include”。
@@ -126,13 +98,13 @@ RBReady(changeFrame);
 <p>1）首先下载opencv for mac安装源文件
 2）安装cmake程序。
 3）进入存放解压后的opencv文件夹，新建一个空的文件夹release，进入该文件夹，编译安装opencv，使用命令如下：</p>
-<div class="highlight"><pre><code><span class="n">mkdir</span> <span class="n">release</span>
-<span class="n">cd</span> <span class="n">release</span>
-<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s">&quot;Unix Makefiles&quot;</span> <span class="p">..</span>  
+<div class="highlight"><pre><code><span></span><span class="n">mkdir</span><span class="w"> </span><span class="n">release</span>
+<span class="n">cd</span><span class="w"> </span><span class="n">release</span>
+<span class="n">cmake</span><span class="w"> </span><span class="o">-</span><span class="n">G</span><span class="w"> </span><span class="s">&quot;Unix Makefiles&quot;</span><span class="w"> </span><span class="p">..</span><span class="w">  </span>
 
 <span class="c1">// cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..  </span>
 <span class="n">make</span>
-<span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">install</span>
 </code></pre></div>
 <p>4）安装好的lib文件存放在“/usr/local/lib”文件夹，h文件存放在“/usr/local/include”。
            至此，opencv for Mac 安装完毕</p>
@@ -151,14 +123,14 @@ RBReady(changeFrame);
 <p>但是新的3.0还不支持安卓，只能用2.4.10。</p>
 <p>安装步骤见<a href="http://blogs.wcode.org/2014/10/howto-install-build-and-use-opencv-macosx-10-10/">http://blogs.wcode.org/2014/10/howto-install-build-and-use-opencv-macosx-10-10/</a></p>
 <p>期间我遇到了</p>
-<div class="highlight"><pre><code><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">edwalt</span><span class="o">/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">opencv</span><span class="o">/</span><span class="n">opencv</span><span class="o">-</span><span class="mf">2.4.10</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">legacy</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">calibfilter</span><span class="p">.</span><span class="nl">cpp</span><span class="p">:</span><span class="mi">98</span><span class="o">:</span><span class="mi">9</span><span class="o">:</span> <span class="nl">error</span><span class="p">:</span><span class="n">comparison</span> <span class="n">of</span> <span class="n">array</span> <span class="err">&#39;</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">latestPoints</span><span class="err">&#39;</span> <span class="n">not</span> <span class="n">equal</span> <span class="n">to</span> <span class="n">a</span> <span class="n">null</span> <span class="n">pointer</span> <span class="n">is</span> <span class="n">always</span> <span class="nb">true</span>
-      <span class="p">[</span><span class="o">-</span><span class="n">Werror</span><span class="p">,</span><span class="o">-</span><span class="n">Wtautological</span><span class="o">-</span><span class="n">pointer</span><span class="o">-</span><span class="n">compare</span><span class="p">]</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">latestPoints</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
-        <span class="o">^~~~~~~~~~~~</span>    <span class="o">~~~~</span>
-<span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">edwalt</span><span class="o">/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">opencv</span><span class="o">/</span><span class="n">opencv</span><span class="o">-</span><span class="mf">2.4.10</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">legacy</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">calibfilter</span><span class="p">.</span><span class="nl">cpp</span><span class="p">:</span><span class="mi">526</span><span class="o">:</span><span class="mi">9</span><span class="o">:</span> <span class="nl">error</span><span class="p">:</span><span class="n">address</span> <span class="n">of</span> <span class="n">array</span> <span class="err">&#39;</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">latestCounts</span><span class="err">&#39;</span> <span class="n">will</span> <span class="n">always</span> <span class="n">evaluate</span> <span class="n">to</span> <span class="err">&#39;</span><span class="nb">true</span><span class="err">&#39;</span> <span class="p">[</span><span class="o">-</span><span class="n">Werror</span><span class="p">,</span><span class="o">-</span><span class="n">Wpointer</span><span class="o">-</span><span class="kt">bool</span><span class="o">-</span><span class="n">conversion</span><span class="p">]</span>
-    <span class="k">if</span><span class="p">(</span> <span class="n">latestCounts</span> <span class="p">)</span>
-    <span class="o">~~</span>  <span class="o">^~~~~~~~~~~~</span>
-<span class="mi">2</span> <span class="n">errors</span> <span class="n">generated</span><span class="p">.</span>
+<div class="highlight"><pre><code><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">edwalt</span><span class="o">/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">opencv</span><span class="o">/</span><span class="n">opencv</span><span class="mf">-2.4.10</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">legacy</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">calibfilter</span><span class="p">.</span><span class="n">cpp</span><span class="o">:</span><span class="mi">98</span><span class="o">:</span><span class="mi">9</span><span class="o">:</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="n">comparison</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="err">&#39;</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">latestPoints</span><span class="err">&#39;</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">equal</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">null</span><span class="w"> </span><span class="n">pointer</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">always</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">      </span><span class="p">[</span><span class="o">-</span><span class="n">Werror</span><span class="p">,</span><span class="o">-</span><span class="n">Wtautological</span><span class="o">-</span><span class="n">pointer</span><span class="o">-</span><span class="n">compare</span><span class="p">]</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">latestPoints</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="o">^~~~~~~~~~~~</span><span class="w">    </span><span class="o">~~~~</span>
+<span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">edwalt</span><span class="o">/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">opencv</span><span class="o">/</span><span class="n">opencv</span><span class="mf">-2.4.10</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">legacy</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">calibfilter</span><span class="p">.</span><span class="n">cpp</span><span class="o">:</span><span class="mi">526</span><span class="o">:</span><span class="mi">9</span><span class="o">:</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="n">address</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="err">&#39;</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">latestCounts</span><span class="err">&#39;</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">always</span><span class="w"> </span><span class="n">evaluate</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">&#39;</span><span class="nb">true</span><span class="err">&#39;</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="n">Werror</span><span class="p">,</span><span class="o">-</span><span class="n">Wpointer</span><span class="o">-</span><span class="kt">bool</span><span class="o">-</span><span class="n">conversion</span><span class="p">]</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">latestCounts</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="o">~~</span><span class="w">  </span><span class="o">^~~~~~~~~~~~</span>
+<span class="mi">2</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="n">generated</span><span class="p">.</span>
 </code></pre></div>
 <p>这个问题就是因为一个Bug所致，幸好这问题已经解决。
 <a href="https://github.com/Itseez/opencv/commit/35f96d6da76099d80180439c857a4abe5cb17966">https://github.com/Itseez/opencv/commit/35f96d6da76099d80180439c857a4abe5cb17966</a>
@@ -173,17 +145,17 @@ RBReady(changeFrame);
 <p>下载最新版的安装包：</p>
 <p><a href='http://www.cmake.org/cmake/resources/software.html' target='blank'>http://www.cmake.org/cmake/resources/software.html</a></p>
 <p>这里下载已经编译好的，这样只需要解压至需要的目录下即可使用：</p>
-<div class="highlight"><pre><code><span class="n">tar</span> <span class="n">zxvf</span> <span class="n">cmake</span><span class="o">-</span><span class="mf">2.8.10.2</span><span class="o">-</span><span class="n">Linux</span><span class="o">-</span><span class="n">i386</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span> <span class="err">–</span><span class="n">C</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span>
+<div class="highlight"><pre><code><span></span><span class="n">tar</span><span class="w"> </span><span class="n">zxvf</span><span class="w"> </span><span class="n">cmake</span><span class="mf">-2.8.10.2</span><span class="o">-</span><span class="n">Linux</span><span class="o">-</span><span class="n">i386</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span><span class="w"> </span><span class="err">–</span><span class="n">C</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span>
 </code></pre></div>
 <p>设置环境变量：</p>
-<div class="highlight"><pre><code><span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">emouse</span><span class="o">/</span><span class="p">.</span><span class="n">bashrc</span>
+<div class="highlight"><pre><code><span></span><span class="n">sudo</span><span class="w"> </span><span class="n">gedit</span><span class="w"> </span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">emouse</span><span class="o">/</span><span class="p">.</span><span class="n">bashrc</span>
 </code></pre></div>
 <p>在打开的文件后添加：</p>
-<div class="highlight"><pre><code><span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="err">$</span><span class="nl">PATH</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cmake</span><span class="o">-</span><span class="mf">2.8.10.2</span><span class="o">-</span><span class="n">Linux</span><span class="o">-</span><span class="n">i386</span><span class="o">/</span><span class="n">bin</span>
+<div class="highlight"><pre><code><span></span><span class="n">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=</span><span class="n">$PATH</span><span class="o">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cmake</span><span class="mf">-2.8.10.2</span><span class="o">-</span><span class="n">Linux</span><span class="o">-</span><span class="n">i386</span><span class="o">/</span><span class="n">bin</span>
 </code></pre></div>
 <p>查看版本，测试是否安装成功：</p>
-<div class="highlight"><pre><code><span class="n">root</span><span class="err">@</span><span class="nl">emouse</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="err">#</span> <span class="n">cmake</span> <span class="o">--</span><span class="n">version</span> 
-<span class="n">cmake</span> <span class="n">version</span> <span class="mf">2.8.10.2</span>
+<div class="highlight"><pre><code><span></span><span class="n">root</span><span class="err">@</span><span class="n">emouse</span><span class="o">:/</span><span class="n">home</span><span class="err">#</span><span class="w"> </span><span class="n">cmake</span><span class="w"> </span><span class="o">--</span><span class="n">version</span><span class="w"> </span>
+<span class="n">cmake</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="mf">2.8.10.2</span>
 </code></pre></div>
 <p>Ubuntu 下安装 OpenCV</p>
 <p>软件环境：</p>
@@ -192,16 +164,16 @@ RBReady(changeFrame);
 <p>Cmake 2.8.10.1</p>
 <p>gcc 4.6.3 （系统默认）</p>
 <p>1、先安装 libgtk2.0-dev 和 pkg-config，，否则后期编译运行程序会出现类似如下的问题：</p>
-<div class="highlight"><pre><code><span class="n">OpenCV</span> <span class="nl">Error</span><span class="p">:</span> <span class="n">Unspecified</span> <span class="n">error</span> <span class="p">(</span><span class="n">The</span> <span class="n">function</span> <span class="n">is</span> <span class="n">not</span> <span class="n">implemented</span><span class="p">.</span> <span class="n">Rebuild</span> <span class="n">the</span> <span class="n">library</span> <span class="n">with</span> <span class="n">Windows</span><span class="p">,</span> <span class="n">GTK</span><span class="o">+</span> <span class="mf">2.</span><span class="n">x</span> <span class="n">or</span> <span class="n">Carbon</span> <span class="n">support</span><span class="p">.</span> <span class="n">If</span> <span class="n">you</span> <span class="n">are</span> <span class="n">on</span> <span class="n">Ubuntu</span> <span class="n">or</span> <span class="n">Debian</span><span class="p">,</span> <span class="n">install</span> <span class="n">libgtk2</span><span class="mf">.0</span><span class="o">-</span><span class="n">dev</span> <span class="n">and</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span><span class="p">,</span> <span class="n">then</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="n">cmake</span> <span class="n">or</span> <span class="n">configure</span> <span class="n">script</span><span class="p">)</span> <span class="n">in</span> <span class="n">cvNamedWindow</span><span class="p">,</span> <span class="n">file</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">opencv</span><span class="o">/</span><span class="n">OpenCV</span><span class="o">-</span><span class="mf">2.0.0</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">highgui</span><span class="o">/</span><span class="n">window</span><span class="p">.</span><span class="n">cpp</span><span class="p">,</span> <span class="n">line</span> <span class="mi">100</span> 
-<span class="n">terminate</span> <span class="n">called</span> <span class="n">after</span> <span class="n">throwing</span> <span class="n">an</span> <span class="n">instance</span> <span class="n">of</span> <span class="err">&#39;</span><span class="n">cv</span><span class="o">::</span><span class="n">Exception</span><span class="err">&#39;</span>
+<div class="highlight"><pre><code><span></span><span class="n">OpenCV</span><span class="w"> </span><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Unspecified</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">(</span><span class="n">The</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">implemented</span><span class="p">.</span><span class="w"> </span><span class="n">Rebuild</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">library</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">Windows</span><span class="p">,</span><span class="w"> </span><span class="n">GTK</span><span class="o">+</span><span class="w"> </span><span class="mf">2.</span><span class="n">x</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">Carbon</span><span class="w"> </span><span class="n">support</span><span class="p">.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">Ubuntu</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">Debian</span><span class="p">,</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">libgtk2</span><span class="mf">.0</span><span class="o">-</span><span class="n">dev</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">pkg</span><span class="o">-</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">then</span><span class="w"> </span><span class="n">re</span><span class="o">-</span><span class="n">run</span><span class="w"> </span><span class="n">cmake</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">configure</span><span class="w"> </span><span class="n">script</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">cvNamedWindow</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">opencv</span><span class="o">/</span><span class="n">OpenCV</span><span class="mf">-2.0.0</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">highgui</span><span class="o">/</span><span class="n">window</span><span class="p">.</span><span class="n">cpp</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span>
+<span class="n">terminate</span><span class="w"> </span><span class="n">called</span><span class="w"> </span><span class="n">after</span><span class="w"> </span><span class="n">throwing</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">instance</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="err">&#39;</span><span class="n">cv</span><span class="o">::</span><span class="n">Exception</span><span class="err">&#39;</span>
 </code></pre></div>
 <p>通过网络获取安装：</p>
-<div class="highlight"><pre><code><span class="cp"># apt-get install libgtk2.0-dev# apt-get install pkg-config</span>
+<div class="highlight"><pre><code><span></span><span class="cp"># apt-get install libgtk2.0-dev# apt-get install pkg-config</span>
 </code></pre></div>
 <p>2、下载OpenCV ，文件名：OpenCV-2.4.3.tar.bz2，下载地址：</p>
 <p><a href='http://www.opencv.org.cn/index.php/Download' target='blank'>http://www.opencv.org.cn/index.php/Download</a></p>
 <p>解压：</p>
-<div class="highlight"><pre><code><span class="cp">#tar jxvf OpenCV-2.4.3.tar.bz2</span>
+<div class="highlight"><pre><code><span></span><span class="cp">#tar jxvf OpenCV-2.4.3.tar.bz2</span>
 </code></pre></div>
 <p>得到文件夹 OpenCV-2.4.3</p>
 <p>这里新建一个文件夹OpenCV-x86作为PC编译目录。</p>
@@ -212,7 +184,7 @@ RBReady(changeFrame);
 <p>点击Finish后cmake即载入默认配置，如下图所示：</p>
 <p><a href="http://images.cnitblog.com/blog/337520/201302/22220411-4fbf65d125bd4458b79c4999ee1af90e.png" rel="nofollow"><img title="image" alt="image" src="http://static.oschina.net/uploads/img/201410/20132645_bEYD.png" width="711" height="552"></a></p>
 <p>如图所示，窗口的中间部分即配置列表，这里和使用cmake命令直接生成makefile文件一致的，如</p>
-<div class="highlight"><pre><code><span class="err">$</span> <span class="n">cmake</span> <span class="o">-</span><span class="n">D</span> <span class="n">CMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">RELEASE</span> <span class="o">-</span><span class="n">D</span> <span class="n">CMAKE_INSTALL_PREFIX</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">OpenCV</span>
+<div class="highlight"><pre><code><span></span><span class="n">$</span><span class="w"> </span><span class="n">cmake</span><span class="w"> </span><span class="o">-</span><span class="n">D</span><span class="w"> </span><span class="n">CMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">RELEASE</span><span class="w"> </span><span class="o">-</span><span class="n">D</span><span class="w"> </span><span class="n">CMAKE_INSTALL_PREFIX</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">OpenCV</span>
 </code></pre></div>
 <p>只是这里通过图形界面的方式来进行配置，更加直观方便。</p>
 <p>这里指对一个地方进行修改，CMAKE_BUILD_TYPE 值输入RELEASE，其他保持不变，图中蓝色虚线部分显示了默认的安装目录，生成makefile文件最后执行 make install时就会安装到这个目录，这里可以根据个人需求更改。在这里的配置中我勾选了WITH_QT 去掉了WITH_TIFF，其他更多的配置也不清楚，OpenCV中文网站也没找到系统的说明，这里暂时不深究，点击Generate生成配置文件。</p>
@@ -237,7 +209,7 @@ export PKG_CONFIG_PATH
 <p>这样就对例程目录下的源文件进行了编译，这里运行一个人脸检测的程序，下面摘录自本文参考资料3。</p>
 <p>Some of the training data for object detection is stored in /usr/local/share/opencv/haarcascades. You need to tell OpenCV which training data to use. I will use one of the frontal face detectors available. Let’s find a face:</p>
 <p>终端中运行：</p>
-<div class="highlight"><pre><code><span class="p">.</span><span class="o">/</span><span class="n">facedetect</span> <span class="o">--</span><span class="n">cascade</span><span class="o">=</span><span class="s">&quot;/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml&quot;</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.5</span> <span class="n">lena</span><span class="p">.</span><span class="n">jpg</span>
+<div class="highlight"><pre><code><span></span><span class="p">.</span><span class="o">/</span><span class="n">facedetect</span><span class="w"> </span><span class="o">--</span><span class="n">cascade</span><span class="o">=</span><span class="s">&quot;/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml&quot;</span><span class="w"> </span><span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.5</span><span class="w"> </span><span class="n">lena</span><span class="p">.</span><span class="n">jpg</span>
 </code></pre></div>
 <p>得到的结果如下图：</p>
 <p><a href="http://images.cnitblog.com/blog/337520/201302/22220416-35bf6f36c14548718759c0cd84a471b8.png" rel="nofollow"><img title="image" alt="image" src="http://static.oschina.net/uploads/img/201410/20132645_6A6L.png" width="723" height="556"></a><a href="http://images.cnitblog.com/blog/337520/201302/22220448-28c63501d5ec4fdc9ee1166e69397f93.png" rel="nofollow"><img title="image" alt="image" src="http://static.oschina.net/uploads/img/201410/20132645_6ezY.png" width="514" height="589"></a></p>
@@ -311,119 +283,63 @@ OpenCV ERROR: Unspecified error (The function is not implemented. Rebuild the li
 <p>安装OpenCV(1.0)
 这一节的内容，与别的安装教程内容，比如VC6下安装与配置都是一样的。如果您已经安装和配置了OpenCV，那么请直接跳到#使用向导生成codeblocks项目
 从<a href="http://www.opencv.org.cn">http://www.opencv.org.cn</a> 下载OpenCV安装程序。假如要将OpenCV安装到C:\Program Files\OpenCV。（下面附图为OpenCV 1.0rc1的安装界面，OpenCV 1.0安装界面与此基本一致。）在安装时选择"将\OpenCV\bin加入系统变量"（Add\OpenCV\bin to the systerm PATH）。
-<a href="http://wiki.opencv.org.cn/index.php/Image:Opencv-install-step1.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_ofXp.png" alt="Image:Opencv-install-step1.png" width="503" height="385"></a>&nbsp;<a href="http://wiki.opencv.org.cn/index.php/Image:Opencv-install-step2.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_XgM1.png" alt="Image:Opencv-install-step2.png" width="503" height="385"></a>&nbsp;<a href="http://wiki.opencv.org.cn/index.php/Image:Opencv-install-step3.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_xFJN.png" alt="Image:Opencv-install-step3.png" width="503" height="385"></a>&nbsp;<a href="http://wiki.opencv.org.cn/index.php/Image:Opencv-install-step4.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_BWHy.png" alt="Image:Opencv-install-step4.png" width="503" height="385"></a></p>
+<a href="http://wiki.opencv.org.cn/index.php/Image:Opencv-install-step1.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_ofXp.png" alt="Image:Opencv-install-step1.png" width="503" height="385"></a>&nbsp;<a href="http://wiki.opencv.org.cn/index.php/Image:Opencv-install-step2.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_XgM1.png" alt="Image:Opencv-install-step2.png" width="503" height="385"></a>&nbsp;<a href="http://wiki.opencv.org.cn/index.php/Image:Opencv-install-step3.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_xFJN.png" alt="Image:Opencv-install-step3.png" width="503" height="385"></a>&nbsp;<a href="http://wiki.opencv.org.cn/index.php/Image:Opencv-install-step4.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_BWHy.png" alt="Image:Opencv-install-step4.png" width="503" height="385"></a></p>
 <p>配置Windows环境变量
 检查C:\Program Files\OpenCV\bin是否已经被加入到环境变量PATH，如果没有，请加入。加入后需要注销当前Windows用户（或重启）后重新登陆才生效。(可以在任务管理器里重启explorer.exe)
-<a href="http://wiki.opencv.org.cn/index.php/Image:Path-envirionment-var1.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_5xsb.png" alt="Image:Path-envirionment-var1.png" width="418" height="490"></a>&nbsp;<a href="http://wiki.opencv.org.cn/index.php/Image:Path-envirionment-var2.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_LQhj.png" alt="Image:Path-envirionment-var2.png" width="385" height="423"></a></p>
+<a href="http://wiki.opencv.org.cn/index.php/Image:Path-envirionment-var1.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_5xsb.png" alt="Image:Path-envirionment-var1.png" width="418" height="490"></a>&nbsp;<a href="http://wiki.opencv.org.cn/index.php/Image:Path-envirionment-var2.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_LQhj.png" alt="Image:Path-envirionment-var2.png" width="385" height="423"></a></p>
 <p>使用向导生成codeblocks项目
 首先，使用向导，生成console模式下面的一个项目。如下图所示，注意选择红色框所示的Console application</p>
-<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv0.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_YFQZ.png" alt="Image:Cb_opencv0.png" width="594" height="440"></a></p>
+<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv0.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_YFQZ.png" alt="Image:Cb_opencv0.png" width="594" height="440"></a></p>
 <p>随便去一个项目的名字，这里我取成 text_opencv</p>
-<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv1.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_u3Lm.png" alt="Image:Cb_opencv1.png" width="519" height="423"></a></p>
+<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv1.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_u3Lm.png" alt="Image:Cb_opencv1.png" width="519" height="423"></a></p>
 <p>一路选择下一步，就创建完成了。整个项目里面，就一个main.cpp文件。
 接着，修改main.cpp的代码如下</p>
-<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv4.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_uveX.png" alt="Image:Cb_opencv4.png" width="598" height="510"></a></p>
+<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv4.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_uveX.png" alt="Image:Cb_opencv4.png" width="598" height="510"></a></p>
 <p>注意，上面的代码，可以从图像文件读入和显示直接copy代码得到。</p>
 <p>添加库文件和头文件
 完成了代码修改之后，并不能编译和生成exe文件，必须添加必要的头文件的路径和库文件的路径，以便于编译器和连接器找到这些文件。 先右键点击项目的名称，在右键菜单中选择“build options”，如下图所示。 注：若安装OpenCV 2.x,请参考本页页低的“英文的OpenCV wiki 里面的Codeblocks教程”.</p>
-<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv5.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_aFIW.png" alt="Image:Cb_opencv5.png" width="372" height="437"></a></p>
+<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv5.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_aFIW.png" alt="Image:Cb_opencv5.png" width="372" height="437"></a></p>
 <p>然后，按照下面的图，添加include路径。</p>
-<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv6.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_4IFT.png" alt="Image:Cb_opencv6.png" width="707" height="515"></a></p>
+<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv6.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_4IFT.png" alt="Image:Cb_opencv6.png" width="707" height="515"></a></p>
 <p>再按照下面的图，添加lib库的路径。</p>
-<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv7.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_alY9.png" alt="Image:Cb_opencv7.png" width="707" height="515"></a></p>
+<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv7.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_alY9.png" alt="Image:Cb_opencv7.png" width="707" height="515"></a></p>
 <p>接着，添加库的编译选项，加入 -lhighgui -lcv -lcxcore ,如下图所示。
-<a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv8.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_dTNP.png" alt="Image:Cb_opencv8.png" width="707" height="515"></a></p>
+<a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv8.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_dTNP.png" alt="Image:Cb_opencv8.png" width="707" height="515"></a></p>
 <p>大功告成，编译生成exe文件并运行
 现在，就可以选择“build”按钮，生成exe文件，并且运行了。当然，可能你并没有设置需要显示的图片。你需要手工copy一个图片到项目的目录，比如 lena.jpg。然后添加到程序的命令行参数，如下图所示。</p>
-<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv9.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_3TdS.png" alt="Image:Cb_opencv9.png" width="234" height="256"></a><br><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv10.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_Y06Z.png" alt="Image:Cb_opencv10.png" width="283" height="373"></a></p>
+<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv9.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_3TdS.png" alt="Image:Cb_opencv9.png" width="234" height="256"></a><br><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv10.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_Y06Z.png" alt="Image:Cb_opencv10.png" width="283" height="373"></a></p>
 <p>以下就是程序运行并且显示的结果</p>
-<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv2.png" rel="nofollow"><img src="http://static.oschina.net/uploads/img/201410/20132459_22HW.png" alt="Image:Cb_opencv2.png" width="785" height="623"></a></p>
+<p><a href="http://wiki.opencv.org.cn/index.php/Image:Cb_opencv2.png" rel="nofollow"><img src="../vender/image/img_loading.gif" data-src="http://static.oschina.net/uploads/img/201410/20132459_22HW.png" alt="Image:Cb_opencv2.png" width="785" height="623"></a></p>
 
 
-<br>
-<br>
+<br/>
+<br/>
 <p></p>
 
 
 <!-- Share BEGIN -->
 <div id="share"></div>
-<script type="text/javascript" src="../vender/share/share.js"></script>
-<script type="text/javascript" src="../vender/share/qrcode.min.js"></script>
-<link rel="stylesheet" href="../vender/share/share.css">
 <!-- Share END -->
 
 
-<br><p></p>
+<br/>
 
 
 <!-- 评论 start -->
-<div class="commentBox" id="globeCommentBox">
-    <textarea rows="6" type="text" placeholder="写下你的评论..."></textarea>
-    <div>
-        <input type="text" name="nickname" placeholder="nickname">
-    </div>
-    <div>
-        <input type="text" name="email" placeholder="email">
-    </div>
-    <div><button class="btn btn-send"onClick="sendComment();">发送</button></div>
-</div>
-<br>
 <div id="comment"></div>
-
-<link rel="stylesheet" href="../vender/comment/comment.css" />
-<script type="text/javascript" src="../vender/comment/toast.js"></script>
-<script type="text/javascript" src="../vender/comment/reqwest.min.js"></script>
-<script type="text/javascript">
-    var articleUUID = "6e355601213f20cbb70349b1f8a9689f";
-    var pageIndex = 1;
-</script>
-<script type="text/javascript" src="../vender/comment/comment.js"></script>
 <!-- 评论 end -->
 
-
-</div>
-
-
-<div id='link' style='display:none;'>
-<a href="javascript:hiddenLink()" style="float: right; font-family:Arial; text-decoration-line: none; font-size: 18px; ;";>X</a>
-<h3>· Social</h3>
-<p class='link_blog'><a href="https://www.zruibin.cn/article/atom.xml" target='_blank'>RSS</a></p>
-<p class='link_blog'><a href="https://github.com/zruibin" target='_blank'>GitHub</a></p>
-<h3>· Links</h3>
-<p class='link_blog'><a href="http://blog.devtang.com/" target='_blank'>唐巧的技术博客</a></p>
-<p class='link_blog'><a href="http://keeganlee.me/" target='_blank'>Keegan小钢</a></p>
-<p class='link_blog'><a href="http://5mengqi.cc/" target='_blank'>MengQi Yang</a></p>
-<p class='link_blog'><a href="http://www.printshit.me/" target='_blank'>深圳码渣</a></p>
-</div>
-<br>
-
-<div id="copyright" >
-        <p class="alignright">
-            COPYRIGHT &copy; 2010-2020
-            <a href="https://www.zruibin.cn">Ruibin.Chow</a> ALL RIGHTS RESERVED.
-        &nbsp; <br/><a href="https://beian.miit.gov.cn/">粤ICP备2021173035号</a>
-        </p>  
-</div>
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  if(window.location.host.indexOf("localhost") == -1){
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1cd35ecc8aad6ef12a19651a878ff628";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  }
-})();
-</script>
+<!-- CopyRight BEGIN -->
+<div id="copyright" ></div>
+<!-- CopyRight END -->
 
 
 </body>
 
-<!-- 语法高亮 -->
-<link rel="stylesheet" href="../vender/js/highlight/styles/github.css">
-<script src="../vender/js/highlight/highlight.pack.js"></script>
 <script>
-hljs.initHighlightingOnLoad();
-// console.log(hljs.listLanguages());
+var sourceFile = "OpenCV Install All Platform.md";
 </script>
+
+<script charset="UTF-8" src="../vender/js/loaded.js"></script>
+
+</html>

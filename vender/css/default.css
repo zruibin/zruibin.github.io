@@ -6,39 +6,113 @@
   * Copyright (c) 2015年 Ruibin.Chow. All rights reserved.
   */
 
+
+:root{
+  --global-font-family: Caecilia-Roman, Optima, Consolas, Georgia, Arial, Helvetica, sans-serif, Serif, Times New Roman;
+  --global-color: #EB5C14;
+  --global-color2: #C05B4D;
+  /* #f6f8fa */
+
+  /* color */
+  --base-color-white: #FFFFFF;
+
+  /* size */
+  --base-size-4: 0.25rem;
+  --base-size-8: 0.5rem;
+  --base-size-12: 0.75rem;
+  --base-size-16: 1rem;
+  --base-size-20: 1.25rem;
+  --base-size-24: 1.5rem;
+  --base-size-28: 1.75rem;
+  --base-size-32: 2rem;
+  --base-size-36: 2.25rem;
+  --base-size-40: 2.5rem;
+  --base-size-44: 2.75rem;
+  --base-size-48: 3rem;
+  --base-size-64: 4rem;
+  --base-size-80: 5rem;
+  --base-size-96: 6rem;
+  --base-size-112: 7rem;
+  --base-size-128: 8rem;
+
+  /* typography */
+  --base-text-weight-light: 300;
+  --base-text-weight-normal: 400;
+  --base-text-weight-medium: 500;
+  --base-text-weight-semibold: 600;
+
+  /* border */
+  --boxShadow-thin: inset 0 0 0 max(1px, 0.0625rem);
+  --boxShadow-thick: inset 0 0 0 max(2px, 0.125rem);
+  --boxShadow-thicker: inset 0 0 0 max(4px, 0.25rem);
+  --borderWidth-thin: max(1px, 0.0625rem);
+  --borderWidth-thick: max(2px, 0.125rem);
+  --borderWidth-thicker: max(4px, 0.25rem);
+  --borderRadius-small: 3px;
+  --borderRadius-medium: 6px;
+  --borderRadius-large: 12px;
+  --borderRadius-full: 100vh;
+  --outline-focus-offset: -0.125rem;
+  --outline-focus-width: 0.125rem;
+
+  /* breakpoint */
+  --breakpoint-xsmall: 20rem;
+  --breakpoint-small: 34rem;
+  --breakpoint-medium: 48rem;
+  --breakpoint-large: 63.25rem;
+  --breakpoint-xlarge: 80rem;
+  --breakpoint-xxlarge: 90rem;
+}
+
 /*选中颜色*/
 ::selection {
-    background:#EB5C14; 
-    color:#FFFFFF;
+    background: var(--global-color); 
+    color: var(--base-color-white);
 }
 
 ::-moz-selection {
-    background:#EB5C14; 
-    color:#FFFFFF;
+    background: var(--global-color); 
+    color: var(--base-color-white);
 }
 
 ::-webkit-selection {
-    background:#EB5C14; 
-    color:#FFFFFF;
+    background: var(--global-color); 
+    color: var(--base-color-white);
 }
 
-/*
-::-webkit-scrollbar{width:8px;}
-::-webkit-scrollbar-track-piece{background-color:#f6f7f9;}
-::-webkit-scrollbar-thumb{background-color:rgba(0,0,0,0.2);border-radius:0px;border:0px solid #f6f7f9;}
-::-webkit-scrollbar-thumb:hover{background-color:#EB5C14;}
-*/
 
-* { font-family:  Georgia, Helvetica, Arial, "Helvetica Neue"; }
+/* 滚动条整体部分 */
+/* ::-webkit-scrollbar{width:4px; height:4px;} */
+/* 滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条） */
+/* ::-webkit-scrollbar-thumb{background-color:rgba(0,0,0,0.2);border-radius:0px;border:0px solid #f6f7f9;} */
+/* ::-webkit-scrollbar-thumb:hover{background-color:#EB5C14;} */
+/* 滚动条的轨道（里面装有Thumb） */
+/* ::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+} */
+/* 内层轨道，滚动条中间部分（除去） */
+/* ::-webkit-scrollbar-track-piece{background-color:rgba(0,0,0,0.1);} */
+/* 边角，即两个滚动条的交汇处 */
+/* ::-webkit-scrollbar-corner{} */
+/* 滚动条的轨道的两端按钮，允许通过点击微调小方块的位置 */
+/* ::-webkit-scrollbar-button {} */
+
+
+* { font-family: var(--global-font-family); }
 
 
 #overlayMask { 
   visibility:visible; 
-  position:fixed; top:0; left:0; 
-  z-index:1987; 
+  position:fixed; 
+  top:0; 
+  left:0; 
+  z-index:8888; 
   width:100%; 
   height:100%; 
-  background:#000000; 
+  /* background:#000000;  */
   filter:alpha(opacity=65); 
   opacity:0.65; 
 }
@@ -57,7 +131,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: green;
+  background-color: var(--global-color);
   opacity: 0.6;
   position: absolute;
   top: 0;
@@ -86,30 +160,41 @@
   }
 }
 
-/*copyright*/
-#copyright { /*background-color:#B7B7B7;*/ z-index:2; /*position:absolute;*/left:0px;  bottom:0px;  width: 100%; text-align: center;}
- .alignright{ font-size: 14px; color: black;  }
-.alignright a{ color: #666666; text-decoration: none;}
-.alignright a:hover{ color: red;}
-.alignright a:active{ color: black;}
-
 
 select, #pageSelector{
-    width: 120px;
-    height: 30px;
-    margin-top: 3px;
-    background-color: #fff;
-    /*display: inline-block;*/
-    /*padding: 4px 6px;*/
+    width: 80px;
+    height: 32px;
+    margin-top: 2px;
+    background-color: var(--base-color-white);
     font-size: 14px;
     color: #555;
-    /*border: 0 !important;*/
     border: 1px solid #ccc;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
+    border-radius: 6px;
     overflow: hidden;
 }
 
 
+.common-float-icon {
+  background-color:#f8f8f8;
+	width: 1em;
+	height: 1em;
+	padding:4px;
+	border:1px solid #eee;
+	border-radius: 6px;
+	text-align: center;
+  z-index:1032;
+}
 
+.common-float-icon:hover, 
+.common-float-icon:active {
+    color: var(--global-color);
+}
+
+
+@media(prefers-color-scheme: dark) {
+	.common-float-icon {
+    color: #cecece;
+    border-color: #444444;
+    background-color:#262626;
+  }
+}
