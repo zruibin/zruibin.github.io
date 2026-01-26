@@ -26,7 +26,7 @@ jQuery.getScript("../../vender/js/RBAudio.class.js", function(){
     player.setPlayList([musicUrl]);
     player.play();
     var angle = 0;
-    var playing = true;
+    var playing = false;
     setInterval(function(){
         if (playing) {
             angle+=3;
