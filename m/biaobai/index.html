@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>我们的爱</title>
+    <title>LOVE</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> -->
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> -->
@@ -39,6 +39,7 @@
 
     <div id="mainDiv">
         <div id="content">
+            <div class="loveHeart_mask">
             <div id="loveHeart">
                 <canvas id="garden"></canvas>
                 <div id="words">
@@ -46,13 +47,13 @@
                         <center></center>
                         卡卡，我喜欢你！520！
                         <div id="elapseClock" style="display:none"></div>
-                        <!-- <a href='#' id="accept">如果接受我，点击我！</a> -->
                     </div>
                     <div id="loveu">
                         想你，直到永远。<br/>
                         <div class="signature">- 宾</div>
                     </div>
                 </div>
+            </div>
             </div>
 
             <div id="code">
@@ -70,7 +71,8 @@
                 <br />
                 <span class="comments">// 从那以后，我一直烦着你也想一直烦着你，每天每天。</span><br />
                 <span class="keyword">const</span> reason = i.bother(u);<br />
-                <span class="comments">//在这世界上，找到一个他喜欢你的同时你又刚好喜欢他的人，哪有那么好的事，很多感情是慢慢培养起来的，你给别人一个机会，有时会发现那个你一开始就不喜欢的人其实正是你喜欢的样子，而有些你很喜欢的人，其实并不适合你</span><br />
+                <br />
+                <span class="comments">// 我一直觉得遇到一个真心喜欢的人，真的很不容易，我不想失去你，也不想错过你，也不想后悔，当然了，我也不逼你做任何决定，无论你做任何决定，我都希望你过的好，如果你愿意给我这个机会，我会努力解决我们之间遇到问题，我有的是时间，因为世界上只有一个你。</span><br />
                 $("body").append(reason);<br />
                 <br />
                 <span class="comments">// 遇见一个合适的人有多难？</span><br />
@@ -78,17 +80,22 @@
                 i.takeCareOf(u);<br />
                 <br />
                 <span class="comments">// 所以我一直在等待，我有信心，你会的。</span><br />
-                <span class="keyword">boolean</span> isAccept = <span class="keyword">false</span>;<br />
-                <span class="keyword">while</span> (isAccept == false) {<br />
+                <span class="keyword">boolean</span> isAccept = <span class="keyword">NO</span>;<br />
+                <span class="keyword">loop</span> (isAccept == NO) {<br />
                 <span class="placeholder"/>&nbsp;&nbsp; i.waitFor(u);<br />
                 <span class="placeholder"/><span class="comments">&nbsp;&nbsp; // 我认为这是一个重要的决定</span><br />
                 <span class="placeholder"/><span class="comments">&nbsp;&nbsp; // 一直等你答应。</span><br />
                 <span class="placeholder"/>&nbsp;&nbsp; isAccept = u.thinkOver();<br />
-                }<br />
                 <br />
-                <span class="comments">// 经过一个漫长的等待，你终于接受了。</span><br />
+                    &nbsp;&nbsp; <span class="comments">// 一直等你愿意接受。</span><br />
+                    &nbsp;&nbsp; <span class="keyword">until</span> (isAccept == YES) {<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;  u.accept(i);<br />
+                    &nbsp;&nbsp; }<br />
+                }<br />
+                <br /><br />
+                <!-- <span class="comments">// 经过一个漫长的等待，你终于接受了。</span><br />
                 u.accept(i);<br />
-                i.liveHappilyWith(u);<br />
+                i.liveHappilyWith(u);<br /> -->
             
             </div>
         </div>
